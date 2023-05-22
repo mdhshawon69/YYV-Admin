@@ -9,6 +9,6 @@ export class AppController {
 
   @Get()
   getHello(@Res() res: Response) {
-    return res.render('index', { message: 'hello' });
+    return res.redirect('/auth');
   }
 }

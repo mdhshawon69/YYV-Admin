@@ -1,0 +1,10 @@
+.outline:focus {
+  outline: none;
+  border: none;
+}
+
+aside img {
+  width: 200px;
+  height: auto;
+  margin: 0 auto;
+}
