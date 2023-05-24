@@ -18,7 +18,7 @@ export class JwtAuthGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const response = context.switchToHttp().getResponse();
     const rawJwt = request.headers.cookie;
-    const jwt = rawJwt.split('jwt=')[1];
+    const jwt = rawJwt?.split('jwt=')[1];
 
     try {
       const payload = await this.jwtService.verifyAsync(jwt, {
@@ -27,7 +27,7 @@ export class JwtAuthGuard implements CanActivate {
 
       request['user'] = payload;
     } catch (error) {
-      return response.status(400).redirect('/auth');
+      return response.redirect('/auth/login');
     }
 
     return true;

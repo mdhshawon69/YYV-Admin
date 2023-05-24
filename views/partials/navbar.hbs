@@ -147,15 +147,40 @@
               </a>
             </li>
             <li class='flex'>
-              <a
+              <button
+                @click="function logout() {
+                  Swal.fire({
+                  title: 'Are you sure?',
+                  text: 'You will be logged out!',
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Logout'
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    fetch('/auth/logout', {
+                      method: 'POST'
+                    }).then((response) => {if(response.ok) {
+                      Swal.fire(
+                      'Logged out',
+                      'You are successfully logged out',
+                      'success'
+                      )
+                      setTimeout(() => {
+                        location.replace('/auth/login')
+                      }, 1500)
+                    }})
+                  }
+})
+                } logout()"
                 class='inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200'
-                href='#'
               >
                 <i
                   class='w-4 h-4 mr-3 fa-solid fa-arrow-right-from-bracket'
                 ></i>
                 <span>Log out</span>
-              </a>
+              </button>
             </li>
           </ul>
         </template>

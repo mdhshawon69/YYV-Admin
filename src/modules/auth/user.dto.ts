@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-export class createUser {
+export class LoginUser {
   email: string;
   password: string;
 }

@@ -4,10 +4,8 @@ import {
   Controller,
   Get,
   Post,
-  Redirect,
   Req,
   Res,
-  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
@@ -23,16 +21,15 @@ export class AuthController {
     private jwtService: JwtService,
   ) {}
 
-  @Get()
+  @Get('login')
   getUser(@Req() req: Request, @Res() res: Response) {
     const rawJwt = req.headers.cookie;
-    const jwt = rawJwt.split('jwt=')[1];
-    console.log(jwt);
-    if (jwt) {
+    const jwt = rawJwt?.split('jwt=')[1];
+    if (!jwt) {
       res.render('login', { layout: 'authLayout' });
+    } else {
+      return res.status(308).redirect('/');
     }
-
-    return res.status(308).redirect('/');
   }
 
   @Post('signup')
@@ -56,6 +53,7 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ) {
     const user = await this.authService.login({ email });
+    console.log(user);
 
     if (!user) {
       throw new BadRequestException('Invalid Email');
@@ -67,6 +65,14 @@ export class AuthController {
 
     const jwt = await this.jwtService.signAsync({ id: user.id });
     res.cookie('jwt', jwt, { httpOnly: true });
-    return res.status(308).redirect('/');
+    return res.redirect('/');
+  }
+
+  @Post('logout')
+  async logout(@Res({ passthrough: true }) res: Response) {
+    res.clearCookie('jwt');
+    return {
+      message: 'Successfully Logged Out',
+    };
   }
 }
