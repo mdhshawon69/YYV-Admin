@@ -6,6 +6,7 @@ import {
   Post,
   Req,
   Res,
+  UnauthorizedException,
   UseInterceptors,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
@@ -25,24 +26,12 @@ export class AuthController {
   getUser(@Req() req: Request, @Res() res: Response) {
     const rawJwt = req.headers.cookie;
     const jwt = rawJwt?.split('jwt=')[1];
+    console.log(req);
     if (!jwt) {
       res.render('login', { layout: 'authLayout' });
     } else {
-      return res.status(308).redirect('/');
+      res.redirect('/');
     }
-  }
-
-  @Post('signup')
-  async signup(@Body() body: any) {
-    const hashedPassword = await bcrypt.hash(body.password, 12);
-    const user = await this.authService.signup({
-      email: body.email,
-      password: hashedPassword,
-    });
-
-    console.log(user);
-
-    return { message: 'Successfully created User' };
   }
 
   @Post('login')
@@ -52,15 +41,18 @@ export class AuthController {
     @Body('password') password: string,
     @Res({ passthrough: true }) res: Response,
   ) {
+    if (!email || !password) {
+      throw new BadRequestException();
+    }
+
     const user = await this.authService.login({ email });
-    console.log(user);
 
     if (!user) {
-      throw new BadRequestException('Invalid Email');
+      throw new BadRequestException({ message: 'Invalid Credentials!' });
     }
 
     if (!(await bcrypt.compare(password, user.password))) {
-      throw new BadRequestException('Invalid Password');
+      throw new BadRequestException();
     }
 
     const jwt = await this.jwtService.signAsync({ id: user.id });

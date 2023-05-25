@@ -6,6 +6,7 @@ import {
   CanActivate,
   ExecutionContext,
   Injectable,
+  Redirect,
   UnauthorizedException,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
@@ -17,17 +18,22 @@ export class JwtAuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<any | boolean> {
     const request = context.switchToHttp().getRequest();
     const response = context.switchToHttp().getResponse();
-    const rawJwt = request.headers.cookie;
-    const jwt = rawJwt?.split('jwt=')[1];
-
+    // console.log(request);
+    if (request.path === '/auth/login') {
+      return true;
+    }
     try {
+      const rawJwt = request.headers.cookie;
+      const jwt = rawJwt?.split('jwt=')[1];
       const payload = await this.jwtService.verifyAsync(jwt, {
         secret: 'secret',
       });
 
       request['user'] = payload;
     } catch (error) {
-      return response.redirect('/auth/login');
+      if (error) {
+        throw new UnauthorizedException();
+      }
     }
 
     return true;

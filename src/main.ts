@@ -4,9 +4,11 @@ import { AppModule } from './app.module';
 import { resolve, join } from 'path';
 import * as hbs from 'express-handlebars';
 import * as cookieParser from 'cookie-parser';
+import { UnauthorizedExceptionFilter } from './helpers/unauthorized-exceptions-filter';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  app.useGlobalFilters(new UnauthorizedExceptionFilter());
   app.use(cookieParser());
   app.useStaticAssets(resolve('./src/public'));
   app.setBaseViewsDir(resolve('./views'));

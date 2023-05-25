@@ -6,13 +6,18 @@
       class='flex flex-col items-center justify-center overflow-y-auto md:flex-row'
     >
       <div class='h-32 md:h-auto md:w-1/2'>
-        <img aria-hidden='true' class='' src='/img/logo-01.png' alt='Office' />
-        <img
-          aria-hidden='true'
-          class='hidden object-cover w-full h-full dark:block'
-          src='/img/Logo-01.png'
-          alt='Office'
-        />
+        <a href='/'><img
+            aria-hidden='true'
+            class=''
+            src='/img/logo-01.png'
+            alt='Office'
+          /></a>
+        <a href='/'><img
+            aria-hidden='true'
+            class='hidden object-cover w-full h-full dark:block'
+            src='/img/Logo-01.png'
+            alt='Office'
+          /></a>
       </div>
       <div class='flex items-center justify-center p-6 sm:p-12 md:w-1/2'>
         <form
@@ -27,8 +32,16 @@
           <h1
             class='mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200'
           >
-            Login
+            Add User
           </h1>
+          <label class='block text-sm'>
+            <span class='text-gray-700 dark:text-gray-400'>Name</span>
+            <input
+              class='block w-full mt-1 mb-4 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+              placeholder='Jane Doe'
+              name='name'
+            />
+          </label>
           <label class='block text-sm'>
             <span class='text-gray-700 dark:text-gray-400'>Email</span>
             <input
@@ -36,7 +49,6 @@
               class='block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
               placeholder='Jane Doe'
               name='email'
-              required
             />
           </label>
           <label class='block mt-4 text-sm'>
@@ -47,7 +59,6 @@
               placeholder='***************'
               type='password'
               name='password'
-              required
             />
           </label>
 
@@ -55,7 +66,7 @@
           <button
             class='block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple'
           >
-            Log in
+            Add User
           </button>
         </form>
       </div>
@@ -66,11 +77,10 @@
 <script>
   const form = document.querySelector("#form"); // form submit handler
   form.addEventListener('submit', async (e) => { e.preventDefault(); const
-  formData = new FormData(form); const response = await fetch('/auth/login', {
+  formData = new FormData(form); const response = await fetch('/add-user', {
   method: 'POST', body: formData, }); if(response.ok) { Swal.fire({ position:
-  'top-end', icon: 'success', title: 'Successfully logged in',
-  showConfirmButton: false, timer: 1500 }); setTimeout(() => {
-  location.replace('/') }, 1500) } else { Swal.fire({ position: 'top-end', icon:
-  'error', title: 'Invalid Credentials!', showConfirmButton: false, timer: 1500
-  }); setTimeout(() => { location.replace('/auth/login') }, 1500) } })
+  'top-end', icon: 'success', title: 'User added successfully!',
+  showConfirmButton: false, timer: 1500 }); } else { Swal.fire({ position:
+  'top-end', icon: 'error', title: 'User already exist!', showConfirmButton:
+  false, timer: 1500 }) } })
 </script>
