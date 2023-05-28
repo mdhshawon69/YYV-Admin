@@ -67,4 +67,9 @@ export class AuthController {
       message: 'Successfully Logged Out',
     };
   }
+
+  @Get('forgot-password')
+  async forgotPassword(@Res() res: Response) {
+    res.render('forgot_password', { layout: 'authLayout' });
+  }
 }

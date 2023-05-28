@@ -9,14 +9,19 @@ import { AddUserModule } from './modules/add-user/add-user.module';
 import { UserModule } from './modules/user/user.module';
 import { JwtAuthGuard } from './modules/guard/jwt-auth.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { UserProfileModule } from './modules/user-profile/user-profile.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(config),
-    JwtModule,
+    JwtModule.register({
+      secret: 'secret',
+      signOptions: { expiresIn: '1d' },
+    }),
     AuthModule,
     AddUserModule,
     UserModule,
+    UserProfileModule,
   ],
   controllers: [AppController],
   providers: [

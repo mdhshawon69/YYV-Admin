@@ -9,7 +9,6 @@ export class AuthService {
   ) {}
 
   async signup(user: any): Promise<User> {
-    console.log(user);
     return this.userRepository.save(user);
   }
 

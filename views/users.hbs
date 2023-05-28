@@ -13,7 +13,7 @@
             <th class='px-4 py-3'>User</th>
             <th class='px-4 py-3'>Role</th>
             <th class='px-4 py-3'>Status</th>
-            <th class='px-4 py-3'>Email</th>
+            <th class='px-4 py-3'>Actions</th>
           </tr>
         </thead>
         <tbody class='bg-white divide-y dark:divide-gray-700 dark:bg-gray-800'>
@@ -52,7 +52,45 @@
                   Approved
                 </span>
               </td>
-              <td class='px-4 py-3 text-sm'>{{this.email}}</td>
+              <td class='px-4 py-3 text-sm'><button
+                  x-data
+                  @click="function deleteUser() {
+                  Swal.fire({
+                  title: 'Are you sure?',
+                  text: 'The user will be deleted permanently',
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Delete'
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    fetch(`/users/{{{this.id}}}`, {
+                      method: 'POST',
+                    }).then((response) => {if(response.ok) {
+                      console.log(response)
+                      Swal.fire(
+                      'Successful!',
+                      'Successfully deleted user',
+                      'success'
+                      )
+                      setTimeout(() => {
+                        location.replace('/users')
+                      }, 1500)
+                    } else {
+                      Swal.fire(
+                      'An error has occurred!',
+                      `Admin cannot delete himself`,
+                      'error'
+                      )
+                    }})
+                  }
+})
+                } deleteUser()"
+                >
+                  <i class='fa-sharp fa-solid fa-trash text-red-500'></i>
+                </button>
+              </td>
             </tr>
           {{/each}}
         </tbody>

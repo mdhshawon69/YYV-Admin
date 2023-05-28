@@ -12,4 +12,8 @@ export class UserService {
   async getAllUser() {
     return await this.userRepository.find({});
   }
+
+  async deleteUser(id) {
+    return await this.userRepository.delete(id);
+  }
 }
