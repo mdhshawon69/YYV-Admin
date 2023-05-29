@@ -14,4 +14,10 @@ export class User {
 
   @Column()
   password: string;
+
+  @Column({ nullable: true })
+  resetToken: string;
+
+  @Column({ nullable: true })
+  resetTokenExpires: Date;
 }

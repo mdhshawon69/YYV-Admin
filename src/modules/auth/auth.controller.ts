@@ -6,7 +6,7 @@ import {
   Post,
   Req,
   Res,
-  UnauthorizedException,
+  Query,
   UseInterceptors,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
@@ -71,5 +71,19 @@ export class AuthController {
   @Get('forgot-password')
   async forgotPassword(@Res() res: Response) {
     res.render('forgot_password', { layout: 'authLayout' });
+  }
+
+  @Post('forgot-password')
+  async generatePasswordResetToken(@Body('email') email) {
+    console.log(email);
+    return await this.authService.generatePasswordResetToken({ email });
+  }
+
+  @Post('reset-password')
+  async resetPassword(
+    @Body('newPassword') newPassword,
+    @Query('param1') token,
+  ) {
+    return this.authService.resetPassword(token, newPassword);
   }
 }
