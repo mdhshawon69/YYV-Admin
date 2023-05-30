@@ -42,6 +42,7 @@ export class AuthService {
     console.log(id);
 
     const user = await this.userRepository.findOneById(new ObjectId(id));
+    console.log(user);
 
     if (
       !user ||
@@ -53,6 +54,8 @@ export class AuthService {
 
     user.password = newPassword;
     user.resetToken = null;
-    return await this.userRepository.save(user);
+    const changedUser = await this.userRepository.save(user);
+    console.log(changedUser);
+    return changedUser;
   }
 }

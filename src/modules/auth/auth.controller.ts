@@ -100,7 +100,8 @@ export class AuthController {
   ) {
     try {
       const token = req.headers['cookie'].split('resetToken=')[1];
-      this.authService.resetPassword(token, newPassword);
+      const hashedPassword = await bcrypt.hash(newPassword, 12);
+      await this.authService.resetPassword(token, hashedPassword);
       return res.json({ status: 'Success' });
     } catch (error) {
       return res.json({ status: 'Failed', message: error.message });
