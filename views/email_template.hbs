@@ -2,7 +2,7 @@
   <head>
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
-    <title>Simple Transactional Email</title>
+    <title>Reset Password</title>
     <style>
       @media only screen and (max-width: 620px) { table.body h1 { font-size:
       28px !important; margin-bottom: 10px !important; } table.body p,
@@ -93,9 +93,11 @@
                         >Hi there,</p>
                         <p
                           style='font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; margin-bottom: 15px;'
-                        >Sometimes you just want to send a simple HTML email
-                          with a simple design and clear call to action. This is
-                          it.</p>
+                        >
+                          You recently requested to reset the password for your
+                          Admin account. Click the button below to proceed. If
+                          you did not request a password reset, please ignore
+                          this email or reply to let us know.</p>
                         <table
                           role='presentation'
                           border='0'
@@ -131,7 +133,7 @@
                                           href={{resetUrl}}
                                           target='_blank'
                                           style='border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; display: inline-block; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-decoration: none; text-transform: capitalize; background-color: #3498db; border-color: #3498db; color: #ffffff;'
-                                        >Call To Action</a>
+                                        >Reset Password</a>
                                       </td>
                                     </tr>
                                   </tbody>
@@ -140,14 +142,14 @@
                             </tr>
                           </tbody>
                         </table>
-                        <p
+                        {{! <p
                           style='font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; margin-bottom: 15px;'
                         >This is a really simple email template. Its sole
                           purpose is to get the recipient to click the button
                           with no distractions.</p>
                         <p
                           style='font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; margin-bottom: 15px;'
-                        >Good luck! Hope it works.</p>
+                        >Good luck! Hope it works.</p> }}
                       </td>
                     </tr>
                   </table>
@@ -159,53 +161,6 @@
             <!-- END CENTERED WHITE CONTAINER -->
 
             <!-- START FOOTER -->
-            <div
-              class='footer'
-              style='clear: both; margin-top: 10px; text-align: center; width: 100%;'
-            >
-              <table
-                role='presentation'
-                border='0'
-                cellpadding='0'
-                cellspacing='0'
-                style='border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;'
-                width='100%'
-              >
-                <tr>
-                  <td
-                    class='content-block'
-                    style='font-family: sans-serif; vertical-align: top; padding-bottom: 10px; padding-top: 10px; color: #999999; font-size: 12px; text-align: center;'
-                    valign='top'
-                    align='center'
-                  >
-                    <span
-                      class='apple-link'
-                      style='color: #999999; font-size: 12px; text-align: center;'
-                    >Company Inc, 3 Abbey Road, San Francisco CA 94102</span>
-                    <br />
-                    Don't like these emails?
-                    <a
-                      href='http://i.imgur.com/CScmqnj.gif'
-                      style='text-decoration: underline; color: #999999; font-size: 12px; text-align: center;'
-                    >Unsubscribe</a>.
-                  </td>
-                </tr>
-                <tr>
-                  <td
-                    class='content-block powered-by'
-                    style='font-family: sans-serif; vertical-align: top; padding-bottom: 10px; padding-top: 10px; color: #999999; font-size: 12px; text-align: center;'
-                    valign='top'
-                    align='center'
-                  >
-                    Powered by
-                    <a
-                      href='http://htmlemail.io'
-                      style='color: #999999; font-size: 12px; text-align: center; text-decoration: none;'
-                    >HTMLemail</a>.
-                  </td>
-                </tr>
-              </table>
-            </div>
             <!-- END FOOTER -->
 
           </div>

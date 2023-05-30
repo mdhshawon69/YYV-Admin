@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { ObjectId } from 'mongodb';
 import { User } from 'src/entities/auth/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { MailerService } from './mailer.service';
@@ -30,30 +31,21 @@ export class AuthService {
     const token = this.jwtService.sign(payload, { expiresIn: '1h' });
     user.resetToken = token;
     user.resetTokenExpires = new Date(Date.now() + 3600000);
-    this.mailerService.sendPasswordResetEmail(email, token);
+    this.mailerService.sendPasswordResetEmail(user.email, token);
 
     return await this.userRepository.save(user);
   }
 
   async resetPassword(token: string, newPassword: string) {
     const decodedToken = this.jwtService.verify(token);
-    const userId = decodedToken.userId;
+    const id = decodedToken.userId;
+    console.log(id);
 
-    const user = await this.userRepository.findOne({
-      select: [
-        'id',
-        'email',
-        'name',
-        'password',
-        'resetToken',
-        'resetTokenExpires',
-      ],
-      where: userId,
-    });
+    const user = await this.userRepository.findOneById(new ObjectId(id));
 
     if (
       !user ||
-      user.resetToken !== token ||
+      user?.resetToken !== token ||
       user.resetTokenExpires < new Date()
     ) {
       throw new Error('Invalid or expired token');

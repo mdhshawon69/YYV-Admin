@@ -8,6 +8,7 @@ import {
   Res,
   Query,
   UseInterceptors,
+  Param,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Response, Request } from 'express';
@@ -74,16 +75,35 @@ export class AuthController {
   }
 
   @Post('forgot-password')
-  async generatePasswordResetToken(@Body('email') email) {
-    console.log(email);
-    return await this.authService.generatePasswordResetToken({ email });
+  @UseInterceptors(FileInterceptor('file'))
+  async generatePasswordResetToken(@Body('email') email, @Res() res: Response) {
+    try {
+      await this.authService.generatePasswordResetToken({ email });
+      return res.json({ status: 'Success' });
+    } catch (error) {
+      return res.json({ status: 'Failed', message: error.message });
+    }
+  }
+
+  @Get('reset-password')
+  async resetPasswordGet(@Res() res: Response, @Query() query) {
+    res.cookie('resetToken', query.token, { httpOnly: true });
+    res.render('new_password', { layout: 'authLayout' });
   }
 
   @Post('reset-password')
+  @UseInterceptors(FileInterceptor('file'))
   async resetPassword(
-    @Body('newPassword') newPassword,
-    @Query('param1') token,
+    @Body('new_password') newPassword,
+    @Req() req: Request,
+    @Res() res: Response,
   ) {
-    return this.authService.resetPassword(token, newPassword);
+    try {
+      const token = req.headers['cookie'].split('resetToken=')[1];
+      this.authService.resetPassword(token, newPassword);
+      return res.json({ status: 'Success' });
+    } catch (error) {
+      return res.json({ status: 'Failed', message: error.message });
+    }
   }
 }

@@ -21,7 +21,8 @@ export class JwtAuthGuard implements CanActivate {
     // console.log(request);
     if (
       request.path === '/auth/login' ||
-      request.path === '/auth/forgot-password'
+      request.path === '/auth/forgot-password' ||
+      request.path === '/auth/reset-password'
     ) {
       return true;
     }
