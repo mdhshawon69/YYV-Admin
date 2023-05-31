@@ -1,80 +1,165 @@
-<div class='p-16'>
-  <div class='p-8 bg-white shadow mt-24'>
-    <div class='grid grid-cols-1 md:grid-cols-3'>
-      <div
-        class='grid grid-cols-3 text-center order-last md:order-first mt-20 md:mt-0'
-      >
-        <div>
-          <p class='font-bold text-gray-700 text-xl'>22</p>
-          <p class='text-gray-400'>Friends</p>
-        </div>
-        <div>
-          <p class='font-bold text-gray-700 text-xl'>10</p>
-          <p class='text-gray-400'>Photos</p>
-        </div>
-        <div>
-          <p class='font-bold text-gray-700 text-xl'>89</p>
-          <p class='text-gray-400'>Comments</p>
-        </div>
-      </div>
-      <div class='relative'>
+<div x-data='{open: false}'>
+  <div class='p-16'>
+    <div class='p-8 bg-white dark:bg-gray-800 shadow mt-24 rounded-md'>
+      <div class='grid grid-cols-1 md:grid-cols-3'>
         <div
-          class='w-48 h-48 bg-indigo-100 mx-auto rounded-full shadow-2xl absolute inset-x-0 top-0 -mt-24 flex items-center justify-center text-indigo-500'
+          class='grid grid-cols-3 text-center order-last md:order-first mt-20 md:mt-0'
         >
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            class='h-24 w-24'
-            viewBox='0 0 20 20'
-            fill='currentColor'
+
+        </div>
+        <div class='relative'>
+          <div
+            class='w-48 h-48 bg-indigo-100 mx-auto rounded-full shadow-2xl absolute inset-x-0 top-0 -mt-24 flex items-center justify-center text-indigo-500'
           >
-            <path
-              fill-rule='evenodd'
-              d='M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z'
-              clip-rule='evenodd'
-            />
-          </svg>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              class='h-24 w-24'
+              viewBox='0 0 20 20'
+              fill='currentColor'
+            >
+              <path
+                fill-rule='evenodd'
+                d='M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z'
+                clip-rule='evenodd'
+              />
+            </svg>
+          </div>
+        </div>
+
+        <div class='space-x-8 flex justify-end mt-32 md:mt-0 md:justify-end'>
+          <button
+            @click='open = true'
+            class='text-white py-4 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs'
+          >
+            Change Password
+          </button>
+
         </div>
       </div>
 
-      <div
-        class='space-x-8 flex justify-between mt-32 md:mt-0 md:justify-center'
-      >
-        <button
-          class='text-white py-2 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs'
-        >
-          Update Password
-        </button>
-        <button
-          class='text-white py-2 px-4 uppercase rounded bg-red-500 hover:bg-red-700 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs'
-        >
-          Delete Account
+      <div class='mt-20 text-center border-b pb-12'>
+        <h1
+          class='text-4xl font-medium text-gray-700 dark:text-gray-200'
+        >{{user.name}}
+          <span
+            class='font-light text-gray-500 dark:text-gray-200'
+          >27</span></h1>
+        <p class='font-light text-gray-600 mt-3 dark:text-gray-200'>YY Ventures</p>
+
+        <p class='mt-8 text-gray-500 dark:text-gray-200'>Solution Manager -
+          Creative Tim Officer</p>
+        <p class='mt-2 text-gray-500 dark:text-gray-200'>University of Computer
+          Science</p>
+      </div>
+
+      <div class='mt-12 flex flex-col justify-center'>
+        <p
+          class='text-gray-600 text-center font-light lg:px-16 dark:text-gray-200'
+        >An artist of considerable range, Ryan — the name taken by
+          Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and
+          records all of his own music, giving it a warm, intimate feel with a
+          solid groove structure. An artist of considerable range.</p>
+        <button class='text-indigo-500 py-2 px-4 font-medium mt-4'>
+          Show more
         </button>
       </div>
     </div>
+  </div>
 
-    <div class='mt-20 text-center border-b pb-12'>
-      <h1 class='text-4xl font-medium text-gray-700'>{{user.name}}
-        <span class='font-light text-gray-500'>27</span></h1>
-      <p class='font-light text-gray-600 mt-3'>YY Ventures</p>
+  <!-- Modal toggle -->
 
-      <p class='mt-8 text-gray-500'>Solution Manager - Creative Tim Officer</p>
-      <p class='mt-2 text-gray-500'>University of Computer Science</p>
+  <!-- Main modal -->
+  <div
+    x-show='open'
+    id='defaultModal'
+    tabindex='-1'
+    aria-hidden='true'
+    class='fixed top-0 left-0 right-0 z-50 w-full flex justify-center items-center p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full bg-black bg-opacity-75'
+  >
+    <div class='relative w-full max-w-2xl max-h-full'>
+      <!-- Modal content -->
+      <div class='relative bg-white rounded-lg shadow dark:bg-gray-700'>
+        <!-- Modal header -->
+        <div
+          class='flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600'
+        >
+          <h3 class='text-xl font-semibold text-gray-900 dark:text-white'>
+            Change Password
+          </h3>
+          <button
+            @click='open = false'
+            type='button'
+            class='text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white'
+            data-modal-hide='defaultModal'
+          >
+            <svg
+              aria-hidden='true'
+              class='w-5 h-5'
+              fill='currentColor'
+              viewBox='0 0 20 20'
+              xmlns='http://www.w3.org/2000/svg'
+            ><path
+                fill-rule='evenodd'
+                d='M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z'
+                clip-rule='evenodd'
+              ></path></svg>
+            <span class='sr-only'>Close modal</span>
+          </button>
+        </div>
+        <!-- Modal body -->
+        <div class='p-6 space-y-6'>
+          <form
+            class='w-full'
+            id='form'
+            x-data='{user: {
+          email: null,
+          password: null
+        }}'
+            @submit.prevent=''
+          >
+            <label class='block text-sm'>
+              <span class='text-gray-700 dark:text-gray-400'>Old Password</span>
+              <input
+                class='block w-full mt-1 mb-4 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                placeholder='Old Password'
+                name='old_password'
+                type='password'
+              />
+            </label>
+            <label class='block text-sm'>
+              <span class='text-gray-700 dark:text-gray-400'>New Password</span>
+              <input
+                x-model='user.email'
+                class='block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                placeholder='New Password'
+                name='new_password'
+                type='password'
+              />
+            </label>
+            <label class='block mt-4 text-sm'>
+              <span class='text-gray-700 dark:text-gray-400'>Confirm New
+                Password</span>
+              <input
+                x-model='user.password'
+                class='block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                placeholder='Confirm New Password'
+                type='password'
+                name='confirm_password'
+              />
+            </label>
+
+            <!-- You should use a button here, as the anchor is only used for the example  -->
+            <button
+              class='block px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple'
+            >
+              Update
+            </button>
+          </form>
+        </div>
+        <!-- Modal footer -->
+      </div>
     </div>
-
-    <div class='mt-12 flex flex-col justify-center'>
-      <p class='text-gray-600 text-center font-light lg:px-16'>An artist of
-        considerable range, Ryan — the name taken by Melbourne-raised,
-        Brooklyn-based Nick Murphy — writes, performs and records all of his own
-        music, giving it a warm, intimate feel with a solid groove structure. An
-        artist of considerable range.</p>
-      <button class='text-indigo-500 py-2 px-4 font-medium mt-4'>
-        Show more
-      </button>
-    </div>
-
   </div>
 </div>
 
-<script>
-
-</script>
+<script src='/js/change-password.js' defer></script>

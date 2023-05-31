@@ -1,7 +1,7 @@
 <!-- Desktop sidebar -->
       <aside
-        class="relative z-20 flex-shrink-0 hidden w-64 overflow-hidden bg-white dark:bg-gray-800 md:block"
-        id="container"
+        class="relative z-20 flex-shrink-0 hidden w-64 overflow-hidden bg-white dark:bg-gray-800 md:flex flex-col items-stretch"
+        
         
       >
         <div class="py-4 text-gray-500 dark:text-gray-400">
@@ -34,34 +34,6 @@
               </a>
             </li>
             <li class="relative px-6 py-3">
-              <a
-                class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                href="cards.html"
-              >
-                <i class="w-5.5 h-5.5 fa-solid fa-layer-group"></i>
-                <span class="ml-4">Cards</span>
-              </a>
-            </li>
-            <li class="relative px-6 py-3">
-              <a
-                class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                href="charts.html"
-              >
-                <i class="fa-solid fa-chart-pie"></i>
-                <span class="ml-4">Charts</span>
-              </a>
-            </li>
-
-            <li class="relative px-6 py-3">
-              <a
-                class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                href="tables.html"
-              >
-                <i class="fa-solid fa-table-list"></i>
-                <span class="ml-4">Tables</span>
-              </a>
-            </li>
-            <li class="relative px-6 py-3">
               <button
                 class="inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 border-none outline hover:text-gray-800 dark:hover:text-gray-200"
                 @click="togglePagesMenu"
@@ -69,7 +41,7 @@
               >
                 <span class="inline-flex items-center">
                   <i class="fa-solid fa-laptop-file"></i>
-                  <span class="ml-4">Pages</span>
+                  <span class="ml-4">CMS</span>
                 </span>
                 <i class="fa-solid fa-chevron-down"></i>
               </button>
@@ -89,13 +61,13 @@
                   >
                     <a class="w-full" href="pages/login.html">Login</a>
                   </li>
-                  <li
+                  {{!-- <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
                     <a class="w-full" href="/add-user">
                       Create User
                     </a>
-                  </li>
+                  </li> --}}
                   <li
                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
@@ -128,13 +100,13 @@
             </li>
           </ul>
           <div class="px-6 my-6">
-            <a
+            {{!-- <a
             href="/add-user"
               class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
             >
               Create User
               <span class="ml-2" aria-hidden="true">+</span>
-            </a>
+            </a> --}}
           </div>
         </div>
       </aside>
@@ -194,51 +166,7 @@
                 <span class="ml-4">Users</span>
               </a>
             </li>
-            <li class="relative px-6 py-3">
-              <a
-                class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                href="cards.html"
-              >
-                <i class="fa-solid fa-layer-group"></i>
-                <span class="ml-4">Cards</span>
-              </a>
-            </li>
-            <li class="relative px-6 py-3">
-              <a
-                class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                href="charts.html"
-              >
-                <i class="fa-solid fa-chart-pie"></i>
-                <span class="ml-4">Charts</span>
-              </a>
-            </li>
-            <li class="relative px-6 py-3">
-              <a
-                class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                href="buttons.html"
-              >
-                <i class="fa-solid fa-hand-pointer"></i>
-                <span class="ml-4">Buttons</span>
-              </a>
-            </li>
-            <li class="relative px-6 py-3">
-              <a
-                class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                href="modals.html"
-              >
-                <i class="fa-solid fa-window-restore"></i>
-                <span class="ml-4">Modals</span>
-              </a>
-            </li>
-            <li class="relative px-6 py-3">
-              <a
-                class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                href="tables.html"
-              >
-                <i class="fa-solid fa-table-list"></i>
-                <span class="ml-4">Tables</span>
-              </a>
-            </li>
+            
             <li class="relative px-6 py-3">
               <button
                 class="inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
@@ -247,7 +175,7 @@
               >
                 <span class="inline-flex items-center">
                   <i class="fa-solid fa-laptop-file"></i>
-                  <span class="ml-4">Pages</span>
+                  <span class="ml-4">CMS</span>
                 </span>
               </button>
               <template x-if="isPagesMenuOpen">
@@ -297,13 +225,13 @@
             </li>
           </ul>
           <div class="px-6 my-6">
-            <a
+            {{!-- <a
             href="/add-user"
               class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
             >
               Create User
               <span class="ml-2" aria-hidden="true">+</span>
-            </a>
+            </a> --}}
           </div>
         </div>
       </aside>

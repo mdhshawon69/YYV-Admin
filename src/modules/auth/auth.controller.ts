@@ -8,7 +8,6 @@ import {
   Res,
   Query,
   UseInterceptors,
-  Param,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Response, Request } from 'express';
