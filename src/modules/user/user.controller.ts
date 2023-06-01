@@ -51,7 +51,7 @@ export class UserController {
         email,
         password: hashedPassword,
       });
-      console.log(user);
+
       return res.json({
         status: 'Success',
         message: 'User added successfully',
@@ -87,6 +87,7 @@ export class UserController {
 
   @Post(':id')
   async deleteUser(@Param('id') id: any, @Req() req: Request) {
+    console.log(id);
     if (req['user'].id === id) {
       throw new NotFoundException('Admin cannot delete himself');
     } else {

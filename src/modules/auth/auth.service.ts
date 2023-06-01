@@ -1,28 +1,30 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { ObjectId } from 'mongodb';
-import { User } from 'src/entities/auth/user.entity';
+import { User } from 'src/entities/auth/user.schema';
 import { JwtService } from '@nestjs/jwt';
 import { MailerService } from './mailer.service';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectModel(User.name) private readonly userModel: Model<User>,
     private jwtService: JwtService,
     private mailerService: MailerService,
-  ) {}
+  ) {
+    console.log(User.name);
+  }
 
   async signup(user: any): Promise<User> {
-    return this.userRepository.save(user);
+    const newUser = new this.userModel(user);
+    return newUser.save();
   }
 
   async login(condition: any): Promise<User> {
-    return this.userRepository.findOne(condition);
+    return this.userModel.findOne(condition);
   }
 
   async generatePasswordResetToken(email: any): Promise<User> {
-    const user = await this.userRepository.findOne(email);
+    const user = await this.userModel.findOne(email);
     if (!user) {
       throw new Error('User not found!');
     }
@@ -32,8 +34,8 @@ export class AuthService {
     user.resetToken = token;
     user.resetTokenExpires = new Date(Date.now() + 3600000);
     this.mailerService.sendPasswordResetEmail(user.email, token);
-
-    return await this.userRepository.save(user);
+    const newUser = new this.userModel(user);
+    return await newUser.save();
   }
 
   async resetPassword(token: string, newPassword: string) {
@@ -41,7 +43,7 @@ export class AuthService {
     const id = decodedToken.userId;
     console.log(id);
 
-    const user = await this.userRepository.findOneById(new ObjectId(id));
+    const user = await this.userModel.findById(id);
     console.log(user);
 
     if (
@@ -54,8 +56,8 @@ export class AuthService {
 
     user.password = newPassword;
     user.resetToken = null;
-    const changedUser = await this.userRepository.save(user);
+    const changedUser = new this.userModel(user);
     console.log(changedUser);
-    return changedUser;
+    return await changedUser.save();
   }
 }

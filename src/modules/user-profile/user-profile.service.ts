@@ -1,24 +1,24 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/entities/auth/user.entity';
-import { Repository } from 'typeorm';
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { User } from 'src/entities/auth/user.schema';
 
 @Injectable()
 export class UserProfileService {
   constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectModel(User.name) private readonly userModel: Model<User>,
   ) {}
   async getUserData(id): Promise<User | null> {
-    return await this.userRepository.findOne({
-      select: ['id', 'email', 'name', 'password'],
-      where: id,
-    });
+    console.log(id);
+    return await this.userModel.findById(id).lean();
   }
 
-  async deleteAccount(id): Promise<void> {
-    const deletedUser = await this.userRepository.delete(id);
-    if (deletedUser.affected === 0) {
-      throw new NotFoundException('User not found!');
-    }
-  }
+  // async deleteAccount(id): Promise<void> {
+  //   const deletedUser = await this.userModel.findByIdAndDelete(id);
+  //   // if (deletedUser.affected === 0) {
+  //   //   throw new NotFoundException('User not found!');
+  //   // }
+
+  //   console.log(deletedUser);
+  // }
 }

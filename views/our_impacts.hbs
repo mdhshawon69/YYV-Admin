@@ -1,0 +1,83 @@
+<div
+  class='shadow-lg min-h-fit rounded-md bg-gray-50 dark:bg-gray-800 md:my-10 mt-24 md:mx-20 mx-3'
+>
+  <div class='flex justify-between items-center px-6'>
+    <h2 class='my-6 text-4xl font-semibold text-gray-700 dark:text-gray-200'>
+      Users
+    </h2>
+    <a
+      href='/our-impact/add-impact-number'
+      class='text-white py-4 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs'
+    >
+      Create User
+    </a>
+  </div>
+  <div class='grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4 p-6'>
+    <!-- Card -->
+    {{#each impactNumbers}}
+      <div class='p-4 bg-white rounded-xl shadow-xs dark:bg-gray-700'>
+        <div
+          class='text-sm space-x pb-2 flex justify-end items-center gap-2 w-fit'
+        ><button
+            x-data
+            @click="function deleteImpact() {
+                  Swal.fire({
+                  title: 'Are you sure?',
+                  text: 'The impact number will be deleted permanently',
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Delete'
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    fetch(`/our-impact/{{this._id}}`, {
+                      method: 'POST',
+                    }).then((response) => {if(response.ok) {
+                      console.log(response)
+                      Swal.fire(
+                      'Successful!',
+                      'Successfully deleted impact number',
+                      'success'
+                      )
+                      setTimeout(() => {
+                        location.replace('/our-impact')
+                      }, 1500)
+                    } else {
+                      Swal.fire(
+                      'An error has occurred!',
+                      `Cannot delete impact number`,
+                      'error'
+                      )
+                    }})
+                  }
+})
+                } deleteImpact()"
+          >
+            <i class='fa-sharp fa-solid fa-trash text-red-500'></i>
+          </button>
+          <a href='/our-impact/{{this._id}}'><i
+              class='fa-solid fa-pen-to-square text-blue-600'
+            ></i></a>
+        </div>
+        <div class='flex items-center'>
+          <div
+            class='p-3 mr-4 text-orange-500 bg-orange-100 rounded-full dark:text-orange-100 dark:bg-orange-500'
+          >
+            <i class='w-5 h-5 fa-solid fa-users'></i>
+          </div>
+          <div>
+            <p
+              class='mb-2 text-sm font-medium text-gray-600 dark:text-gray-400'
+            >
+              {{this.title}}
+            </p>
+            <p class='text-lg font-semibold text-gray-700 dark:text-gray-200'>
+              {{this.impact_number}}
+            </p>
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</div>

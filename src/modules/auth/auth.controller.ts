@@ -26,7 +26,6 @@ export class AuthController {
   getUser(@Req() req: Request, @Res() res: Response) {
     const rawJwt = req.headers.cookie;
     const jwt = rawJwt?.split('jwt=')[1];
-    console.log(req);
     if (!jwt) {
       res.render('login', { layout: 'authLayout' });
     } else {
@@ -41,6 +40,7 @@ export class AuthController {
     @Body('password') password: string,
     @Res({ passthrough: true }) res: Response,
   ) {
+    console.log(email);
     if (!email || !password) {
       throw new BadRequestException();
     }

@@ -81,7 +81,7 @@
                   confirmButtonText: 'Delete'
                 }).then((result) => {
                   if (result.isConfirmed) {
-                    fetch(`/users/{{{this.id}}}`, {
+                    fetch(`/users/{{this._id}}`, {
                       method: 'POST',
                     }).then((response) => {if(response.ok) {
                       console.log(response)
