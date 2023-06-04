@@ -22,7 +22,7 @@ export class UserController {
   @Get()
   async getUsers(@Res() res: Response) {
     const users = await this.userService.getAllUser();
-    res.render('users', { layout: 'main', users: users });
+    res.render('user/users', { layout: 'main', users: users });
   }
 
   @Get('add-user')
@@ -32,7 +32,7 @@ export class UserController {
     if (!jwt) {
       throw new UnauthorizedException();
     } else {
-      res.render('addUser', { layout: 'main' });
+      res.render('user/addUser', { layout: 'main' });
     }
   }
 

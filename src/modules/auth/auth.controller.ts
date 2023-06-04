@@ -27,7 +27,7 @@ export class AuthController {
     const rawJwt = req.headers.cookie;
     const jwt = rawJwt?.split('jwt=')[1];
     if (!jwt) {
-      res.render('login', { layout: 'authLayout' });
+      res.render('auth/login', { layout: 'authLayout' });
     } else {
       res.redirect('/');
     }
@@ -70,7 +70,7 @@ export class AuthController {
 
   @Get('forgot-password')
   async forgotPassword(@Res() res: Response) {
-    res.render('forgot_password', { layout: 'authLayout' });
+    res.render('auth/forgot_password', { layout: 'authLayout' });
   }
 
   @Post('forgot-password')
@@ -87,7 +87,7 @@ export class AuthController {
   @Get('reset-password')
   async resetPasswordGet(@Res() res: Response, @Query() query) {
     res.cookie('resetToken', query.token, { httpOnly: true });
-    res.render('new_password', { layout: 'authLayout' });
+    res.render('auth/new_password', { layout: 'authLayout' });
   }
 
   @Post('reset-password')

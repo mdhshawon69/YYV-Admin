@@ -10,6 +10,7 @@ import { UserProfileModule } from './modules/user-profile/user-profile.module';
 import { OurImpactModule } from './modules/our-impact/our-impact.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { mongooseConfig } from './config/mongoose.config';
+import { PartnersModule } from './modules/partners/partners.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { mongooseConfig } from './config/mongoose.config';
     UserModule,
     UserProfileModule,
     OurImpactModule,
+    PartnersModule,
   ],
   controllers: [AppController],
   providers: [

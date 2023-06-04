@@ -12,6 +12,6 @@ export class AppController {
 
   @Get()
   getHello(@Res() res: Response) {
-    return res.render('index', { layout: 'main' });
+    return res.render('dashboard/index', { layout: 'main' });
   }
 }

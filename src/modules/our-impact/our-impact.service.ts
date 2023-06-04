@@ -24,10 +24,14 @@ export class OurImpactService {
   }
 
   async editImpactNumber(id, title, number) {
-    const item = await this.impactNumberModel.findById(id);
     return await this.impactNumberModel.findByIdAndUpdate(id, {
-      title: !title ? item.title : title,
-      impact_number: !number ? item.impact_number : number,
+      title: title,
+      impact_number: number,
     });
+  }
+
+  async getOneImpactNumber(id) {
+    const impactNumber = await this.impactNumberModel.findById(id);
+    return impactNumber;
   }
 }

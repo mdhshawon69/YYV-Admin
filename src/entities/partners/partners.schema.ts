@@ -3,12 +3,15 @@ import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
 @Schema()
-export class ImpactNumber extends Document {
+export class Partners extends Document {
   @Prop({ required: true, unique: true })
-  title: string;
+  name: string;
+
+  @Prop({ required: true, type: Buffer })
+  partner_logo: Buffer;
 
   @Prop({ required: true })
-  impact_number: string;
+  partner_link: string;
 
   @Prop({ default: true })
   is_active: boolean;
@@ -17,4 +20,4 @@ export class ImpactNumber extends Document {
   published_at: Date;
 }
 
-export const ImpactNumberSchema = SchemaFactory.createForClass(ImpactNumber);
+export const PartnersSchema = SchemaFactory.createForClass(Partners);
