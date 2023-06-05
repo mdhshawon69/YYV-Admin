@@ -18,6 +18,22 @@ export class PartnersService {
   }
 
   async createPartner(partner) {
-    return this.partnersModel.create(partner);
+    return await this.partnersModel.create(partner);
+  }
+
+  async getOnePartner(id) {
+    return await this.partnersModel.findById(id);
+  }
+
+  async editPartner(id, name, partner_link, partner_logo) {
+    return await this.partnersModel.findByIdAndUpdate(id, {
+      name,
+      partner_link,
+      partner_logo,
+    });
+  }
+
+  async deletePartner(id) {
+    return await this.partnersModel.findByIdAndDelete(id);
   }
 }

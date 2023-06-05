@@ -7,8 +7,8 @@ export class Partners extends Document {
   @Prop({ required: true, unique: true })
   name: string;
 
-  @Prop({ required: true, type: Buffer })
-  partner_logo: Buffer;
+  @Prop({ required: true })
+  partner_logo: string;
 
   @Prop({ required: true })
   partner_link: string;

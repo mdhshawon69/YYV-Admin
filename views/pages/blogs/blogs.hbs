@@ -9,13 +9,13 @@
         <h2
           class='my-6 text-4xl font-semibold text-gray-700 dark:text-gray-200'
         >
-          Partners
+          Blogs
         </h2>
         <a
-          href='/partners/create-partner'
+          href='/blogs/create-blog'
           class='text-white py-4 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs'
         >
-          Create Partner
+          Create Blog
         </a>
       </div>
 
@@ -26,9 +26,9 @@
               <tr
                 class='text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800'
               >
-                <th class='px-4 py-3'>Partner Name</th>
-                <th class='px-4 py-3'>Partner Logo</th>
-                <th class='px-4 py-3'>Partner Link</th>
+                <th class='px-4 py-3'>Title</th>
+                <th class='px-4 py-3'>Category</th>
+                <th class='px-4 py-3'>Thumb Image</th>
                 <th class='px-4 py-3'>Actions</th>
               </tr>
             </thead>
@@ -41,27 +41,20 @@
                     <div class='flex items-center text-sm'>
                       
                       <div>
-                        <p class='font-semibold md:text-xl text-sm'>{{this.name}}</p>
+                        <p class='font-semibold text-sm'>{{this.title}}</p>
                        
                       </div>
                     </div>
                   </td>
-                  <td class='px-4 py-3 md:text-xl text-sm'><img class="fit-contain md:w-40 w-20 h-auto" src="{{this.partner_logo}}" alt=""></td>
-                  <td class='px-4 py-3'>
-                    <div class='flex items-center text-sm'>
-                      
-                      <div>
-                        <p class='font-semibold md:text-xl text-sm'>{{this.partner_link}}</p>
-                       
-                      </div>
-                    </div>
-                  </td>
+                  <td class='px-4 py-3 text-sm'>{{this.type}}</td>
+                  <td class='px-4 py-3 text-sm'><img src={{this.thumb_image}} class="w-20 h-auto object-contain" alt=""></td>
+                  
                   <td class='px-4 py-3 text-sm space-x-2'><button
                       x-data
-                     @click="function deletePartner() {
+                     @click="function deleteBlog() {
                   Swal.fire({
                   title: 'Are you sure?',
-                  text: 'The partner will be deleted permanently',
+                  text: 'The blog will be deleted permanently',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonColor: '#3085d6',
@@ -69,34 +62,35 @@
                   confirmButtonText: 'Delete'
                 }).then((result) => {
                   if (result.isConfirmed) {
-                    fetch(`/partners/{{this._id}}`, {
+                    fetch(`/blogs/{{this._id}}`, {
                       method: 'POST',
                     }).then((response) => {if(response.ok) {
                       console.log(response)
                       Swal.fire(
                       'Successful!',
-                      'Successfully deleted partner',
+                      'Successfully deleted the blog',
                       'success'
                       )
                       setTimeout(() => {
-                        location.replace('/partners')
+                        location.replace('/blogs')
                       }, 1500)
                     } else {
                       Swal.fire(
                       'An error has occurred!',
-                      `Cannot delete partner`,
+                      `Cannot delete deleted the blog`,
                       'error'
                       )
                     }})
                   }
 })
-                } deletePartner()"
+                } deleteBlog()"
                     >
                       <i class='fa-sharp fa-solid fa-trash text-red-500'></i>
                     </button>
-                    <a href='/partners/edit-partner?id={{this._id}}'><i
+                    <a href='/blogs/edit-blog?id={{this._id}}'><i
               class='fa-solid fa-pen-to-square text-blue-600'
             ></i></a>
+            <a href='/blogs/view-blog?id={{this._id}}'><i class="fa-solid fa-eye"></i></a>
                   </td>
                 </tr>
               {{/each}}

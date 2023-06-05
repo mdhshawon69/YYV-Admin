@@ -1,0 +1,31 @@
+<div
+  class='shadow-lg min-h-fit rounded-md bg-gray-50 dark:bg-gray-800 md:my-10 mt-24 md:mx-20 mx-3'
+>
+
+  <div class='flex items-center w-full mx-auto p-6'>
+    <div class='flex-1 self-start md:w-1/2 mx-auto overflow-hidden rounded-lg'>
+      <div class='overflow-y-auto md:flex-row'>
+        <div class='flex justify-between items-stretch md:flex-row flex-col'>
+          <div class='flex-1 md:px-6 mb-4'>
+            <h1
+              class='text-gray-800 dark:text-gray-200 text-2xl md:text-4xl font-bold capitalize'
+            >{{data.title}}</h1>
+            <p class='font-bold mt-1'>Type: {{data.type}}</p>
+          </div>
+          <img
+            class='w-full h-auto object-contain flex-1'
+            src='{{data.thumb_image}}'
+            alt=''
+          />
+        </div>
+        <div class='md:p-6 w-full mt-5'>
+          {{{data.description}}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Initialize Quill editor -->
+<script src='https://cdn.jsdelivr.net/npm/quill-delta-to-html'></script>
+<script src='/js/create-blog.js' defer></script>
