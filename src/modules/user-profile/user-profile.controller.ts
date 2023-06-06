@@ -13,6 +13,6 @@ export class UserProfileController {
   async getUser(@Req() req: Request, @Res() res: Response) {
     const userId = req['user'].id;
     const user = await this.userProfileService.getUserData(userId);
-    return res.render('user/user-profile', { layout: 'main', user: user });
+    return res.render('user/read', { layout: 'main', user: user });
   }
 }

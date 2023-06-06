@@ -1,0 +1,55 @@
+<div
+  class='shadow-lg min-h-fit rounded-md bg-gray-50 dark:bg-gray-800 md:my-10 mt-24 md:mx-20 mx-3'
+>
+
+  <div class='w-full p-6'>
+    <div class='self-start w-full rounded-lg'>
+      <div class='md:flex-row'>
+        <div>
+          <div class='flex justify-end items-center py-6 w-full'>
+            <a
+              class='border border-blue-400 p-2 rounded-md hover:bg-blue-400 hover:text-white dark:bg:text-blue-400 dark:hover:text-white transition-all font-semibold flex justify-center items-center gap-1 dark:text-white'
+              href='/projects'
+            >Back to list <i class='fa-solid fa-list'></i></a>
+          </div>
+        </div>
+        <div class='items-stretch md:flex-row flex-col'>
+          <div class='lg:px-6 mb-4 flex flex-col gap-2'>
+            <div class='grid'>
+              <p
+                class='dark:text-gray-200 font-bold col-start-1 col-end-3'
+              >Title:</p>
+              <h1
+                class='text-gray-800 dark:text-gray-200 capitalize col-start-3 col-end-12'
+              >{{data.title}}</h1>
+            </div>
+            <div class='justify-start gap-2 grid'>
+              <p
+                class='dark:text-gray-200 font-bold col-start-1 col-end-3'
+              >Location:</p>
+              <p class='dark:text-gray-200 col-start-3 col-end-12'>
+                {{data.project_location}}</p>
+            </div>
+            <div class='lg:w-4/5 w-full grid'>
+              <p
+                class='dark:text-gray-200 text w-32 font-bold col-start-1 col-end-3'
+              >Thumb Image:</p>
+              <img
+                class='w-full h-auto object-contain col-start-3 col-end-12'
+                src='{{data.thumb_image}}'
+                alt=''
+              />
+            </div>
+          </div>
+          <div
+            class='md:p-6 w-full mt-5 dark:text-gray-200 flex justify-start gap-2'
+          >
+            <p class='dark:text-gray-200'>Description:</p>
+            {{{data.description}}}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

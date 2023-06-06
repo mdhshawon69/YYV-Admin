@@ -21,7 +21,7 @@ export class BlogController {
 
   //Get all blogs CMS Controller
   @Get()
-  async getAllBlogs(@Res() res: Response) {
+  async getAllBlogs(@Res() res: Response, @Query('keywords') keywords) {
     const allBlogs = await this.blogService.getAllBlogs();
     const allBlogsRow = [];
     allBlogs.forEach((item) => {
@@ -29,8 +29,13 @@ export class BlogController {
       tempItem.thumb_image = `${process.env.BASE_URL}/uploads/blog/${item.thumb_image}`;
       allBlogsRow.push(tempItem);
     });
-    console.log(allBlogsRow);
-    return res.render('blogs/blogs', { layout: 'main', row: allBlogsRow });
+    const filtedBlogs = allBlogsRow.filter((blog) => {
+      return blog.title.toLowerCase().includes(keywords?.toLowerCase());
+    });
+    return res.render('blogs/list', {
+      layout: 'main',
+      row: !keywords ? allBlogsRow : filtedBlogs,
+    });
   }
 
   //Get all blogs API Controller
@@ -49,7 +54,7 @@ export class BlogController {
   //Get create blog form CMS Controller
   @Get('create-blog')
   async getCreateBlog(@Res() res: Response) {
-    return res.render('blogs/create-blogs-form', { layout: 'main' });
+    return res.render('blogs/create', { layout: 'main' });
   }
 
   //Post create blog CMS Controller
@@ -86,7 +91,7 @@ export class BlogController {
     console.log(id);
     const viewingBlog = await this.blogService.viewBlog(id);
     console.log(viewingBlog);
-    return res.render('blogs/single_blog', {
+    return res.render('blogs/read', {
       layout: 'main',
       data: {
         type: viewingBlog.type,

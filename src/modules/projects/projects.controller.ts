@@ -1,0 +1,122 @@
+import { Request, Response } from 'express';
+import { ProjectsService } from './projects.service';
+import {
+  Controller,
+  Get,
+  Res,
+  Post,
+  Body,
+  UseInterceptors,
+  Req,
+  UploadedFile,
+  Param,
+  Query,
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { fileUpload } from 'src/config/multer.config';
+
+@Controller('projects')
+export class ProjectsController {
+  constructor(private readonly projectService: ProjectsService) {}
+
+  //Get all Projects CMS Controller
+  @Get()
+  async getAllProjects(@Res() res: Response, @Query('keywords') keywords) {
+    const allProjects = await this.projectService.getAllProjects();
+    const allProjectsRow = [];
+    allProjects.forEach((item) => {
+      const tempItem = { ...item };
+      tempItem.thumb_image = `${process.env.BASE_URL}/uploads/projects/${item.thumb_image}`;
+      allProjectsRow.push(tempItem);
+    });
+    const filtedProjects = allProjectsRow.filter((Project) => {
+      return Project.title.toLowerCase().includes(keywords?.toLowerCase());
+    });
+    return res.render('projects/list', {
+      layout: 'main',
+      row: !keywords ? allProjectsRow : filtedProjects,
+    });
+  }
+
+  //Get all Projects API Controller
+  @Get()
+  async getAllProjectsApi(@Res() res: Response) {
+    const allProjects = await this.projectService.getAllProjects();
+    const allProjectsRow = [];
+    allProjects.forEach((item) => {
+      const tempItem = { ...item };
+      tempItem.thumb_image = `uploads/projects/${item.thumb_image}`;
+      allProjectsRow.push(tempItem);
+    });
+    return res.json({ data: allProjectsRow });
+  }
+
+  //Get create Project form CMS Controller
+  @Get('create-project')
+  async getCreateProject(@Res() res: Response) {
+    return res.render('projects/create', { layout: 'main' });
+  }
+
+  //Post create Project CMS Controller
+  @Post('create-Project')
+  @UseInterceptors(FileInterceptor('file', fileUpload(`projects`)))
+  async createProject(
+    @Body() body,
+    @Res() res: Response,
+    @Req() req: Request,
+    @UploadedFile() file,
+  ) {
+    try {
+      const createdProject = await this.projectService.createProject({
+        title: body.title,
+        description: body.description,
+        thumb_image: file.filename,
+        project_link: body.project_link,
+        project_location: body.project_location,
+      });
+      console.log(createdProject);
+      return res.json({
+        status: 'Success',
+        message: 'Successfully created Project!',
+      });
+    } catch (error) {
+      return res.json({
+        status: 'Failed',
+        message: error.message,
+      });
+    }
+  }
+
+  //View Project CMS Controller
+  @Get('view-project')
+  async viewProject(@Query('id') id, @Res() res: Response) {
+    const viewingProject = await this.projectService.viewProject(id);
+    return res.render('projects/read', {
+      layout: 'main',
+      data: {
+        title: viewingProject.title,
+        description: viewingProject.description,
+        thumb_image: `${process.env.BASE_URL}/uploads/projects/${viewingProject.thumb_image}`,
+        project_link: viewingProject.project_link,
+        project_location: viewingProject.project_location,
+      },
+    });
+  }
+
+  //Delete Project CMS Controller
+  @Post(':id')
+  async deleteProject(@Param('id') id, @Res() res: Response) {
+    try {
+      const deletedProject = await this.projectService.deleteProject(id);
+      return res.json({
+        status: 'Success',
+        message: 'Project deleted successfully!',
+      });
+    } catch (error) {
+      return res.json({
+        status: 'Failed',
+        message: error.message,
+      });
+    }
+  }
+}

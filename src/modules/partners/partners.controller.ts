@@ -21,7 +21,7 @@ export class PartnersController {
 
   //Get all partners CMS Controller
   @Get()
-  async getAllPartners(@Res() res: Response) {
+  async getAllPartners(@Res() res: Response, @Query('keywords') keywords) {
     const allPartners = await this.partnersService.getAllPartners();
     const allPartnersRow = [];
     allPartners.forEach((item) => {
@@ -29,10 +29,12 @@ export class PartnersController {
       tempItem.partner_logo = `uploads/partners/${item.partner_logo}`;
       allPartnersRow.push(tempItem);
     });
-    console.log(allPartnersRow);
-    return res.render('partners/partners', {
+    const filteredPartners = allPartnersRow.filter((partner) => {
+      return partner.name.toLowerCase().includes(keywords?.toLowerCase());
+    });
+    return res.render('partners/list', {
       layout: 'main',
-      row: allPartnersRow,
+      row: !keywords ? allPartnersRow : filteredPartners,
     });
   }
 
@@ -52,7 +54,7 @@ export class PartnersController {
   //Get partner adding form CMS controller
   @Get('create-partner')
   async getCreatePartner(@Res() res: Response) {
-    return res.render('partners/create-partner-form', { layout: 'main' });
+    return res.render('partners/create', { layout: 'main' });
   }
 
   //Post partners CMS Controller
@@ -86,7 +88,7 @@ export class PartnersController {
   async getEditPartner(@Res() res: Response, @Query('id') id) {
     const partner = await this.partnersService.getOnePartner(id);
     console.log(partner);
-    res.render('partners/edit-partner-form', {
+    res.render('partners/update', {
       layout: 'main',
       data: {
         name: partner.name,

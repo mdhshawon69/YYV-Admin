@@ -10,6 +10,7 @@ import {
   UseInterceptors,
   UnauthorizedException,
   Body,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -20,9 +21,16 @@ import { ObjectId } from 'mongodb';
 export class UserController {
   constructor(private readonly userService: UserService) {}
   @Get()
-  async getUsers(@Res() res: Response) {
+  async getUsers(@Res() res: Response, @Query('keywords') keywords) {
     const users = await this.userService.getAllUser();
-    res.render('user/users', { layout: 'main', users: users });
+    const filteredUsers = users.filter((user) => {
+      return user.name.toLowerCase().includes(keywords?.toLowerCase());
+    });
+
+    res.render('user/list', {
+      layout: 'main',
+      users: !keywords ? users : filteredUsers,
+    });
   }
 
   @Get('add-user')
@@ -32,7 +40,7 @@ export class UserController {
     if (!jwt) {
       throw new UnauthorizedException();
     } else {
-      res.render('user/addUser', { layout: 'main' });
+      res.render('user/create', { layout: 'main' });
     }
   }
 

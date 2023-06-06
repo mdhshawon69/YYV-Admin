@@ -1,0 +1,93 @@
+<div
+  class='shadow-lg min-h-fit rounded-md bg-gray-50 dark:bg-gray-800 md:my-10 mt-24 md:mx-20 mx-3'
+>
+
+  <div class='flex items-center w-full mx-auto p-6'>
+    <div class='flex-1 self-start md:w-1/2 mx-auto rounded-lg'>
+      <div class='overflow-y-auto md:flex-row'>
+        <div class='flex justify-between items-center'>
+          <h1
+            class='text-gray-800 dark:text-gray-200 text-xl md:text-4xl px-6 font-bold'
+          >Create Blog</h1>
+          <a
+            class='border border-purple-700 p-2 rounded-md hover:bg-purple-700 hover:text-white dark:bg:text-purple-700 dark:hover:text-white transition-all font-semibold flex justify-center items-center gap-1 dark:text-white'
+            href='/blogs'
+          >Back to list <i class='fa-solid fa-list'></i></a>
+        </div>
+        <div class='p-6 w-full'>
+
+          <form
+            class='w-full'
+            id='form'
+            x-data='{user: {
+          email: null,
+          password: null
+        }}'
+            @submit.prevent=''
+          >
+            <div class='space-y-5'>
+              <label class='block text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>Blog Type</span>
+                <select
+                  name='blog_type'
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                >
+                  <option selected disabled>Please select an option</option>
+                  <option value='news'>News</option>
+                  <option value='views'>Views</option>
+                  <option value='stories'>Stories</option>
+                  <option value='newsletter'>Newsletter</option>
+                </select>
+              </label>
+              <label class='block text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>Title</span>
+                <input
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  placeholder='Jane Doe'
+                  name='blog_title'
+                />
+              </label>
+              <label class='block text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>Thumb Image</span>
+                <input
+                  type='file'
+                  class='block w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  placeholder='Jane Doe'
+                  name='file'
+                />
+              </label>
+              <label class='block text-sm'>
+                <span
+                  class='text-gray-700 dark:text-gray-400'
+                >Description</span>
+                {{! <input
+                  class='block w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  placeholder='Jane Doe'
+                  name='partner_link'
+                /> }}
+                <div name='blog_description' id='editor'></div>
+                <input
+                  type='hidden'
+                  id='editor-content'
+                  name='blog_description'
+                />
+              </label>
+
+            </div>
+
+            <!-- You should use a button here, as the anchor is only used for the example  -->
+            <button
+              class='block px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple'
+            >
+              Create
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Initialize Quill editor -->
+<script src='https://cdn.jsdelivr.net/npm/quill-delta-to-html'></script>
+<script src='/js/create-blog.js' defer></script>

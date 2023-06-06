@@ -12,6 +12,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { mongooseConfig } from './config/mongoose.config';
 import { PartnersModule } from './modules/partners/partners.module';
 import { BlogModule } from './modules/blog/blog.module';
+import { ProjectsModule } from './modules/projects/projects.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { BlogModule } from './modules/blog/blog.module';
     OurImpactModule,
     PartnersModule,
     BlogModule,
+    ProjectsModule,
   ],
   controllers: [AppController],
   providers: [

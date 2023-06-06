@@ -5,18 +5,41 @@
 >
   <div x-data='{open: false}'>
     <div class='container px-6 mx-auto mb-8'>
-      <div class='flex justify-between items-center'>
+      <div
+        class='flex lg:flex-row flex-col justify-between items-center lg:mb-0 mb-5'
+      >
         <h2
-          class='my-6 text-4xl font-semibold text-gray-700 dark:text-gray-200'
+          class='my-6 text-4xl font-semibold text-gray-700 dark:text-gray-200 lg:w-auto w-full'
         >
           Blogs
         </h2>
-        <a
-          href='/blogs/create-blog'
-          class='text-white py-4 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs'
+        <div
+          class='flex lg:flex-row flex-col justify-center items-center gap-3'
         >
-          Create Blog
-        </a>
+          <form action='/blogs' method='GET' class='flex gap-3'>
+            <input
+              type='text'
+              class='rounded px-2 dark:bg-gray-700 dark:text-gray-200'
+              placeholder='Keywords'
+              name='keywords'
+            />
+            <button
+              class='text-white py-3 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs'
+              type='submit'
+            >Filter
+              <i class='fa-solid fa-magnifying-glass'></i></button>
+          </form>
+          <a
+            href='/blogs'
+            class='text-white py-3 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs lg:w-auto w-full md:text-none text-center'
+          >Reset
+            <i class='fa-sharp fa-solid fa-arrow-rotate-right'></i></a>
+          <a
+            href='/blogs/create-blog'
+            class='text-white py-3 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs lg:w-auto w-full md:text-none text-center'
+          >Create blog</a>
+
+        </div>
       </div>
 
       <div class='w-full overflow-hidden rounded-lg shadow-xs'>
@@ -49,8 +72,8 @@
                   <td class='px-4 py-3 text-sm'>{{this.type}}</td>
                   <td class='px-4 py-3 text-sm'><img src={{this.thumb_image}} class="w-20 h-auto object-contain" alt=""></td>
                   
-                  <td class='px-4 py-3 text-sm space-x-2'><button
-                      x-data
+                  <td class='px-4 py-3 text-sm space-x-2'><button id="deleteBtn"
+                      
                      @click="function deleteBlog() {
                   Swal.fire({
                   title: 'Are you sure?',
@@ -87,10 +110,10 @@
                     >
                       <i class='fa-sharp fa-solid fa-trash text-red-500'></i>
                     </button>
-                    <a href='/blogs/edit-blog?id={{this._id}}'><i
+                    <a href='/blogs/edit-blog?id={{this._id}}' id="editBtn"><i
               class='fa-solid fa-pen-to-square text-blue-600'
             ></i></a>
-            <a href='/blogs/view-blog?id={{this._id}}'><i class="fa-solid fa-eye"></i></a>
+            <a href='/blogs/view-blog?id={{this._id}}' id="viewBtn"><i class="fa-solid fa-eye text-blue-400 "></i></a>
                   </td>
                 </tr>
               {{/each}}
@@ -196,3 +219,9 @@
         </div>
       </div>
     </div>
+
+    <script>
+      tippy('#deleteBtn', { content: 'Delete' }); tippy('#editBtn', {
+  content: 'Edit' }); tippy('#viewBtn', {
+  content: 'View' });
+    </script>

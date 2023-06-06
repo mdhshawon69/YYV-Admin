@@ -19,13 +19,18 @@ export class OurImpactController {
 
   //Get all impact numbers CMS Controller
   @Get()
-  async getImpactNumbers(@Res() res: Response) {
+  async getImpactNumbers(@Res() res: Response, @Query('keywords') keywords) {
     try {
       const impactNumbers = await this.ourImpactService.getImpactNumbers();
+      const filteredImpactNumbers = impactNumbers.filter((impactNumber) => {
+        return impactNumber.title
+          .toLowerCase()
+          .includes(keywords?.toLowerCase());
+      });
 
-      return res.render('our-impact/our_impacts', {
+      return res.render('our-impact/list', {
         layout: 'main',
-        impactNumbers,
+        data: !keywords ? impactNumbers : filteredImpactNumbers,
       });
     } catch (error) {
       throw new Error('An error occured');
@@ -46,7 +51,7 @@ export class OurImpactController {
   //Get impact number adding form CMS Controller
   @Get('add-impact-number')
   async getAddImpactNumber(@Res() res: Response) {
-    return res.render('impact_number_form', { layout: 'main' });
+    return res.render('our-impact/create', { layout: 'main' });
   }
 
   //Post impact number CMS Controller
@@ -79,7 +84,7 @@ export class OurImpactController {
       query.id,
     );
 
-    return res.render('impact_number_edit_form', {
+    return res.render('our-impact/update', {
       layout: 'main',
       data: {
         title: impactNumber.title,

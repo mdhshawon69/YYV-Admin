@@ -3,22 +3,20 @@
 >
 
   <div class='flex items-center w-full mx-auto p-6'>
-    <div class='flex-1 self-start md:w-1/2 mx-auto overflow-hidden rounded-lg'>
+    <div class='flex-1 self-start md:w-1/2 mx-auto rounded-lg'>
       <div class='overflow-y-auto md:flex-row'>
-        <h1
-          class='text-gray-800 dark:text-gray-200 text-xl md:text-4xl px-6 font-bold'
-        >Create Partner</h1>
+        <div class='flex justify-between items-center'>
+          <h1
+            class='text-gray-800 dark:text-gray-200 text-xl md:text-4xl px-6 font-bold'
+          >Create Partner</h1>
+          <a
+            class='border border-blue-400 p-2 rounded-md hover:bg-blue-400 hover:text-white dark:bg:text-blue-400 dark:hover:text-white transition-all font-semibold flex justify-center items-center gap-1 dark:text-white'
+            href='/partners'
+          >Back to list <i class='fa-solid fa-list'></i></a>
+        </div>
         <div class='p-6 w-full'>
 
-          <form
-            class='w-full'
-            id='form'
-            x-data='{user: {
-          email: null,
-          password: null
-        }}'
-            @submit.prevent=''
-          >
+          <form class='w-full' id='form' @submit.prevent=''>
             <div class='space-y-5'>
               <label class='block text-sm'>
                 <span class='text-gray-700 dark:text-gray-400'>Partner Name</span>

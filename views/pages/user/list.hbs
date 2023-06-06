@@ -1,20 +1,43 @@
 <div
-  class='shadow-lg min-h-fit rounded-md bg-gray-50 dark:bg-gray-800 md:my-10 mt-24 md:mx-20 mx-3'
+  class='shadow-lg min-h-fit rounded-md bg-gray-50 dark:bg-gray-800 md:my-10 mt-24 lg:mx-20 mx-3'
 >
   <div x-data='{open: false}'>
     <div class='container px-6 mx-auto mb-8'>
-      <div class='flex justify-between items-center'>
+      <div
+        class='flex lg:flex-row flex-col justify-between items-center lg:mb-0 mb-5'
+      >
         <h2
-          class='my-6 text-4xl font-semibold text-gray-700 dark:text-gray-200'
+          class='my-6 text-4xl font-semibold text-gray-700 dark:text-gray-200 lg:w-auto w-full'
         >
           Users
         </h2>
-        <a
-          href='/users/add-user'
-          class='text-white py-4 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs'
+        <div
+          class='flex lg:flex-row flex-col justify-center items-center gap-3'
         >
-          Create User
-        </a>
+          <form action='/users' method='GET' class='flex gap-3'>
+            <input
+              type='text'
+              class='rounded px-2 dark:bg-gray-700 dark:text-gray-200'
+              placeholder='Keywords'
+              name='keywords'
+            />
+            <button
+              class='text-white py-3 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs'
+              type='submit'
+            >Filter
+              <i class='fa-solid fa-magnifying-glass'></i></button>
+          </form>
+          <a
+            href='/users'
+            class='text-white py-3 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs lg:w-auto w-full md:text-none text-center'
+          >Reset
+            <i class='fa-sharp fa-solid fa-arrow-rotate-right'></i></a>
+          <a
+            href='/users/add-user'
+            class='text-white py-3 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs lg:w-auto w-full md:text-none text-center'
+          >Create user</a>
+
+        </div>
       </div>
 
       <div class='w-full overflow-hidden rounded-lg shadow-xs'>
@@ -69,6 +92,7 @@
                     </button>
                   </td>
                   <td class='px-4 py-3 text-sm space-x-2'><button
+                      id='deleteBtn'
                       x-data
                       @click="function deleteUser() {
                   Swal.fire({
@@ -106,7 +130,7 @@
                     >
                       <i class='fa-sharp fa-solid fa-trash text-red-500'></i>
                     </button>
-                    <button @click='open = true'><i
+                    <button @click='open = true' id='editBtn'><i
                         class='fa-solid fa-pen-to-square text-blue-600'
                       ></i></button>
                   </td>
@@ -254,15 +278,7 @@
           </div>
           <!-- Modal body -->
           <div class='p-6 space-y-6'>
-            <form
-              class='w-full'
-              id='form'
-              x-data='{user: {
-          email: null,
-          password: null
-        }}'
-              @submit.prevent=''
-            >
+            <form class='w-full' id='form' @submit.prevent=''>
               <label class='block text-sm'>
                 <span class='text-gray-700 dark:text-gray-400'>Old Password</span>
                 <input
@@ -318,5 +334,6 @@
   showConfirmButton: false, timer: 1500 }); setTimeout(() =>
   {location.replace('/users'), 1000})} else { Swal.fire({ position: 'top-end',
   icon: 'error', title: 'User already exist!', showConfirmButton: false, timer:
-  1500 })}})
+  1500 })}}); tippy('#deleteBtn', { content: 'Delete' }); ; tippy('#editBtn', {
+  content: 'Edit' });
 </script>
