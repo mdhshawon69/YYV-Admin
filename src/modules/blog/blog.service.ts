@@ -21,6 +21,11 @@ export class BlogService {
     return await this.blogModel.findById(id);
   }
 
+  async editBlog(id, blog) {
+    console.log(id);
+    return await this.blogModel.findByIdAndUpdate(id, blog);
+  }
+
   async deleteBlog(id) {
     return await this.blogModel.findByIdAndDelete(id);
   }

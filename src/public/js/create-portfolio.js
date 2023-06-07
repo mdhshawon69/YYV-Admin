@@ -3,7 +3,7 @@ const form = document.querySelector('#form'); // form submit handler
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const formData = new FormData(form);
-  const response = await fetch('/partners/create-partner', {
+  const response = await fetch('/portfolio/create-portfolio', {
     method: 'POST',
     body: formData,
   });
@@ -16,7 +16,7 @@ form.addEventListener('submit', async (e) => {
       timer: 1500,
     });
     setTimeout(() => {
-      location.replace('/partners'), 1000;
+      location.replace('/portfolio'), 1000;
     });
   } else {
     Swal.fire({

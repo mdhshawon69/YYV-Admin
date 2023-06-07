@@ -11,6 +11,7 @@ import {
   UploadedFile,
   Param,
   Query,
+  Put,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { fileUpload } from 'src/config/multer.config';
@@ -88,9 +89,7 @@ export class BlogController {
   //View Blog CMS Controller
   @Get('view-blog')
   async viewBlog(@Query('id') id, @Res() res: Response) {
-    console.log(id);
     const viewingBlog = await this.blogService.viewBlog(id);
-    console.log(viewingBlog);
     return res.render('blogs/read', {
       layout: 'main',
       data: {
@@ -100,6 +99,44 @@ export class BlogController {
         thumb_image: `${process.env.BASE_URL}/uploads/blog/${viewingBlog.thumb_image}`,
       },
     });
+  }
+
+  //Get Blog edit form CMS Controller
+  @Get('edit-blog')
+  async getEditBlog(@Query('id') id, @Res() res: Response) {
+    const viewingBlog = await this.blogService.viewBlog(id);
+    return res.render('blogs/update', {
+      layout: 'main',
+      data: {
+        type: viewingBlog.type,
+        title: viewingBlog.title,
+        description: viewingBlog.description,
+        thumb_image_source: viewingBlog.thumb_image,
+        thumb_image: `${process.env.BASE_URL}/uploads/blog/${viewingBlog.thumb_image}`,
+      },
+    });
+  }
+
+  //Edit Blog CMS Controller
+  @Put('edit-blog/:id')
+  @UseInterceptors(FileInterceptor('file', fileUpload(`blog`)))
+  async editBlog(
+    @Body() body,
+    @Param('id') id,
+    @Res() res: Response,
+    @UploadedFile() file,
+  ) {
+    try {
+      const editedBlog = await this.blogService.editBlog(id, {
+        title: body.blog_title,
+        description: body.blog_description,
+        type: body.blog_type,
+        thumb_image: file?.filename,
+      });
+      res.json({ status: 'success', message: 'Successfully edited the blog!' });
+    } catch (error) {
+      res.json({ status: 'failed', message: 'Cannot edit the blog' });
+    }
   }
 
   //Delete Blog CMS Controller

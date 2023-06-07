@@ -33,7 +33,7 @@ form.addEventListener('submit', async (e) => {
   e.preventDefault();
   document.getElementById('editor-content').value = quill.root.innerHTML;
   const formData = new FormData(form);
-  const response = await fetch(`/projects/edit-project/${id}`, {
+  const response = await fetch(`/blogs/edit-blog/${id}`, {
     method: 'PUT',
     body: formData,
   });
@@ -46,7 +46,7 @@ form.addEventListener('submit', async (e) => {
       timer: 1500,
     });
     setTimeout(() => {
-      location.replace('/projects'), 1000;
+      location.replace('/blogs'), 1000;
     });
   } else {
     Swal.fire({

@@ -8,42 +8,52 @@
         <div class='flex justify-between items-center'>
           <h1
             class='text-gray-800 dark:text-gray-200 text-xl md:text-4xl px-6 font-bold'
-          >Create Impact</h1>
+          >Create Portfolio</h1>
           <a
             class='text-white py-3 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs'
-            href='/our-impact'
+            href='/partners'
           >Back to list <i class='fa-solid fa-list'></i></a>
         </div>
         <div class='p-6 w-full'>
 
-          <form
-            class='w-full'
-            id='form'
-            x-data='{user: {
-          email: null,
-          password: null
-        }}'
-            @submit.prevent=''
-          >
+          <form class='w-full' id='form' @submit.prevent=''>
             <div class='space-y-5'>
               <label class='block text-sm'>
-                <span class='text-gray-700 dark:text-gray-400'>Impact Title</span>
-                <input
+                <span class='text-gray-700 dark:text-gray-400'>Portfolio Type</span>
+                <select
+                  name='portfolio_type'
                   class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                >
+                  <option selected disabled>Please select an option</option>
+                  <option value='program_alumni'>Program Alumni</option>
+                  <option value='venture_investment'>Venture Investment</option>
+                </select>
+              </label>
+              <label class='block text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>Company Name</span>
+                <input
+                  class='block w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
                   placeholder='Jane Doe'
-                  name='title'
+                  name='company_name'
                 />
               </label>
               <label class='block text-sm'>
-                <span class='text-gray-700 dark:text-gray-400'>Impact Number</span>
+                <span class='text-gray-700 dark:text-gray-400'>Company Link</span>
                 <input
-                  x-model='user.email'
                   class='block w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
                   placeholder='Jane Doe'
-                  name='impact_number'
+                  name='company_link'
                 />
               </label>
-
+              <label class='block text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>Company Logo</span>
+                <input
+                  type='file'
+                  class='block w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  placeholder='Jane Doe'
+                  name='file'
+                />
+              </label>
             </div>
 
             <!-- You should use a button here, as the anchor is only used for the example  -->
@@ -59,4 +69,4 @@
   </div>
 </div>
 
-<script src='/js/our-impact.js' defer></script>
+<script src='/js/create-portfolio.js' defer></script>

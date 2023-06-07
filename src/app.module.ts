@@ -13,6 +13,8 @@ import { mongooseConfig } from './config/mongoose.config';
 import { PartnersModule } from './modules/partners/partners.module';
 import { BlogModule } from './modules/blog/blog.module';
 import { ProjectsModule } from './modules/projects/projects.module';
+import { PortfolioController } from './modules/portfolio/portfolio.controller';
+import { PortfolioModule } from './modules/portfolio/portfolio.module';
 
 @Module({
   imports: [
@@ -30,6 +32,7 @@ import { ProjectsModule } from './modules/projects/projects.module';
     PartnersModule,
     BlogModule,
     ProjectsModule,
+    PortfolioModule,
   ],
   controllers: [AppController],
   providers: [

@@ -4,8 +4,8 @@ import { AppModule } from './app.module';
 import { resolve, join } from 'path';
 import * as hbs from 'express-handlebars';
 import { UnauthorizedExceptionFilter } from './helpers/unauthorized-exceptions-filter';
-import { registerHandlebarsHelpers } from './helpers/hbs-helper';
 import { config } from 'dotenv';
+import { eq, trim } from './helpers/hbs-helper';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -13,7 +13,7 @@ async function bootstrap() {
   config();
   app.useStaticAssets(resolve('./src/public'));
   app.setBaseViewsDir(resolve('./views/pages'));
-  registerHandlebarsHelpers();
+
   app.engine(
     'hbs',
     hbs({
@@ -21,6 +21,10 @@ async function bootstrap() {
       partialsDir: join(__dirname, '..', 'views/partials'),
       defaultLayout: 'main',
       layoutsDir: resolve(__dirname, '..', 'views/layouts'),
+      helpers: {
+        eq: eq,
+        trim: trim,
+      },
     }),
   );
 

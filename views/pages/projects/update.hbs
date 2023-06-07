@@ -1,17 +1,17 @@
 <div
-  class='shadow-lg min-h-fit rounded-md bg-gray-50 dark:bg-gray-800 md:my-10 mt-24 lg:mx-20 mx-3'
+  class='shadow-lg min-h-fit rounded-md bg-gray-50 dark:bg-gray-800 md:my-10 mt-24 md:mx-20 mx-3'
 >
 
   <div class='flex items-center w-full mx-auto p-6'>
     <div class='flex-1 self-start md:w-1/2 mx-auto rounded-lg'>
-      <div class='overflow-y-auto md:flex-row'>
+      <div class='md:flex-row'>
         <div class='flex justify-between items-center'>
           <h1
             class='text-gray-800 dark:text-gray-200 text-xl md:text-4xl px-6 font-bold'
-          >Edit Blog</h1>
+          >Edit Project</h1>
           <a
             class='text-white py-3 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs'
-            href='/blogs'
+            href='/projects'
           >Back to list <i class='fa-solid fa-list'></i></a>
         </div>
         <div class='p-6 w-full'>
@@ -19,25 +19,12 @@
           <form class='w-full' id='form' @submit.prevent=''>
             <div class='space-y-5'>
               <label class='block text-sm'>
-                <span class='text-gray-700 dark:text-gray-400'>Blog Type</span>
-                <select
-                  name='blog_type'
-                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
-                >
-                  <option>Please select an option</option>
-                  <option value='news' {{#if (eq data.type "news")}}selected{{else}}none{{/if}}>News</option>
-                  <option value='views' {{#if (eq data.type "views")}}selected{{else}}none{{/if}}>Views</option>
-                  <option value='stories' {{#if (eq data.type "stories")}}"selected"{{else}}"none"{{/if}}>Stories</option>
-                  <option value='newsletter' {{#if (eq data.type "newsletter")}}"selected"{{else}}"none"{{/if}}>Newsletter</option>
-                </select>
-              </label>
-              <label class='block text-sm'>
                 <span class='text-gray-700 dark:text-gray-400'>Title</span>
                 <input
                   class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
                   placeholder='Jane Doe'
-                  name='blog_title'
-                  value="{{data.title}}"
+                  name='title'
+                  value='{{data.title}}'
                 />
               </label>
               <label class='block text-sm'>
@@ -45,10 +32,10 @@
                 <div class='flex justify-between gap-2'>
                   <input
                     type='file'
-                    class='block w-full text-sm h-11 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                    class='block w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input h-11'
                     placeholder='Jane Doe'
                     name='file'
-                    value="{{data.thumb_image_source}}"
+                    value='{{data.thumb_image_source}}'
                   />
                   <img
                     class='md:w-52 w-20 h-auto fit-contain border dark:border-gray-200 p-3 rounded'
@@ -59,15 +46,33 @@
 
               </label>
               <label class='block text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>Project Link</span>
+                <input
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  placeholder='Jane Doe'
+                  name='project_link'
+                  value='{{data.project_link}}'
+                />
+              </label>
+              <label class='block text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>Project Location</span>
+                <input
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  placeholder='Jane Doe'
+                  name='project_location'
+                  value='{{data.project_location}}'
+                />
+              </label>
+              <label class='block text-sm'>
                 <span
                   class='text-gray-700 dark:text-gray-400'
                 >Description</span>
-                <div name='blog_description' id='editor'></div>
+                <div name='description' id='editor'></div>
                 <input
                   type='hidden'
                   id='editor-content'
-                  name='blog_description'
-                  value="{{data.description}}"
+                  name='description'
+                  value='{{data.description}}'
                 />
               </label>
 
@@ -86,14 +91,11 @@
   </div>
 </div>
 
-<!-- Initialize Quill editor -->
 <script>
-    var quill = new Quill('#editor', {
-        theme: 'snow',
-    });
-    const content = document.getElementById('editor-content').value;
-    quill.clipboard.dangerouslyPasteHTML(content);
-    const plainText = quill.getText()
+  var quill = new Quill('#editor', { theme: 'snow', }); const content =
+  document.getElementById('editor-content').value;
+  quill.clipboard.dangerouslyPasteHTML(content); const plainText =
+  quill.getText()
 </script>
-<script src='https://cdn.jsdelivr.net/npm/quill-delta-to-html'></script>
-<script src='/js/edit-blog.js' defer></script>
+
+<script src='/js/create-project.js' defer></script>

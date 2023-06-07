@@ -21,6 +21,10 @@ export class ProjectsService {
     return await this.ProjectModel.findById(id);
   }
 
+  async editProject(id, project) {
+    return await this.ProjectModel.findByIdAndUpdate(id, project);
+  }
+
   async deleteProject(id) {
     return await this.ProjectModel.findByIdAndDelete(id);
   }

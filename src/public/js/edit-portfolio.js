@@ -1,10 +1,12 @@
 /* eslint-disable prettier/prettier */
-const form = document.querySelector('#form'); // form submit handler
+const form = document.querySelector('#form');
+const id = location.search.split('?id=')[1];
+// form submit handler
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const formData = new FormData(form);
-  const response = await fetch('/partners/create-partner', {
-    method: 'POST',
+  const response = await fetch(`/portfolio/edit-portfolio/${id}`, {
+    method: 'PUT',
     body: formData,
   });
   const result = await response.json();
@@ -16,7 +18,7 @@ form.addEventListener('submit', async (e) => {
       timer: 1500,
     });
     setTimeout(() => {
-      location.replace('/partners'), 1000;
+      location.replace('/portfolio'), 1000;
     });
   } else {
     Swal.fire({

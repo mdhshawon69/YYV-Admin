@@ -1,5 +1,7 @@
+{{!-- Impact table --}}
+
 <div
-  class='shadow-lg min-h-fit rounded-md bg-gray-50 dark:bg-gray-800 md:my-10 mt-24 lg:mx-20 mx-3'
+  class='shadow-lg min-h-fit rounded-md bg-gray-50 dark:bg-gray-800 md:my-10 mt-24 md:mx-20 mx-3'
 >
   <div x-data='{open: false}'>
     <div class='container px-6 mx-auto mb-8'>
@@ -9,12 +11,12 @@
         <h2
           class='my-6 text-4xl font-semibold text-gray-700 dark:text-gray-200 lg:w-auto w-full'
         >
-          Users
+          Portfolio
         </h2>
         <div
           class='flex lg:flex-row flex-col justify-center items-center gap-3'
         >
-          <form action='/users' method='GET' class='flex gap-3'>
+          <form action='/portfolio' method='GET' class='flex gap-3'>
             <input
               type='text'
               class='rounded px-2 dark:bg-gray-700 dark:text-gray-200'
@@ -28,14 +30,14 @@
               <i class='fa-solid fa-magnifying-glass'></i></button>
           </form>
           <a
-            href='/users'
+            href='/portfolio'
             class='text-white py-3 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs lg:w-auto w-full md:text-none text-center'
           >Reset
             <i class='fa-sharp fa-solid fa-arrow-rotate-right'></i></a>
           <a
-            href='/users/add-user'
+            href='/portfolio/create-portfolio'
             class='text-white py-3 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs lg:w-auto w-full md:text-none text-center'
-          >Create user</a>
+          >Create portfolio</a>
 
         </div>
       </div>
@@ -47,56 +49,46 @@
               <tr
                 class='text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800'
               >
-                <th class='px-4 py-3'>User</th>
-                <th class='px-4 py-3'>Role</th>
-                <th class='px-4 py-3'>Status</th>
+                <th class='px-4 py-3'>Company Name</th>
+                <th class='px-4 py-3'>Company Logo</th>
+                <th class='px-4 py-3'>Category</th>
+                <th class='px-4 py-3'>Company Link</th>
                 <th class='px-4 py-3'>Actions</th>
               </tr>
             </thead>
             <tbody
               class='bg-white divide-y dark:divide-gray-700 dark:bg-gray-800'
             >
-              {{#each users}}
+              {{#each row}}
                 <tr class='text-gray-700 dark:text-gray-400'>
-                  <td class='px-4 py-3'>
+                    <td class='px-4 py-3'>
                     <div class='flex items-center text-sm'>
-                      <!-- Avatar with inset shadow -->
-                      <div
-                        class='relative hidden w-8 h-8 mr-3 rounded-full md:block'
-                      >
-                        <img
-                          class='object-cover w-full h-full rounded-full'
-                          src='https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ'
-                          alt=''
-                          loading='lazy'
-                        />
-                        <div
-                          class='absolute inset-0 rounded-full shadow-inner'
-                          aria-hidden='true'
-                        ></div>
-                      </div>
                       <div>
-                        <p class='font-semibold'>{{this.name}}</p>
-                        <p class='text-xs text-gray-600 dark:text-gray-400'>
-                          YY Ventures
-                        </p>
+                        <p class='font-semibold text-sm'>{{this.company_name}}</p>
                       </div>
                     </div>
                   </td>
-                  <td class='px-4 py-3 text-sm'>Admin</td>
-                  <td class='px-4 py-3 text-xs'>
-                    <button
-                      class='px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100'
-                    >
-                      Active
-                    </button>
+                  <td class='px-4 py-3 text-sm'><img class="fit-contain  w-20 h-auto" src="{{this.company_logo}}" alt=""></td>
+                  <td class='px-4 py-3'>
+                    <div class='flex items-center text-sm'>
+                      <div>
+                        <p class='font-semibold text-sm'>{{this.type}}</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td class='px-4 py-3'>
+                    <div class='flex items-center text-sm'>
+                      <div>
+                        <p class='font-semibold text-sm text-blue-500'><a href="{{this.partner_link}}" target="_blank">{{trim this.company_link}}...</a></p>
+                      </div>
+                    </div>
                   </td>
                   <td class='px-4 py-3 text-sm space-x-2'><button
-                      id='deleteBtn'
-                      @click="function deleteUser() {
+                      id="deleteBtn"
+                     @click="function deletePortfolio() {
                   Swal.fire({
                   title: 'Are you sure?',
-                  text: 'The user will be deleted permanently',
+                  text: 'The partner will be deleted permanently',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonColor: '#3085d6',
@@ -104,34 +96,34 @@
                   confirmButtonText: 'Delete'
                 }).then((result) => {
                   if (result.isConfirmed) {
-                    fetch(`/users/{{this._id}}`, {
+                    fetch(`/portfolio/{{this._id}}`, {
                       method: 'POST',
                     }).then((response) => {if(response.ok) {
                       console.log(response)
                       Swal.fire(
                       'Successful!',
-                      'Successfully deleted user',
+                      'Successfully deleted portfolio',
                       'success'
                       )
                       setTimeout(() => {
-                        location.replace('/users')
+                        location.replace('/portfolio')
                       }, 1500)
                     } else {
                       Swal.fire(
                       'An error has occurred!',
-                      `Admin cannot delete himself`,
+                      `Cannot delete partner`,
                       'error'
                       )
                     }})
                   }
 })
-                } deleteUser()"
+                } deletePortfolio()"
                     >
                       <i class='fa-sharp fa-solid fa-trash text-red-500'></i>
                     </button>
-                    <button @click='open = true' id='editBtn'><i
-                        class='fa-solid fa-pen-to-square text-blue-600'
-                      ></i></button>
+                    <a href='/portfolio/edit-portfolio?id={{this._id}}' id="editBtn"><i
+              class='fa-solid fa-pen-to-square text-blue-600'
+            ></i></a>
                   </td>
                 </tr>
               {{/each}}
@@ -238,99 +230,7 @@
       </div>
     </div>
 
-    <div
-      x-show='open'
-      id='defaultModal'
-      tabindex='-1'
-      aria-hidden='true'
-      class='fixed top-0 left-0 right-0 z-50 w-full flex justify-center items-center p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full bg-black bg-opacity-75'
-    >
-      <div class='relative w-full max-w-2xl max-h-full'>
-        <!-- Modal content -->
-        <div class='relative bg-white rounded-lg shadow dark:bg-gray-700'>
-          <!-- Modal header -->
-          <div
-            class='flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600'
-          >
-            <h3 class='text-xl font-semibold text-gray-900 dark:text-white'>
-              Update User
-            </h3>
-            <button
-              @click='open = false'
-              type='button'
-              class='text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white'
-              data-modal-hide='defaultModal'
-            >
-              <svg
-                aria-hidden='true'
-                class='w-5 h-5'
-                fill='currentColor'
-                viewBox='0 0 20 20'
-                xmlns='http://www.w3.org/2000/svg'
-              ><path
-                  fill-rule='evenodd'
-                  d='M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z'
-                  clip-rule='evenodd'
-                ></path></svg>
-              <span class='sr-only'>Close modal</span>
-            </button>
-          </div>
-          <!-- Modal body -->
-          <div class='p-6 space-y-6'>
-            <form class='w-full' id='form' @submit.prevent=''>
-              <label class='block text-sm'>
-                <span class='text-gray-700 dark:text-gray-400'>Old Password</span>
-                <input
-                  class='block w-full mt-1 mb-4 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
-                  placeholder='Old Password'
-                  name='old_password'
-                  type='password'
-                />
-              </label>
-              <label class='block text-sm'>
-                <span class='text-gray-700 dark:text-gray-400'>New Password</span>
-                <input
-                  class='block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
-                  placeholder='New Password'
-                  name='new_password'
-                  type='password'
-                />
-              </label>
-              <label class='block mt-4 text-sm'>
-                <span class='text-gray-700 dark:text-gray-400'>Confirm New
-                  Password</span>
-                <input
-                  class='block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
-                  placeholder='Confirm New Password'
-                  type='password'
-                  name='confirm_password'
-                />
-              </label>
-
-              <!-- You should use a button here, as the anchor is only used for the example  -->
-              <button
-                class='block px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple'
-              >
-                Update
-              </button>
-            </form>
-          </div>
-          <!-- Modal footer -->
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-  const form = document.querySelector("#form"); // form submit handler
-  form.addEventListener('submit', async (e) => { e.preventDefault(); const
-  formData = new FormData(form); const response = await fetch('/users/add-user',
-  { method: 'POST', body: formData, }); if(response.ok) { Swal.fire({ position:
-  'top-end', icon: 'success', title: 'User added successfully!',
-  showConfirmButton: false, timer: 1500 }); setTimeout(() =>
-  {location.replace('/users'), 1000})} else { Swal.fire({ position: 'top-end',
-  icon: 'error', title: 'User already exist!', showConfirmButton: false, timer:
-  1500 })}}); tippy('#deleteBtn', { content: 'Delete' }); ; tippy('#editBtn', {
-  content: 'Edit' });
-</script>
+    <script>
+      tippy('#deleteBtn', { content: 'Delete' }); tippy('#editBtn', {
+  content: 'Edit' }); 
+    </script>

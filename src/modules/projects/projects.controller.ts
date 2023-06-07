@@ -11,6 +11,7 @@ import {
   UploadedFile,
   Param,
   Query,
+  Put,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { fileUpload } from 'src/config/multer.config';
@@ -84,6 +85,50 @@ export class ProjectsController {
         status: 'Failed',
         message: error.message,
       });
+    }
+  }
+
+  //Get Project edit form CMS Controller
+  @Get('edit-project')
+  async getEditBlog(@Query('id') id, @Res() res: Response) {
+    const viewingProject = await this.projectService.viewProject(id);
+    return res.render('projects/update', {
+      layout: 'main',
+      data: {
+        title: viewingProject.title,
+        description: viewingProject.description,
+        thumb_image_source: viewingProject.thumb_image,
+        thumb_image: `${process.env.BASE_URL}/uploads/projects/${viewingProject.thumb_image}`,
+        project_location: viewingProject.project_location,
+        project_link: viewingProject.project_link,
+      },
+    });
+  }
+
+  //Edit Project CMS Controller
+  @Put('edit-project/:id')
+  @UseInterceptors(FileInterceptor('file', fileUpload(`blog`)))
+  async editBlog(
+    @Body() body,
+    @Param('id') id,
+    @Res() res: Response,
+    @UploadedFile() file,
+  ) {
+    try {
+      const editedProject = await this.projectService.editProject(id, {
+        title: body.project_title,
+        description: body.project_description,
+        type: body.project_type,
+        thumb_image: file?.filename,
+        project_link: body.project_link,
+        project_location: body.project_location,
+      });
+      res.json({
+        status: 'success',
+        message: 'Successfully edited the project!',
+      });
+    } catch (error) {
+      res.json({ status: 'failed', message: 'Cannot edit the project' });
     }
   }
 
