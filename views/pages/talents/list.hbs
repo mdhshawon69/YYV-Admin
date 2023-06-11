@@ -67,13 +67,13 @@
                   <td class='px-4 py-3 text-xs'>
 
                     <button
-                      class='px-2 py-1 font-semibold leading-tight {{eq this.is_active true 'text-red-700 bg-red-100' 'text-green-700 bg-green-100' }} rounded-full {{eq this.is_active true 'dark:bg-red-700 dark:text-red-100' 'dark:bg-green-700 dark:text-green-100' }} '
+                      class='px-2 py-1 font-semibold leading-tight {{eq this.is_active true 'text-green-700 bg-green-100' 'text-red-700 bg-red-100' }} rounded-full {{eq this.is_active true  'dark:bg-green-700 dark:text-green-100''dark:bg-red-700 dark:text-red-100' }} '
                       @click="function toggleStatus() {
                         const formData = new FormData();
                         formData.append('status', {{this.is_active}})
                   Swal.fire({
                   title: 'Are you sure?',
-                  text:  {{this.is_active}} ? 'Do you want to activate the item?' : 'Do you want to deactivate the item?',
+                  text:  {{this.is_active}} ? 'Do you want to deactivate the item?' : 'Do you want to activate the item?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonColor: '#3085d6',
@@ -98,7 +98,7 @@
 })
                 } toggleStatus()"
                     >
-                      {{eq this.is_active true 'Inactive' 'Active'}}
+                      {{eq this.is_active true 'Active' 'Inactive'}}
                     </button>
                   </td>
                   <td class='px-4 py-3 text-sm space-x-2'><button
