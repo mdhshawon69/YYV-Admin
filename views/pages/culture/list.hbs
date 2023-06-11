@@ -11,12 +11,12 @@
         <h2
           class='my-6 text-4xl font-semibold text-gray-700 dark:text-gray-200 lg:w-auto w-full'
         >
-          Projects
+          Culture
         </h2>
         <div
           class='flex lg:flex-row flex-col justify-center items-center gap-3'
         >
-          <form action='/projects' method='GET' class='flex gap-3'>
+          <form action='/culture' method='GET' class='flex gap-3'>
             <input
               type='text'
               class='rounded px-2 dark:bg-gray-700 dark:text-gray-200'
@@ -30,14 +30,14 @@
               <i class='fa-solid fa-magnifying-glass'></i></button>
           </form>
           <a
-            href='/projects'
+            href='/culture'
             class='text-white py-3 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs lg:w-auto w-full md:text-none text-center'
           >Reset
             <i class='fa-sharp fa-solid fa-arrow-rotate-right'></i></a>
           <a
-            href='/projects/create-project'
+            href='/culture/create-culture'
             class='text-white py-3 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs lg:w-auto w-full md:text-none text-center'
-          >Create project</a>
+          >Create culture</a>
 
         </div>
       </div>
@@ -50,9 +50,7 @@
                 class='text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800'
               >
                 <th class='px-4 py-3'>Title</th>
-                <th class='px-4 py-3'>Location</th>
                 <th class='px-4 py-3'>Thumb Image</th>
-                <th class='px-4 py-3'>Project Link</th>
                 <th class='px-4 py-3'>Actions</th>
               </tr>
             </thead>
@@ -65,19 +63,18 @@
                     <div class='flex items-center text-sm'>
                       
                       <div>
-                        <p class='font-semibold text-sm'>{{this.title}}</p>
+                        <p class='font-semibold md:text-xl text-sm'>{{this.title}}</p>
+                       
                       </div>
                     </div>
                   </td>
-                  <td class='px-4 py-3 text-sm'>{{this.project_location}}</td>
-                  <td class='px-4 py-3 text-sm'><img src={{this.thumb_image}} class="w-20 h-auto object-contain" alt=""></td>
-                  <td class='px-4 py-3 text-sm text-blue-500'><a href="{{this.project_link}}" target="_blank">{{trim this.project_link}}...</a></td>
-                  <td class='px-4 py-3 text-sm space-x-2'><button id="deleteBtn"
-                      
-                     @click="function deleteProject() {
+                  <td class='px-4 py-3 md:text-xl text-sm'><img class="fit-contain md:w-40 w-20 h-auto" src="{{this.thumb_image}}" alt=""></td>
+                  <td class='px-4 py-3 text-sm space-x-2'><button
+                      id="deleteBtn"
+                     @click="function deletePartner() {
                   Swal.fire({
                   title: 'Are you sure?',
-                  text: 'The blog will be deleted permanently',
+                  text: 'The partner will be deleted permanently',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonColor: '#3085d6',
@@ -85,35 +82,35 @@
                   confirmButtonText: 'Delete'
                 }).then((result) => {
                   if (result.isConfirmed) {
-                    fetch(`/projects/{{this._id}}`, {
+                    fetch(`/partners/{{this._id}}`, {
                       method: 'POST',
                     }).then((response) => {if(response.ok) {
                       console.log(response)
                       Swal.fire(
                       'Successful!',
-                      'Successfully deleted the project',
+                      'Successfully deleted partner',
                       'success'
                       )
                       setTimeout(() => {
-                        location.replace('/projects')
+                        location.replace('/partners')
                       }, 1500)
                     } else {
                       Swal.fire(
                       'An error has occurred!',
-                      `Cannot delete deleted the project`,
+                      `Cannot delete partner`,
                       'error'
                       )
                     }})
                   }
 })
-                } deleteProject()"
+                } deletePartner()"
                     >
                       <i class='fa-sharp fa-solid fa-trash text-red-500'></i>
                     </button>
-                    <a href='/blogs/edit-blog?id={{this._id}}' id="editBtn"><i
+                    <a href='/culture/edit-culture?id={{this._id}}' id="editBtn"><i
               class='fa-solid fa-pen-to-square text-blue-600'
             ></i></a>
-            <a href='/projects/view-project?id={{this._id}}' id="viewBtn"><i class="fa-solid fa-eye text-blue-400 "></i></a>
+            <a href='/culture/view-culture?id={{this._id}}' id="viewBtn"><i class="fa-solid fa-eye text-blue-400 "></i></a>
                   </td>
                 </tr>
               {{/each}}
@@ -222,6 +219,5 @@
 
     <script>
       tippy('#deleteBtn', { content: 'Delete' }); tippy('#editBtn', {
-  content: 'Edit' }); tippy('#viewBtn', {
-  content: 'View' });
+  content: 'Edit' }); 
     </script>

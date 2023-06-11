@@ -7,4 +7,8 @@
     outline: none;
     border: none;
   }
+
+  .w-fit {
+    width: fit-content;
+  }
 }

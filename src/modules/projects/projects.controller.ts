@@ -90,7 +90,7 @@ export class ProjectsController {
 
   //Get Project edit form CMS Controller
   @Get('edit-project')
-  async getEditBlog(@Query('id') id, @Res() res: Response) {
+  async getEditProject(@Query('id') id, @Res() res: Response) {
     const viewingProject = await this.projectService.viewProject(id);
     return res.render('projects/update', {
       layout: 'main',
@@ -107,8 +107,8 @@ export class ProjectsController {
 
   //Edit Project CMS Controller
   @Put('edit-project/:id')
-  @UseInterceptors(FileInterceptor('file', fileUpload(`blog`)))
-  async editBlog(
+  @UseInterceptors(FileInterceptor('file', fileUpload(`Project`)))
+  async editProject(
     @Body() body,
     @Param('id') id,
     @Res() res: Response,

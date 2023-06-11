@@ -13,8 +13,9 @@ import { mongooseConfig } from './config/mongoose.config';
 import { PartnersModule } from './modules/partners/partners.module';
 import { BlogModule } from './modules/blog/blog.module';
 import { ProjectsModule } from './modules/projects/projects.module';
-import { PortfolioController } from './modules/portfolio/portfolio.controller';
 import { PortfolioModule } from './modules/portfolio/portfolio.module';
+import { TalentsModule } from './modules/talents/talents.module';
+import { CultureModule } from './modules/culture/culture.module';
 
 @Module({
   imports: [
@@ -33,6 +34,8 @@ import { PortfolioModule } from './modules/portfolio/portfolio.module';
     BlogModule,
     ProjectsModule,
     PortfolioModule,
+    TalentsModule,
+    CultureModule,
   ],
   controllers: [AppController],
   providers: [

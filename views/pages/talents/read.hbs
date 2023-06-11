@@ -9,48 +9,53 @@
             <h2
               class='lg:text-4xl text-2xl font-semibold text-gray-700 dark:text-gray-200 lg:w-auto w-fit'
             >
-              Projects Item
+              Talents Item
             </h2>
             <a
               class='text-white py-3 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs'
-              href='/projects'
+              href='/talents'
             >Back to list <i class='fa-solid fa-list'></i></a>
           </div>
         </div>
         <div class=''>
           <div class='mb-4 flex flex-col lg:gap-10 gap-5'>
             <div class='flex lg:flex-row flex-col justify-start'>
-              <p class='dark:text-gray-200 font-bold lg:w-1/5'>Title:</p>
+              <p class='dark:text-gray-200 font-bold lg:w-1/5'>Role:</p>
               <h1
                 class='text-gray-800 dark:text-gray-200 capitalize flex-1'
-              >{{data.title}}</h1>
+              >{{data.job_title}}</h1>
             </div>
             <div class='flex lg:flex-row flex-col justify-start'>
-              <p class='dark:text-gray-200 font-bold lg:w-1/5'>Location:</p>
-              <p class='dark:text-gray-200 flex-1'>
-                {{data.project_location}}</p>
+              <p class='dark:text-gray-200 font-bold lg:w-1/5'>Description:</p>
+              <div class='dark:text-gray-200 flex-1'>
+                {{{data.job_description}}}</div>
             </div>
             <div class='flex lg:flex-row flex-col justify-start'>
-              <p class='dark:text-gray-200 font-bold lg:w-1/5'>Project Link:</p>
-              <p class='dark:text-gray-200 flex-1'>
-                {{data.project_link}}</p>
+              <p
+                class='dark:text-gray-200 font-bold lg:w-1/5'
+              >Responsibilities:</p>
+              <div class='dark:text-gray-200 flex-1'>
+                {{{data.job_responsibilities}}}</div>
             </div>
-            <div class='flex lg:flex-row flex-col justify-start'>
-              <p class='dark:text-gray-200 text font-bold lg:w-1/5'>Thumb Image:</p>
-              <div class='flex-1'>
-                <img
-                  class='w-52 h-auto object-contain'
-                  src='{{data.thumb_image}}'
-                  alt=''
-                />
-              </div>
-            </div>
+            <di class='flex lg:flex-row flex-col justify-start'>
+              <p
+                class='dark:text-gray-200 font-bold lg:w-1/5'
+              >Qualifications:</p>
+              <div class='dark:text-gray-200 flex-1'>
+                {{{data.qualifications}}}</div>
+            </di>
             <div
               class='w-full mt-5 dark:text-gray-200 flex lg:flex-row flex-col justify-start'
             >
-              <p class='dark:text-gray-200 lg:w-1/5 font-bold'>Description:</p>
+              <p class='dark:text-gray-200 lg:w-1/5 font-bold'>Status:</p>
               <div class='flex-1'>
-                {{{data.description}}}
+                {{#if (eq data.is_active true)}}
+                  <p
+                    class='px-2 py-1 w-fit font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100'
+                  >Active</p>
+                {{else}}<p
+                    class='px-2 py-1 w-fit font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100'
+                  >Active</p>{{/if}}
               </div>
             </div>
           </div>

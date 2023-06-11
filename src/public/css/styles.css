@@ -8,3 +8,7 @@ aside img {
   height: auto;
   margin: 0 auto;
 }
+
+.w-fit {
+  width: fit-content;
+}
