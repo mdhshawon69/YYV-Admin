@@ -1,52 +1,20 @@
 /* eslint-disable prettier/prettier */
-var toolbarOptions = [
-  ['bold', 'italic', 'underline', 'strike'],
-  ['blockquote', 'code-block'],
-  [{ header: 1 }, { header: 2 }],
-  [{ list: 'ordered' }, { list: 'bullet' }],
-  [{ script: 'sub' }, { script: 'super' }],
-  [{ indent: '-1' }, { indent: '+1' }],
-  [{ direction: 'rtl' }],
-  [
-    {
-      size: ['small', false, 'large', 'huge'],
-    },
-  ],
-  [{ header: [1, 2, 3, 4, 5, 6, false] }],
-  [{ color: [] }, { background: [] }],
-  [{ font: [] }],
-  [
-    {
-      align: [],
-    },
-  ],
-  ['clean'],
-  ['link', 'image'],
-];
-var quillJobDesc = new Quill('#job_description', {
-  modules: { toolbar: toolbarOptions },
-  theme: 'snow',
-});
 
-var quillJobResp = new Quill('#job_responsibilities', {
-  modules: { toolbar: toolbarOptions },
-  theme: 'snow',
-});
+let quillJobDesc = new RichTextEditor('#job_description');
 
-var quillJobQualif = new Quill('#job_qualifications', {
-  modules: { toolbar: toolbarOptions },
-  theme: 'snow',
-});
+var quillJobResp = new RichTextEditor('#job_responsibilities');
+
+var quillJobQualif = new RichTextEditor('#job_qualifications');
 
 const form = document.querySelector('#form'); // form submit handler
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   document.getElementById('editor-content-description').value =
-    quillJobDesc.root.innerHTML;
+    quillJobDesc.getHTMLCode();
   document.getElementById('editor-content-responsibilities').value =
-    quillJobResp.root.innerHTML;
+    quillJobResp.getHTMLCode();
   document.getElementById('editor-content-qualifications').value =
-    quillJobQualif.root.innerHTML;
+    quillJobQualif.getHTMLCode();
 
   const formData = new FormData(form);
   const response = await fetch('/talents/create-talent', {

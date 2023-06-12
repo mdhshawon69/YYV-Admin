@@ -40,7 +40,7 @@ export class ProjectsController {
   }
 
   //Get all Projects API Controller
-  @Get()
+  @Get('api')
   async getAllProjectsApi(@Res() res: Response) {
     const allProjects = await this.projectService.getAllProjects();
     const allProjectsRow = [];
@@ -107,7 +107,7 @@ export class ProjectsController {
 
   //Edit Project CMS Controller
   @Put('edit-project/:id')
-  @UseInterceptors(FileInterceptor('file', fileUpload(`Project`)))
+  @UseInterceptors(FileInterceptor('file', fileUpload(`projects`)))
   async editProject(
     @Body() body,
     @Param('id') id,
@@ -117,12 +117,13 @@ export class ProjectsController {
     try {
       const editedProject = await this.projectService.editProject(id, {
         title: body.project_title,
-        description: body.project_description,
+        description: body.description,
         type: body.project_type,
         thumb_image: file?.filename,
         project_link: body.project_link,
         project_location: body.project_location,
       });
+      console.log(editedProject);
       res.json({
         status: 'success',
         message: 'Successfully edited the project!',

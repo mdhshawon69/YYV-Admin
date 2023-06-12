@@ -67,11 +67,14 @@
                 <span
                   class='text-gray-700 dark:text-gray-400'
                 >Description</span>
-                <div name='description' id='editor'></div>
+                <div id='inp_editor1'>
+                  &lt;p&gt;Initial Document Content&lt;/p&gt;
+                </div>
+
                 <input
                   type='hidden'
-                  id='editor-content'
                   name='description'
+                  id='editor-content'
                   value='{{data.description}}'
                 />
               </label>
@@ -92,10 +95,8 @@
 </div>
 
 <script>
-  var quill = new Quill('#editor', { theme: 'snow', }); const content =
-  document.getElementById('editor-content').value;
-  quill.clipboard.dangerouslyPasteHTML(content); const plainText =
-  quill.getText()
+  var editor1 = new RichTextEditor("#inp_editor1"); content =
+  document.getElementById('editor-content').value; editor1.setHTMLCode(content)
 </script>
 
-<script src='/js/create-project.js' defer></script>
+<script src='/js/edit-project.js' defer></script>

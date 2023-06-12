@@ -1,0 +1,53 @@
+<div
+  class='shadow-lg min-h-fit rounded-md bg-gray-50 dark:bg-gray-800 md:my-10 mt-24 md:mx-20 mx-3'
+>
+  <div class='w-full p-6'>
+    <div class='self-start w-full rounded-lg'>
+      <div class='md:flex-row'>
+        <div>
+          <div class='flex justify-between items-center lg:pb-16 pb-6 w-full'>
+            <h2
+              class='lg:text-4xl text-2xl font-semibold text-gray-700 dark:text-gray-200 lg:w-auto w-fit'
+            >
+              Message
+            </h2>
+            <a
+              class='text-white py-3 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs'
+              href='/contact'
+            >Back to list <i class='fa-solid fa-list'></i></a>
+          </div>
+        </div>
+        <div class=''>
+          <div class='mb-4 flex flex-col lg:gap-10 gap-5'>
+            <div class='flex lg:flex-row flex-col justify-start'>
+              <p class='dark:text-gray-200 font-bold lg:w-1/5'>Name:</p>
+              <h1
+                class='text-gray-800 dark:text-gray-200 capitalize flex-1'
+              >{{data.name}}</h1>
+            </div>
+            <div class='flex lg:flex-row flex-col justify-start'>
+              <p class='dark:text-gray-200 font-bold lg:w-1/5'>Email:</p>
+              <p class='dark:text-gray-200 flex-1'>
+                {{data.email}}</p>
+            </div>
+            <div class='flex lg:flex-row flex-col justify-start'>
+              <p class='dark:text-gray-200 font-bold lg:w-1/5'>Company:</p>
+              <p class='dark:text-gray-200 flex-1'>
+                {{data.company}}</p>
+            </div>
+            <div
+              class='w-full mt-5 dark:text-gray-200 flex lg:flex-row flex-col justify-start'
+            >
+              <p class='dark:text-gray-200 lg:w-1/5 font-bold'>Message:</p>
+              <div class='flex-1'>
+                {{data.message}}
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

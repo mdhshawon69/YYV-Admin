@@ -82,7 +82,7 @@
                   confirmButtonText: 'Delete'
                 }).then((result) => {
                   if (result.isConfirmed) {
-                    fetch(`/partners/{{this._id}}`, {
+                    fetch(`/culture/{{this._id}}`, {
                       method: 'POST',
                     }).then((response) => {if(response.ok) {
                       console.log(response)
@@ -92,7 +92,7 @@
                       'success'
                       )
                       setTimeout(() => {
-                        location.replace('/partners')
+                        location.replace('/culture')
                       }, 1500)
                     } else {
                       Swal.fire(

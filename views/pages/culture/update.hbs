@@ -75,10 +75,8 @@
   </div>
 </div>
 
-<script src='/js/edit-culture.js' defer></script>
 <script>
-  var quill = new Quill('#editor', { theme: 'snow', }); const content =
-  document.getElementById('editor-content').value;
-  quill.clipboard.dangerouslyPasteHTML(content); const plainText =
-  quill.getText()
+  var editor1 = new RichTextEditor("#editor"); content =
+  document.getElementById('editor-content').value; editor1.setHTMLCode(content)
 </script>
+<script src='/js/edit-culture.js' defer></script>

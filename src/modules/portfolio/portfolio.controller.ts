@@ -41,7 +41,7 @@ export class PortfolioController {
   }
 
   //Get all Portfolios API Controller
-  @Get()
+  @Get('api')
   async getAllPortfoliosApi(@Res() res: Response) {
     const allPortfolios = await this.portfolioService.getAllPortfolios();
     const allPortfoliosRow = [];

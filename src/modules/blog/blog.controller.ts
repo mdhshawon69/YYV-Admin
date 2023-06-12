@@ -40,7 +40,7 @@ export class BlogController {
   }
 
   //Get all blogs API Controller
-  @Get()
+  @Get('api')
   async getAllBlogsApi(@Res() res: Response) {
     const allBlogs = await this.blogService.getAllBlogs();
     const allBlogsRow = [];

@@ -16,6 +16,9 @@ import { ProjectsModule } from './modules/projects/projects.module';
 import { PortfolioModule } from './modules/portfolio/portfolio.module';
 import { TalentsModule } from './modules/talents/talents.module';
 import { CultureModule } from './modules/culture/culture.module';
+import { ContactModule } from './modules/contact/contact.module';
+import { TeamModule } from './modules/team/team.module';
+import { AboutModule } from './modules/about/about.module';
 
 @Module({
   imports: [
@@ -36,6 +39,9 @@ import { CultureModule } from './modules/culture/culture.module';
     PortfolioModule,
     TalentsModule,
     CultureModule,
+    ContactModule,
+    TeamModule,
+    AboutModule,
   ],
   controllers: [AppController],
   providers: [

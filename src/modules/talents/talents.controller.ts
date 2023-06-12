@@ -31,7 +31,7 @@ export class TalentsController {
   }
 
   //Get all Talents API Controller
-  @Get()
+  @Get('api')
   async getAllTalentsApi(@Res() res: Response) {
     const allTalents = await this.talentsService.getAllTalents();
     return res.json({ data: allTalents });

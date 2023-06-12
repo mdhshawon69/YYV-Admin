@@ -1,37 +1,11 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable prettier/prettier */
-var toolbarOptions = [
-  ['bold', 'italic', 'underline', 'strike'],
-  ['blockquote', 'code-block'],
-  [{ header: 1 }, { header: 2 }],
-  [{ list: 'ordered' }, { list: 'bullet' }],
-  [{ script: 'sub' }, { script: 'super' }],
-  [{ indent: '-1' }, { indent: '+1' }],
-  [{ direction: 'rtl' }],
-  [
-    {
-      size: ['small', false, 'large', 'huge'],
-    },
-  ],
-  [{ header: [1, 2, 3, 4, 5, 6, false] }],
-  [{ color: [] }, { background: [] }],
-  [{ font: [] }],
-  [
-    {
-      align: [],
-    },
-  ],
-  ['clean'],
-  ['link', 'image'],
-];
-var quill = new Quill('#editor', {
-  modules: { toolbar: toolbarOptions },
-  theme: 'snow',
-});
 
+var editor1 = new RichTextEditor('#editor');
 const form = document.querySelector('#form'); // form submit handler
 form.addEventListener('submit', async (e) => {
-  document.getElementById('editor-content').value = quill.root.innerHTML;
+  e.preventDefault();
+  document.getElementById('editor-content').value = editor1.getHTMLCode();
   const formData = new FormData(form);
   const response = await fetch('/culture/create-culture', {
     method: 'POST',

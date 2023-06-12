@@ -62,7 +62,7 @@
                 <span
                   class='text-gray-700 dark:text-gray-400'
                 >Description</span>
-                <div name='blog_description' id='editor'></div>
+                <div name='blog_description' id='#inp_editor1'></div>
                 <input
                   type='hidden'
                   id='editor-content'
@@ -88,12 +88,7 @@
 
 <!-- Initialize Quill editor -->
 <script>
-    var quill = new Quill('#editor', {
-        theme: 'snow',
-    });
-    const content = document.getElementById('editor-content').value;
-    quill.clipboard.dangerouslyPasteHTML(content);
-    const plainText = quill.getText()
+  var editor1 = new RichTextEditor("#inp_editor1"); content =
+  document.getElementById('editor-content').value; editor1.setHTMLCode(content)
 </script>
-<script src='https://cdn.jsdelivr.net/npm/quill-delta-to-html'></script>
 <script src='/js/edit-blog.js' defer></script>

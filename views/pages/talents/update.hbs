@@ -85,17 +85,21 @@
 </div>
 
 <!-- Initialize Quill editor -->
-<script src='https://cdn.jsdelivr.net/npm/quill-delta-to-html'></script>
-<script src='/js/edit-talents.js' defer></script>
 <script>
-  var quillJobDesc = new Quill('#job_description', { theme: 'snow', }); var
-  quillJobResp = new Quill('#job_responsibilities', { theme: 'snow', }); var
-  quillJobQualif = new Quill('#job_qualifications', { theme: 'snow', }); const
-  contentDesc = document.getElementById('editor-content-description').value;
-  quillJobDesc.clipboard.dangerouslyPasteHTML(contentDesc); const contentResp =
-  document.getElementById( 'editor-content-responsibilities', ).value;
-  quillJobResp.clipboard.dangerouslyPasteHTML(contentResp); const contentQualif
-  = document.getElementById( 'editor-content-qualifications', ).value;
-  quillJobQualif.clipboard.dangerouslyPasteHTML(contentQualif); const plainText
-  = quillJobDesc.getText();
+  let quillJobDesc = new RichTextEditor('#job_description'); const contentDesc =
+  document.getElementById('editor-content-description').value;
+  quillJobDesc.setHTMLCode(contentDesc);
 </script>
+<script>
+  let quillJobResp = new RichTextEditor('#job_responsibilities'); const
+  contentResp =
+  document.getElementById('editor-content-responsibilities').value;
+  quillJobResp.setHTMLCode(contentResp)
+</script>
+<script>
+  let quillJobQualif = new RichTextEditor('#job_qualifications'); const
+  contentQualif =
+  document.getElementById('editor-content-qualifications').value;
+  quillJobQualif.setHTMLCode(contentQualif);
+</script>
+<script src='/js/edit-talents.js' defer></script>
