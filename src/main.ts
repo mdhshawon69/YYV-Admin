@@ -29,6 +29,7 @@ async function bootstrap() {
   );
 
   app.setViewEngine('hbs');
-  await app.listen(process.env.PORT || 3000);
+  app.enableCors();
+  await app.listen(process.env.PORT || 5000);
 }
 bootstrap();

@@ -19,6 +19,8 @@ import { CultureModule } from './modules/culture/culture.module';
 import { ContactModule } from './modules/contact/contact.module';
 import { TeamModule } from './modules/team/team.module';
 import { AboutModule } from './modules/about/about.module';
+import { ProgramsModule } from './modules/programs/programs.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -29,6 +31,7 @@ import { AboutModule } from './modules/about/about.module';
       secret: 'secret',
       signOptions: { expiresIn: '1d' },
     }),
+
     AuthModule,
     UserModule,
     UserProfileModule,
@@ -42,6 +45,7 @@ import { AboutModule } from './modules/about/about.module';
     ContactModule,
     TeamModule,
     AboutModule,
+    ProgramsModule,
   ],
   controllers: [AppController],
   providers: [
