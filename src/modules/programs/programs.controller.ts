@@ -1,33 +1,32 @@
-import { Request, Response } from 'express';
 import {
   Controller,
   Get,
-  Res,
-  Post,
   Body,
-  UseInterceptors,
-  Req,
-  UploadedFiles,
-  Param,
+  Post,
   Query,
+  Res,
+  UseInterceptors,
+  UploadedFile,
   Put,
+  Param,
 } from '@nestjs/common';
-import { FileFieldsInterceptor } from '@nestjs/platform-express';
-import { fileUpload } from 'src/config/multer.config';
 import { ProgramsService } from './programs.service';
+import { Response } from 'express';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { fileUpload } from 'src/config/multer.config';
 
 @Controller('programs')
 export class ProgramsController {
   constructor(private readonly programsService: ProgramsService) {}
 
-  //Get all Programs CMS Controller
+  //CMS Controller
   @Get()
   async getAllPrograms(@Res() res: Response, @Query('keywords') keywords) {
     const allPrograms = await this.programsService.getAllPrograms();
     const allProgramsRow = [];
     allPrograms.forEach((item) => {
       const tempItem = { ...item };
-      tempItem.thumb_image = `${process.env.BASE_URL}/uploads/programs/${item.thumb_image}`;
+      tempItem.banner_image = `${process.env.BASE_URL}/uploads/programs/${item.banner_image}`;
       allProgramsRow.push(tempItem);
     });
     const filtedPrograms = allProgramsRow.filter((program) => {
@@ -39,154 +38,132 @@ export class ProgramsController {
     });
   }
 
-  //Get all Programs API Controller
+  //API Controller
   @Get('api')
   async getAllProgramsApi(@Res() res: Response) {
-    const allPrograms = await this.programsService.getAllPrograms();
-    const allProgramsRow = [];
-    allPrograms.forEach((item) => {
+    const allprograms = await this.programsService.getAllPrograms();
+    const allprogramsRow = [];
+    allprograms.forEach((item) => {
       const tempItem = { ...item };
-      tempItem.thumb_image = `uploads/programs/${item.thumb_image}`;
-      allProgramsRow.push(tempItem);
+      tempItem.banner_image = `uploads/programs/${item.banner_image}`;
+      allprogramsRow.push(tempItem);
     });
-    return res.json({ data: allProgramsRow });
+    return res.json({ data: allprogramsRow });
   }
 
-  //Get create Program form CMS Controller
   @Get('create-program')
   async getCreateProgram(@Res() res: Response) {
     return res.render('programs/create', { layout: 'main' });
   }
 
-  //Post create Program CMS Controller
   @Post('create-program')
-  @UseInterceptors(
-    FileFieldsInterceptor(
-      [
-        { name: 'program_file', maxCount: 1 },
-        { name: 'about_file', maxCount: 1 },
-      ],
-      fileUpload(`programs`),
-    ),
-  )
-  async createProgram(
-    @Body() body,
-    @Res() res: Response,
-    @Req() req: Request,
-    @UploadedFiles()
-    files: {
-      program_file: Express.Multer.File;
-      about_file: Express.Multer.File;
-    },
-  ) {
+  @UseInterceptors(FileInterceptor('banner_image', fileUpload(`programs`)))
+  async createProgram(@Body() body, @Res() res, @UploadedFile() file) {
+    const link = `http://localhost:3000/${body.title.split(' ').join('-')}`;
     try {
       const createdProgram = await this.programsService.createProgram({
+        type: body.type,
         title: body.title,
-        thumb_image: files.program_file[0].filename,
-        image_source: body.image_source,
-        about_program: {
-          about_program_title: body.about_program_title,
-          about_program_description_one: body.about_program_description_one,
-          about_program_description_two: body.about_program_description_two,
-          about_program_thumb_image: files.about_file[0].filename,
-          image_source: body.about_program_thumb_image_source,
-        },
+        sub_title: body.sub_title,
+        banner_image: file.filename,
+        link: body.has_landing_page === 'on' ? link : body.link,
+        status: body.status,
+        location: body.location,
       });
-      console.log(createdProgram);
       return res.json({
-        status: 'Success',
-        message: 'Successfully created Program!',
+        status: 'success',
+        message: 'Successfully created the program',
+      });
+    } catch (error) {
+      return res.json({
+        status: 'failed',
+        message: error.message,
+      });
+    }
+  }
+
+  //Get program edit form CMS Controller
+  @Get('edit-program')
+  async getEditProgram(@Query('id') id, @Res() res: Response) {
+    const viewingprogram = await this.programsService.viewProgram(id);
+    return res.render('programs/update', {
+      layout: 'main',
+      data: {
+        type: viewingprogram.type,
+        title: viewingprogram.title,
+        sub_title: viewingprogram.sub_title,
+        banner_image: `${process.env.BASE_URL}/uploads/programs/${viewingprogram.banner_image}`,
+        link: viewingprogram.link,
+        status: viewingprogram.status,
+        location: viewingprogram.location,
+        banner_image_source: viewingprogram.banner_image,
+      },
+    });
+  }
+
+  //Edit program CMS Controller
+  @Put('edit-program/:id')
+  @UseInterceptors(FileInterceptor('banner_image', fileUpload(`programs`)))
+  async editProgram(
+    @Body() body,
+    @Param('id') id,
+    @Res() res: Response,
+    @UploadedFile() file,
+  ) {
+    const link = `http://localhost:3000/${body.title.split(' ').join('-')}`;
+    try {
+      const editedprogram = await this.programsService.editProgram(id, {
+        type: body.type,
+        title: body.title,
+        sub_title: body.sub_title,
+        banner_image: file?.banner_image,
+        link: body.has_landing_program === 'on' ? link : body.link,
+        status: body.status,
+        location: body.location,
+      });
+      console.log(editedprogram);
+      res.json({
+        status: 'success',
+        message: 'Successfully edited the program!',
       });
     } catch (error) {
       console.log(error);
+      res.json({ status: 'failed', message: 'Cannot edit the program' });
+    }
+  }
+
+  //View program CMS Controller
+  @Get('view-program')
+  async viewProgram(@Query('id') id, @Res() res: Response) {
+    const viewingprogram = await this.programsService.viewProgram(id);
+    return res.render('programs/read', {
+      layout: 'main',
+      data: {
+        type: viewingprogram.type,
+        title: viewingprogram.title,
+        sub_title: viewingprogram.sub_title,
+        banner_image: `${process.env.BASE_URL}/uploads/programs/${viewingprogram.banner_image}`,
+        link: viewingprogram.link,
+        status: viewingprogram.status,
+        location: viewingprogram.location,
+      },
+    });
+  }
+
+  //Delete program CMS Controller
+  @Post(':id')
+  async deleteProgram(@Param('id') id, @Res() res: Response) {
+    try {
+      const deletedProgram = await this.programsService.deleteProgram(id);
+      return res.json({
+        status: 'Success',
+        message: 'program deleted successfully!',
+      });
+    } catch (error) {
       return res.json({
         status: 'Failed',
         message: error.message,
       });
     }
   }
-
-  //Get Program edit form CMS Controller
-  @Get('edit-program')
-  async getEditProgram(@Query('id') id, @Res() res: Response) {
-    const viewingProgram = await this.programsService.viewProgram(id);
-    return res.render('programs/update', {
-      layout: 'main',
-      data: {
-        title: viewingProgram.title,
-        thumb_image: `${process.env.BASE_URL}/uploads/programs/${viewingProgram.thumb_image}`,
-        image_source: viewingProgram.image_source,
-        about_program: {
-          title: viewingProgram.about_program.about_program_title,
-          description_one:
-            viewingProgram.about_program.about_program_description_one,
-          description_two:
-            viewingProgram.about_program.about_program_description_two,
-          about_program_thumb_image: `${process.env.BASE_URL}/uploads/programs/${viewingProgram.about_program.about_program_thumb_image}`,
-          image_source: viewingProgram.about_program.image_source,
-        },
-      },
-    });
-  }
-
-  //Edit Program CMS Controller
-  //   @Put('edit-program/:id')
-  //   @UseInterceptors(FileInterceptor('file', fileUpload(`programs`)))
-  //   async editProgram(
-  //     @Body() body,
-  //     @Param('id') id,
-  //     @Res() res: Response,
-  //     @UploadedFiles() file,
-  //   ) {
-  //     try {
-  //       const editedProgram = await this.programsService.editProgram(id, {
-  //         title: body.Program_title,
-  //         description: body.description,
-  //         type: body.Program_type,
-  //         thumb_image: file?.filename,
-  //         Program_link: body.Program_link,
-  //         Program_location: body.Program_location,
-  //       });
-  //       console.log(editedProgram);
-  //       res.json({
-  //         status: 'success',
-  //         message: 'Successfully edited the Program!',
-  //       });
-  //     } catch (error) {
-  //       res.json({ status: 'failed', message: 'Cannot edit the Program' });
-  //     }
-  //   }
-
-  //   //View Program CMS Controller
-  //   @Get('view-program')
-  //   async viewProgram(@Query('id') id, @Res() res: Response) {
-  //     const viewingProgram = await this.programsService.viewProgram(id);
-  //     return res.render('Programs/read', {
-  //       layout: 'main',
-  //       data: {
-  //         title: viewingProgram.title,
-  //         description: viewingProgram.description,
-  //         thumb_image: `${process.env.BASE_URL}/uploads/Programs/${viewingProgram.thumb_image}`,
-  //         Program_link: viewingProgram.Program_link,
-  //         Program_location: viewingProgram.Program_location,
-  //       },
-  //     });
-  //   }
-
-  //   //Delete Program CMS Controller
-  //   @Post(':id')
-  //   async deleteProgram(@Param('id') id, @Res() res: Response) {
-  //     try {
-  //       const deletedProgram = await this.programsService.deleteProgram(id);
-  //       return res.json({
-  //         status: 'Success',
-  //         message: 'Program deleted successfully!',
-  //       });
-  //     } catch (error) {
-  //       return res.json({
-  //         status: 'Failed',
-  //         message: error.message,
-  //       });
-  //     }
-  //   }
 }

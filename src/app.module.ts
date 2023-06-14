@@ -21,6 +21,7 @@ import { TeamModule } from './modules/team/team.module';
 import { AboutModule } from './modules/about/about.module';
 import { ProgramsModule } from './modules/programs/programs.module';
 import { MulterModule } from '@nestjs/platform-express';
+import { PageModule } from './modules/page/page.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { MulterModule } from '@nestjs/platform-express';
     TeamModule,
     AboutModule,
     ProgramsModule,
+    PageModule,
   ],
   controllers: [AppController],
   providers: [

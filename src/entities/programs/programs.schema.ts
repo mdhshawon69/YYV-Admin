@@ -1,38 +1,34 @@
 /* eslint-disable prettier/prettier */
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 
-@Schema()
-class AboutProgram extends Document {
-  @Prop()
-  about_program_title: string;
-
-  @Prop()
-  about_program_description_one: string;
-
-  @Prop()
-  about_program_description_two: string;
-
-  @Prop()
-  about_program_thumb_image: string;
-
-  @Prop()
-  image_source: string;
+enum PageType {
+  PROGRAMS_PAGE = 'programs_page',
+  EVENTS_PAGE = 'events_page',
 }
 
 @Schema()
 export class Programs extends Document {
-  @Prop({ required: true })
+  @Prop({ required: true, enum: PageType })
+  type: PageType;
+
+  @Prop({ required: true, unique: true })
   title: string;
 
+  @Prop()
+  sub_title: string;
+
   @Prop({ required: true })
-  thumb_image: string;
+  banner_image: string;
 
-  @Prop()
-  image_source: string;
+  @Prop({ required: true })
+  link: string;
 
-  @Prop()
-  about_program: AboutProgram;
+  @Prop({ required: true })
+  status: string;
+
+  @Prop({ required: true })
+  location: string;
 
   @Prop({ default: true })
   is_active: boolean;

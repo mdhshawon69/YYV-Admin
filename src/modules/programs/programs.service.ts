@@ -6,11 +6,12 @@ import { Programs } from 'src/entities/programs/programs.schema';
 @Injectable()
 export class ProgramsService {
   constructor(
-    @InjectModel(Programs.name) private readonly programsModel: Model<Programs>,
+    @InjectModel(Programs.name)
+    private readonly programsModel: Model<Programs>,
   ) {}
 
   async getAllPrograms() {
-    return this.programsModel.find().lean();
+    return await this.programsModel.find().lean();
   }
 
   async createProgram(program) {
