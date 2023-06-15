@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
+import { Page } from '../page/page.schema';
 
 enum PageType {
   PROGRAMS_PAGE = 'programs_page',
@@ -29,6 +30,12 @@ export class Programs extends Document {
 
   @Prop({ required: true })
   location: string;
+
+  @Prop()
+  has_landing_page: boolean;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Page' })
+  page: Page;
 
   @Prop({ default: true })
   is_active: boolean;

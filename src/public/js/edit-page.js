@@ -1,11 +1,11 @@
 /* eslint-disable prettier/prettier */
-const id = location.search.split('?id=')[1];
 const form = document.querySelector('#form');
-
+const id = location.search.split('?id=')[1];
+// form submit handler
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const formData = new FormData(form);
-  const response = await fetch(`/programs/edit-program/${id}`, {
+  const response = await fetch(`/pages/edit-page/${id}`, {
     method: 'PUT',
     body: formData,
   });
@@ -18,7 +18,7 @@ form.addEventListener('submit', async (e) => {
       timer: 1500,
     });
     setTimeout(() => {
-      location.replace('/programs'), 1000;
+      location.replace('/pages'), 1000;
     });
   } else {
     Swal.fire({

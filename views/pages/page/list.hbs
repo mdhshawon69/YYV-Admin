@@ -11,12 +11,12 @@
         <h2
           class='my-6 text-4xl font-semibold text-gray-700 dark:text-gray-200 lg:w-auto w-full'
         >
-            Programs
+            Pages
         </h2>
         <div
           class='flex lg:flex-row flex-col justify-center items-center gap-3'
         >
-          <form action='/programs' method='GET' class='flex gap-3'>
+          <form action='/pages' method='GET' class='flex gap-3'>
             <input
               type='text'
               class='rounded px-2 dark:bg-gray-700 dark:text-gray-200'
@@ -30,14 +30,14 @@
               <i class='fa-solid fa-magnifying-glass'></i></button>
           </form>
           <a
-            href='/programs'
+            href='/pages'
             class='text-white py-3 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs lg:w-auto w-full md:text-none text-center'
           >Reset
             <i class='fa-sharp fa-solid fa-arrow-rotate-right'></i></a>
           <a
-            href='/programs/create-program'
+            href='/pages/create-page'
             class='text-white py-3 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs lg:w-auto w-full md:text-none text-center'
-          >Create program</a>
+          >Create page</a>
 
         </div>
       </div>
@@ -49,12 +49,11 @@
               <tr
                 class='text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800'
               >
-                <th class='px-4 py-3'>Title</th>
-                <th class='px-4 py-3'>Sub Title</th>
-                <th class='px-4 py-3'>Banner Image</th>
-                <th class='px-4 py-3'>Status</th>
-                <th class='px-4 py-3'>Location</th>
-                <th class='px-4 py-3'>Category</th>
+                <th class='px-4 py-3'>Name</th>
+                <th class='px-4 py-3'>SEO Title</th>
+                <th class='px-4 py-3'>SEO Description</th>
+                <th class='px-4 py-3'>Program name / title</th>
+                <th class='px-4 py-3'>Slug</th>
                 <th class='px-4 py-3'>Actions</th>
               </tr>
             </thead>
@@ -63,20 +62,11 @@
             >
               {{#each row}}
                 <tr class='text-gray-700 dark:text-gray-400'>
-                  
-                  <td class='px-4 py-3'>
-                    <div class='flex items-center text-sm'>
-                      
-                      <div>
-                        <p class='font-semibold text-sm'>{{this.title}}</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td class='px-4 py-3 text-sm'>{{this.sub_title}}</td>
-                  <td class='px-4 py-3 text-sm'><img src={{this.banner_image}} class="w-20 h-auto object-contain" alt=""></td>
-                  <td class='px-4 py-3 text-sm'>{{this.status}}</td>
-                  <td class='px-4 py-3 text-sm'>{{this.location}}</td>
-                  <td class='px-4 py-3 text-sm'>{{this.type}}</td>
+                  <td class='px-4 py-3 text-sm'>{{this.name}}</td>
+                  <td class='px-4 py-3 text-sm'>{{this.title}}</td>
+                  <td class='px-4 py-3 text-sm'>{{this.description}}</td>
+                  <td class='px-4 py-3 text-sm'>{{this.program.title}}</td>
+                  <td class='px-4 py-3 text-sm'>{{this.slug}}</td>
                   <td class='px-4 py-3 text-sm space-x-2'><button id="deleteBtn"
                       
                      @click="function deleteProject() {
@@ -90,7 +80,7 @@
                   confirmButtonText: 'Delete'
                 }).then((result) => {
                   if (result.isConfirmed) {
-                    fetch(`/programs/{{this._id}}`, {
+                    fetch(`/pages/{{this._id}}`, {
                       method: 'POST',
                     }).then((response) => {if(response.ok) {
                       console.log(response)
@@ -100,7 +90,7 @@
                       'success'
                       )
                       setTimeout(() => {
-                        location.replace('/programs')
+                        location.replace('/pages')
                       }, 1500)
                     } else {
                       Swal.fire(
@@ -115,10 +105,10 @@
                     >
                       <i class='fa-sharp fa-solid fa-trash text-red-500'></i>
                     </button>
-                    <a href='/programs/edit-program?id={{this._id}}' id="editBtn"><i
+                    <a href='/pages/edit-page?id={{this._id}}' id="editBtn"><i
               class='fa-solid fa-pen-to-square text-blue-600'
             ></i></a>
-            <a href='/programs/view-program?id={{this._id}}' id="viewBtn"><i class="fa-solid fa-eye text-blue-400 "></i></a>
+            <a href='/pages/view-page?id={{this._id}}' id="viewBtn"><i class="fa-solid fa-eye text-blue-400 "></i></a>
                   </td>
                 </tr>
               {{/each}}

@@ -59,7 +59,7 @@ export class ProgramsController {
   @Post('create-program')
   @UseInterceptors(FileInterceptor('banner_image', fileUpload(`programs`)))
   async createProgram(@Body() body, @Res() res, @UploadedFile() file) {
-    const link = `http://localhost:3000/${body.title.split(' ').join('-')}`;
+    const link = `${body.title.split(' ').join('-')}`;
     try {
       const createdProgram = await this.programsService.createProgram({
         type: body.type,
@@ -69,6 +69,7 @@ export class ProgramsController {
         link: body.has_landing_page === 'on' ? link : body.link,
         status: body.status,
         location: body.location,
+        has_landing_page: body.has_landing_page === 'on' ? true : false,
       });
       return res.json({
         status: 'success',
@@ -77,7 +78,7 @@ export class ProgramsController {
     } catch (error) {
       return res.json({
         status: 'failed',
-        message: error.message,
+        message: 'Cannot create program with same information',
       });
     }
   }
@@ -97,6 +98,7 @@ export class ProgramsController {
         status: viewingprogram.status,
         location: viewingprogram.location,
         banner_image_source: viewingprogram.banner_image,
+        has_landing_page: viewingprogram.has_landing_page,
       },
     });
   }
@@ -110,7 +112,8 @@ export class ProgramsController {
     @Res() res: Response,
     @UploadedFile() file,
   ) {
-    const link = `http://localhost:3000/${body.title.split(' ').join('-')}`;
+    console.log(body);
+    const link = `${body.title.split(' ').join('-')}`;
     try {
       const editedprogram = await this.programsService.editProgram(id, {
         type: body.type,
@@ -120,6 +123,7 @@ export class ProgramsController {
         link: body.has_landing_program === 'on' ? link : body.link,
         status: body.status,
         location: body.location,
+        has_landing_page: body.has_landing_page === 'on' ? true : false,
       });
       console.log(editedprogram);
       res.json({

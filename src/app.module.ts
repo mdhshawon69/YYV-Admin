@@ -20,8 +20,8 @@ import { ContactModule } from './modules/contact/contact.module';
 import { TeamModule } from './modules/team/team.module';
 import { AboutModule } from './modules/about/about.module';
 import { ProgramsModule } from './modules/programs/programs.module';
-import { MulterModule } from '@nestjs/platform-express';
 import { PageModule } from './modules/page/page.module';
+import { ContentModule } from './modules/content/content.module';
 
 @Module({
   imports: [
@@ -48,6 +48,8 @@ import { PageModule } from './modules/page/page.module';
     AboutModule,
     ProgramsModule,
     PageModule,
+    PageModule,
+    ContentModule,
   ],
   controllers: [AppController],
   providers: [

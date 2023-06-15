@@ -1,6 +1,6 @@
 <div
   class='shadow-lg min-h-fit rounded-md bg-gray-50 dark:bg-gray-800 md:my-10 mt-24 md:mx-20 mx-3'
-  x-data='{showLink: true}'
+  x-data='{showLink: data.has_landing_page}'
 >
 
   <div class='flex items-center w-full mx-auto p-6'>
@@ -9,7 +9,7 @@
         <div class='flex justify-between items-center'>
           <h1
             class='text-gray-800 dark:text-gray-200 text-xl md:text-4xl px-6 font-bold'
-          >Create Page</h1>
+          >Edit Program</h1>
           <a
             class='text-white py-3 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs'
             href='/programs'
@@ -85,7 +85,7 @@
                 />
               </label>
               <label
-                class='block text-sm flex justify-start items-center gap-2'
+                class='flex text-sm justify-start items-center gap-2'
               >
                 <span class='text-gray-700 dark:text-gray-400 font-bold'>Has Landing Page</span>
                 <input
@@ -94,7 +94,7 @@
                   name='has_landing_page'
                   type='checkbox'
                   @click='showLink = ! showLink'
-                  {{#if (eq data.has_landing_page true)}}checked{{else}}none{{/if}}
+                  {{#if (eq data.has_landing_page showLink)}}checked{{else}}none{{/if}}
                 />
               </label>
               <label class='block text-sm' x-show="showLink">
@@ -123,4 +123,4 @@
 
 <!-- Initialize Quill editor 
 <script src='https://cdn.jsdelivr.net/npm/quill-delta-to-html'></script> -->
-<script src='/js/edit-page.js' defer></script>
+<script src='/js/edit-program.js' defer></script>
