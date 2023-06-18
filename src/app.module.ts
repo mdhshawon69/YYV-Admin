@@ -22,6 +22,7 @@ import { AboutModule } from './modules/about/about.module';
 import { ProgramsModule } from './modules/programs/programs.module';
 import { PageModule } from './modules/page/page.module';
 import { ContentModule } from './modules/content/content.module';
+import { SectionModule } from './modules/section/section.module';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { ContentModule } from './modules/content/content.module';
     PageModule,
     PageModule,
     ContentModule,
+    SectionModule,
   ],
   controllers: [AppController],
   providers: [

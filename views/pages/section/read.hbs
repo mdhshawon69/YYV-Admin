@@ -13,34 +13,34 @@
             </h2>
             <a
               class='text-white py-3 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs'
-              href='/programs'
+              href='/section'
             >Back to list <i class='fa-solid fa-list'></i></a>
           </div>
         </div>
         <div class=''>
           <div class='mb-4 flex flex-col lg:gap-10 gap-5'>
             <div class='flex lg:flex-row flex-col justify-start'>
-              <p class='dark:text-gray-200 font-bold lg:w-1/5'>Page Name:</p>
+              <p class='dark:text-gray-200 font-bold lg:w-1/5'>Section Name:</p>
               <h1
                 class='text-gray-800 dark:text-gray-200 capitalize flex-1'
               >{{data.name}}</h1>
             </div>
             <div class='flex lg:flex-row flex-col justify-start'>
-              <p class='dark:text-gray-200 font-bold lg:w-1/5'>SEO Title:</p>
+              <p class='dark:text-gray-200 font-bold lg:w-1/5'>Title:</p>
               <h1
                 class='text-gray-800 dark:text-gray-200 capitalize flex-1'
               >{{data.title}}</h1>
             </div>
             <div class='flex lg:flex-row flex-col justify-start'>
-              <p class='dark:text-gray-200 font-bold lg:w-1/5'>SEO Description:</p>
+              <p class='dark:text-gray-200 font-bold lg:w-1/5'>Description:</p>
               <h1
                 class='text-gray-800 dark:text-gray-200 capitalize flex-1'
               >{{data.description}}</h1>
             </div>
             <div class='flex lg:flex-row flex-col justify-start'>
-              <p class='dark:text-gray-200 font-bold lg:w-1/5'>Sections:</p>
+              <p class='dark:text-gray-200 font-bold lg:w-1/5'>Contents:</p>
               <div>
-                {{#each data.section}}<p
+                {{#each data.content}}<p
                     class='text-gray-800 dark:text-gray-200 capitalize flex-1'
                   >{{this.name}}</p>{{/each}}
               </div>

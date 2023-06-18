@@ -11,12 +11,12 @@
         <h2
           class='my-6 text-4xl font-semibold text-gray-700 dark:text-gray-200 lg:w-auto w-full'
         >
-            Pages
+           Contents
         </h2>
         <div
           class='flex lg:flex-row flex-col justify-center items-center gap-3'
         >
-          <form action='/pages' method='GET' class='flex gap-3'>
+          <form action='/content' method='GET' class='flex gap-3'>
             <input
               type='text'
               class='rounded px-2 dark:bg-gray-700 dark:text-gray-200'
@@ -30,14 +30,14 @@
               <i class='fa-solid fa-magnifying-glass'></i></button>
           </form>
           <a
-            href='/pages'
+            href='/content'
             class='text-white py-3 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs lg:w-auto w-full md:text-none text-center'
           >Reset
             <i class='fa-sharp fa-solid fa-arrow-rotate-right'></i></a>
           <a
-            href='/pages/create-page'
+            href='/content/create-content'
             class='text-white py-3 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs lg:w-auto w-full md:text-none text-center'
-          >Create page</a>
+          >Create content</a>
 
         </div>
       </div>
@@ -49,11 +49,11 @@
               <tr
                 class='text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800'
               >
+
                 <th class='px-4 py-3'>Name</th>
-                <th class='px-4 py-3'>SEO Title</th>
-                <th class='px-4 py-3'>SEO Description</th>
-                <th class='px-4 py-3'>Program name / title</th>
-                <th class='px-4 py-3'>Slug</th>
+                <th class='px-4 py-3'>Title</th>
+                <th class='px-4 py-3'>Description</th>
+                <th class='px-4 py-3'>Page Name</th>
                 <th class='px-4 py-3'>Actions</th>
               </tr>
             </thead>
@@ -65,14 +65,13 @@
                   <td class='px-4 py-3 text-sm'>{{this.name}}</td>
                   <td class='px-4 py-3 text-sm'>{{this.title}}</td>
                   <td class='px-4 py-3 text-sm'>{{this.description}}</td>
-                  <td class='px-4 py-3 text-sm'>{{this.program.title}}</td>
-                  <td class='px-4 py-3 text-sm'>{{this.slug}}</td>
+                  <td class='px-4 py-3 text-sm'>{{this.page.name}}</td>
                   <td class='px-4 py-3 text-sm space-x-2'><button id="deleteBtn"
                       
                      @click="function deleteProject() {
                   Swal.fire({
                   title: 'Are you sure?',
-                  text: 'The page will be deleted permanently',
+                  text: 'The content will be deleted permanently',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonColor: '#3085d6',
@@ -80,22 +79,22 @@
                   confirmButtonText: 'Delete'
                 }).then((result) => {
                   if (result.isConfirmed) {
-                    fetch(`/pages/{{this._id}}?{{this.program._id}}`, {
+                    fetch(`/content/{{this._id}}?section_id={{this.section._id}}`, {
                       method: 'POST',
                     }).then((response) => {if(response.ok) {
                       console.log(response)
                       Swal.fire(
                       'Successful!',
-                      'Successfully deleted the page',
+                      'Successfully deleted the content',
                       'success'
                       )
                       setTimeout(() => {
-                        location.replace('/pages')
+                        location.replace('/content')
                       }, 1500)
                     } else {
                       Swal.fire(
                       'An error has occurred!',
-                      `Cannot delete deleted the project`,
+                      `Cannot delete deleted the content`,
                       'error'
                       )
                     }})
@@ -105,10 +104,10 @@
                     >
                       <i class='fa-sharp fa-solid fa-trash text-red-500'></i>
                     </button>
-                    <a href='/pages/edit-page?id={{this._id}}' id="editBtn"><i
+                    <a href='/content/edit-content?id={{this._id}}' id="editBtn"><i
               class='fa-solid fa-pen-to-square text-blue-600'
             ></i></a>
-            <a href='/pages/view-page?id={{this._id}}' id="viewBtn"><i class="fa-solid fa-eye text-blue-400 "></i></a>
+            <a href='/content/view-content?id={{this._id}}' id="viewBtn"><i class="fa-solid fa-eye text-blue-400 "></i></a>
                   </td>
                 </tr>
               {{/each}}

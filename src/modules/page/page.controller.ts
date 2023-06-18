@@ -14,7 +14,6 @@ import {
 import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { fileUpload } from 'src/config/multer.config';
-import { ObjectId } from 'mongodb';
 
 @Controller('pages')
 export class PageController {
@@ -129,9 +128,15 @@ export class PageController {
   @Get('view-page')
   async viewPage(@Query('id') id, @Res() res: Response) {
     const viewingPage = await this.pageService.viewPage(id);
-    return res.render('pages/read', {
+    return res.render('page/read', {
       layout: 'main',
-      data: {},
+      data: {
+        program_title: viewingPage.program.title,
+        name: viewingPage.name,
+        title: viewingPage.title,
+        description: viewingPage.description,
+        section: viewingPage.section,
+      },
     });
   }
 
