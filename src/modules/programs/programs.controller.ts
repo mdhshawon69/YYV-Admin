@@ -14,6 +14,7 @@ import { ProgramsService } from './programs.service';
 import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { fileUpload } from 'src/config/multer.config';
+import { calculatePagination } from 'src/helpers/pagination';
 
 @Controller('programs')
 export class ProgramsController {
@@ -21,20 +22,48 @@ export class ProgramsController {
 
   //CMS Controller
   @Get()
-  async getAllPrograms(@Res() res: Response, @Query('keywords') keywords) {
+  async getAllPrograms(
+    @Res() res: Response,
+    @Query('keywords') keywords,
+    @Query('page') page,
+  ) {
     const allPrograms = await this.programsService.getAllPrograms();
-    const allProgramsRow = [];
+    let allProgramsRow = [];
     allPrograms.forEach((item) => {
       const tempItem = { ...item };
       tempItem.banner_image = `${process.env.BASE_URL}/uploads/programs/${item.banner_image}`;
       allProgramsRow.push(tempItem);
     });
-    const filtedPrograms = allProgramsRow.filter((program) => {
-      return program.title.toLowerCase().includes(keywords?.toLowerCase());
-    });
+    if (keywords) {
+      const tempArray = allProgramsRow.filter((item) =>
+        item.title.toLowerCase().includes(keywords.toLowerCase()),
+      );
+      allProgramsRow = [...tempArray];
+    }
+
+    const currentPage = page || 1;
+    const totalItems = allProgramsRow.length;
+
+    const {
+      startIndex,
+      endIndex,
+      pages,
+      hasPrev,
+      prevPage,
+      hasNext,
+      nextPage,
+    } = calculatePagination(currentPage, totalItems, keywords);
+
+    const itemsForPage = allProgramsRow.slice(startIndex, endIndex);
     return res.render('programs/list', {
       layout: 'main',
-      row: !keywords ? allProgramsRow : filtedPrograms,
+      row: itemsForPage,
+      pages,
+      hasPrev,
+      prevPage,
+      hasNext,
+      nextPage,
+      keywords,
     });
   }
 
@@ -59,7 +88,7 @@ export class ProgramsController {
   @Post('create-program')
   @UseInterceptors(FileInterceptor('banner_image', fileUpload(`programs`)))
   async createProgram(@Body() body, @Res() res, @UploadedFile() file) {
-    const link = `${body.title.split(' ').join('-')}`;
+    const link = `${body.title.toLowerCase().split(' ').join('-')}`;
     try {
       const createdProgram = await this.programsService.createProgram({
         type: body.type,
@@ -112,7 +141,6 @@ export class ProgramsController {
     @Res() res: Response,
     @UploadedFile() file,
   ) {
-    console.log(body);
     const link = `${body.title.split(' ').join('-')}`;
     try {
       const editedprogram = await this.programsService.editProgram(id, {

@@ -14,20 +14,59 @@ import {
 import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { fileUpload } from 'src/config/multer.config';
+import { calculatePagination } from 'src/helpers/pagination';
 
 @Controller('content')
 export class ContentController {
   constructor(private readonly contentService: ContentService) {}
 
   @Get()
-  async getAllContents(@Res() res: Response, @Query('keywords') keywords) {
+  async getAllContents(
+    @Res() res: Response,
+    @Query('keywords') keywords,
+    @Query('page') page,
+  ) {
     const allContents = await this.contentService.getAllContents();
     const filtedContents = allContents.filter((Content) => {
       return Content.title.toLowerCase().includes(keywords?.toLowerCase());
     });
+    let allContentsRow = [];
+    allContents.forEach((item) => {
+      item.thumb_image = `${process.env.BASE_URL}/uploads/content/${item.thumb_image}`;
+      return allContentsRow.push(item);
+    });
+
+    if (keywords) {
+      const tempArray = allContentsRow.filter((item) =>
+        item.title.toLowerCase().includes(keywords.toLowerCase()),
+      );
+      allContentsRow = [...tempArray];
+    }
+
+    const currentPage = page || 1;
+    const totalItems = allContentsRow.length;
+
+    const {
+      startIndex,
+      endIndex,
+      pages,
+      hasPrev,
+      prevPage,
+      hasNext,
+      nextPage,
+    } = calculatePagination(currentPage, totalItems, keywords);
+
+    const itemsForPage = allContentsRow.slice(startIndex, endIndex);
+
     return res.render('content/list', {
       layout: 'main',
-      row: !keywords ? allContents : filtedContents,
+      row: itemsForPage,
+      pages,
+      hasPrev,
+      prevPage,
+      hasNext,
+      nextPage,
+      keywords,
     });
   }
 
@@ -148,7 +187,7 @@ export class ContentController {
     return res.render('content/read', {
       layout: 'main',
       data: {
-        section: viewingContent.section,
+        section_title: viewingContent.section.title,
         title: viewingContent.title,
         sub_title: viewingContent.sub_title,
         extra_title: viewingContent.extra_title,
@@ -156,8 +195,8 @@ export class ContentController {
         link_two: viewingContent.link_two,
         description_one: viewingContent.description_one,
         description_two: viewingContent.description_two,
-        thumb_image: viewingContent.thumb_image,
-        banner_image: viewingContent.thumb_image,
+        thumb_image: `${process.env.BASE_URL}/uploads/content/${viewingContent.thumb_image}`,
+        banner_image: `${process.env.BASE_URL}/uploads/content/${viewingContent.thumb_image}`,
         image_source: viewingContent.image_source,
       },
     });

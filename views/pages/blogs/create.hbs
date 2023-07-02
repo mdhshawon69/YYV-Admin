@@ -16,25 +16,19 @@
         </div>
         <div class='p-6 w-full'>
 
-          <form
-            class='w-full'
-            id='form'
-            x-data='{user: {
-          email: null,
-          password: null
-        }}'
-            @submit.prevent=''
-          >
-            <div class='space-y-5'>
+          <form class='w-full' id='form' @submit.prevent=''>
+            <div class='space-y-5' x-data="{value: ''}">
               <label class='block text-sm'>
                 <span class='text-gray-700 dark:text-gray-400'>Blog Type</span>
                 <select
+                  x-model='value'
+                  id='select'
                   name='blog_type'
                   class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
                 >
                   <option selected disabled>Please select an option</option>
                   <option value='news'>News</option>
-                  <option value='views'>Views</option>
+                  <option id='views' value='views'>Views</option>
                   <option value='stories'>Stories</option>
                   <option value='newsletter'>Newsletter</option>
                 </select>
@@ -47,6 +41,33 @@
                   name='blog_title'
                 />
               </label>
+              <label class='block text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>Sub Title</span>
+                <input
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  placeholder='Jane Doe'
+                  name='sub_title'
+                />
+              </label>
+
+              <label class='block text-sm' x-show="value === 'views'">
+                <span class='text-gray-700 dark:text-gray-400'>Viewer's Name</span>
+                <input
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  placeholder='Jane Doe'
+                  name='name_of_viewer'
+                />
+              </label>
+              <label class='block text-sm' x-show="value === 'views'">
+                <span class='text-gray-700 dark:text-gray-400'>Viewer's
+                  Designation</span>
+                <input
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  placeholder='Jane Doe'
+                  name='designation_of_viewer'
+                />
+              </label>
+
               <label class='block text-sm'>
                 <span class='text-gray-700 dark:text-gray-400'>Thumb Image</span>
                 <input
@@ -90,3 +111,7 @@
 
 <!-- Initialize Quill editor -->
 <script src='/js/create-blog.js' defer></script>
+<script>
+  const views = document.getElementById('select'); console.log(views)
+  views.addEventListener('change', (e) => { value = e.target.value })
+</script>

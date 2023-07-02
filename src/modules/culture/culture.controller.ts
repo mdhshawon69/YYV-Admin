@@ -14,6 +14,7 @@ import {
 import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { fileUpload } from 'src/config/multer.config';
+import { calculatePagination } from 'src/helpers/pagination';
 
 @Controller('culture')
 export class CultureController {
@@ -21,20 +22,50 @@ export class CultureController {
 
   //Get all Cultures CMS Controller
   @Get()
-  async getAllCultures(@Res() res: Response, @Query('keywords') keywords) {
+  async getAllCultures(
+    @Res() res: Response,
+    @Query('keywords') keywords,
+    @Query('page') page,
+  ) {
     const allCultures = await this.cultureService.getAllCulture();
-    const allCulturesRow = [];
+    let allCulturesRow = [];
     allCultures.forEach((item) => {
       const tempItem = { ...item };
       tempItem.thumb_image = `uploads/culture/${item.thumb_image}`;
       allCulturesRow.push(tempItem);
     });
-    const filteredCultures = allCulturesRow.filter((culture) => {
-      return culture.title.toLowerCase().includes(keywords?.toLowerCase());
-    });
+
+    if (keywords) {
+      const tempArray = allCulturesRow.filter((item) =>
+        item.title.toLowerCase().includes(keywords.toLowerCase()),
+      );
+      allCulturesRow = [...tempArray];
+    }
+
+    const currentPage = page || 1;
+    const totalItems = allCulturesRow.length;
+
+    const {
+      startIndex,
+      endIndex,
+      pages,
+      hasPrev,
+      prevPage,
+      hasNext,
+      nextPage,
+    } = calculatePagination(currentPage, totalItems, keywords);
+
+    const itemsForPage = allCulturesRow.slice(startIndex, endIndex);
+
     return res.render('culture/list', {
       layout: 'main',
-      row: !keywords ? allCulturesRow : filteredCultures,
+      row: itemsForPage,
+      pages,
+      hasPrev,
+      prevPage,
+      hasNext,
+      nextPage,
+      keywords,
     });
   }
 

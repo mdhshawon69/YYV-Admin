@@ -13,6 +13,10 @@ export class BlogService {
     return this.blogModel.find().lean();
   }
 
+  async getAllBlogsApi() {
+    return this.blogModel.find().lean();
+  }
+
   async createBlog(blog) {
     return await this.blogModel.create(blog);
   }

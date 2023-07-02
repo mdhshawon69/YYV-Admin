@@ -13,20 +13,51 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { calculatePagination } from 'src/helpers/pagination';
 
 @Controller('about')
 export class AboutController {
   constructor(private readonly aboutService: AboutService) {}
 
   @Get()
-  async getAllAbouts(@Res() res: Response, @Query('keywords') keywords) {
+  async getAllAbouts(
+    @Res() res: Response,
+    @Query('page') page,
+    @Query('keywords') keywords,
+  ) {
     const allAbouts = await this.aboutService.getAllAbout();
-    const filteredAbouts = allAbouts.filter((about) => {
-      return about.title.toLowerCase().includes(keywords?.toLowerCase());
-    });
+    let allAboutsRow = [...allAbouts];
+    if (keywords) {
+      const tempArray = allAbouts.filter((item) =>
+        item.title.toLowerCase().includes(keywords.toLowerCase()),
+      );
+      allAboutsRow = [...tempArray];
+    }
+
+    const currentPage = page || 1;
+    const totalItems = allAboutsRow.length;
+
+    const {
+      startIndex,
+      endIndex,
+      pages,
+      hasPrev,
+      prevPage,
+      hasNext,
+      nextPage,
+    } = calculatePagination(currentPage, totalItems, keywords);
+
+    const itemsForPage = allAboutsRow.slice(startIndex, endIndex);
+
     return res.render('about/list', {
       layout: 'main',
-      row: !keywords ? allAbouts : filteredAbouts,
+      row: itemsForPage,
+      pages,
+      hasPrev,
+      prevPage,
+      hasNext,
+      nextPage,
+      keywords,
     });
   }
 

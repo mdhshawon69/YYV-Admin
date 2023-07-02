@@ -14,6 +14,7 @@ import { Response } from 'express';
 import { PartnersService } from './partners.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { fileUpload } from 'src/config/multer.config';
+import { calculatePagination } from 'src/helpers/pagination';
 
 @Controller('partners')
 export class PartnersController {
@@ -21,20 +22,48 @@ export class PartnersController {
 
   //Get all partners CMS Controller
   @Get()
-  async getAllPartners(@Res() res: Response, @Query('keywords') keywords) {
+  async getAllPartners(
+    @Res() res: Response,
+    @Query('keywords') keywords,
+    @Query('page') page,
+  ) {
     const allPartners = await this.partnersService.getAllPartners();
-    const allPartnersRow = [];
+    let allPartnersRow = [];
     allPartners.forEach((item) => {
       const tempItem = { ...item };
       tempItem.partner_logo = `uploads/partners/${item.partner_logo}`;
       allPartnersRow.push(tempItem);
     });
-    const filteredPartners = allPartnersRow.filter((partner) => {
-      return partner.name.toLowerCase().includes(keywords?.toLowerCase());
-    });
+    if (keywords) {
+      const tempArray = allPartnersRow.filter((item) =>
+        item.title.toLowerCase().includes(keywords.toLowerCase()),
+      );
+      allPartnersRow = [...tempArray];
+    }
+
+    const currentPage = page || 1;
+    const totalItems = allPartnersRow.length;
+
+    const {
+      startIndex,
+      endIndex,
+      pages,
+      hasPrev,
+      prevPage,
+      hasNext,
+      nextPage,
+    } = calculatePagination(currentPage, totalItems, keywords);
+
+    const itemsForPage = allPartnersRow.slice(startIndex, endIndex);
     return res.render('partners/list', {
       layout: 'main',
-      row: !keywords ? allPartnersRow : filteredPartners,
+      row: itemsForPage,
+      pages,
+      hasPrev,
+      prevPage,
+      hasNext,
+      nextPage,
+      keywords,
     });
   }
 
@@ -72,7 +101,7 @@ export class PartnersController {
     });
     try {
       return res.json({
-        status: 'Success',
+        status: 'success',
         message: 'Successfully created partner!',
       });
     } catch (error) {

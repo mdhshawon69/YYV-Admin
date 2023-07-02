@@ -12,6 +12,7 @@ import {
 import { OurImpactService } from './our-impact.service';
 import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { calculatePagination } from 'src/helpers/pagination';
 
 @Controller('our-impact')
 export class OurImpactController {
@@ -19,18 +20,46 @@ export class OurImpactController {
 
   //Get all impact numbers CMS Controller
   @Get()
-  async getImpactNumbers(@Res() res: Response, @Query('keywords') keywords) {
+  async getImpactNumbers(
+    @Res() res: Response,
+    @Query('keywords') keywords,
+    @Query('page') page,
+  ) {
     try {
       const impactNumbers = await this.ourImpactService.getImpactNumbers();
-      const filteredImpactNumbers = impactNumbers.filter((impactNumber) => {
-        return impactNumber.title
-          .toLowerCase()
-          .includes(keywords?.toLowerCase());
-      });
+      let impactNumberRow = [...impactNumbers];
+
+      if (keywords) {
+        const tempArray = impactNumberRow.filter((item) =>
+          item.title.toLowerCase().includes(keywords.toLowerCase()),
+        );
+        impactNumberRow = [...tempArray];
+      }
+
+      const currentPage = page || 1;
+      const totalItems = impactNumberRow.length;
+
+      const {
+        startIndex,
+        endIndex,
+        pages,
+        hasPrev,
+        prevPage,
+        hasNext,
+        nextPage,
+      } = calculatePagination(currentPage, totalItems, keywords);
+
+      const itemsForPage = impactNumberRow.slice(startIndex, endIndex);
 
       return res.render('our-impact/list', {
         layout: 'main',
-        data: !keywords ? impactNumbers : filteredImpactNumbers,
+        data: itemsForPage,
+        pages,
+        hasPrev,
+        prevPage,
+        hasNext,
+        nextPage,
+        keywords,
       });
     } catch (error) {
       throw new Error('An error occured');

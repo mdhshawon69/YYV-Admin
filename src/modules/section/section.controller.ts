@@ -14,6 +14,7 @@ import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { fileUpload } from 'src/config/multer.config';
 import { SectionService } from './section.service';
+import { calculatePagination } from 'src/helpers/pagination';
 
 @Controller('section')
 export class SectionController {
@@ -21,14 +22,43 @@ export class SectionController {
 
   //CMS Controller
   @Get()
-  async getAllSections(@Res() res: Response, @Query('keywords') keywords) {
+  async getAllSections(
+    @Res() res: Response,
+    @Query('keywords') keywords,
+    @Query('page') page,
+  ) {
     const allSections = await this.sectionService.getAllSections();
-    const filtedSections = allSections.filter((section) => {
-      return section.name.toLowerCase().includes(keywords?.toLowerCase());
-    });
+    let allSectionsRow = [...allSections];
+    if (keywords) {
+      const tempArray = allSectionsRow.filter((item) =>
+        item.name.toLowerCase().includes(keywords.toLowerCase()),
+      );
+      allSectionsRow = [...tempArray];
+    }
+
+    const currentPage = page || 1;
+    const totalItems = allSectionsRow.length;
+
+    const {
+      startIndex,
+      endIndex,
+      pages,
+      hasPrev,
+      prevPage,
+      hasNext,
+      nextPage,
+    } = calculatePagination(currentPage, totalItems, keywords);
+
+    const itemsForPage = allSectionsRow.slice(startIndex, endIndex);
     return res.render('section/list', {
       layout: 'main',
-      row: !keywords ? allSections : filtedSections,
+      row: itemsForPage,
+      pages,
+      hasPrev,
+      prevPage,
+      hasNext,
+      nextPage,
+      keywords,
     });
   }
 

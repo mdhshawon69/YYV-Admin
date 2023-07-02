@@ -17,10 +17,19 @@ export class Blog extends Document {
   @Prop({ required: true })
   title: string;
 
+  @Prop()
+  sub_title: string;
+
+  @Prop()
+  name_of_viewer: string;
+
+  @Prop()
+  designation_of_viewer: string;
+
   @Prop({ required: true })
   description: string;
 
-  @Prop({ required: true })
+  @Prop()
   thumb_image: string;
 
   @Prop({ default: true })

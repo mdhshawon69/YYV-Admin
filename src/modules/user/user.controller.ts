@@ -16,20 +16,50 @@ import { UserService } from './user.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import * as bcrypt from 'bcrypt';
 import { ObjectId } from 'mongodb';
+import { calculatePagination } from 'src/helpers/pagination';
 
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
   @Get()
-  async getUsers(@Res() res: Response, @Query('keywords') keywords) {
+  async getUsers(
+    @Res() res: Response,
+    @Query('keywords') keywords,
+    @Query('page') page,
+  ) {
     const users = await this.userService.getAllUser();
-    const filteredUsers = users.filter((user) => {
-      return user.name.toLowerCase().includes(keywords?.toLowerCase());
-    });
+    let userRow = [...users];
+    if (keywords) {
+      const tempArray = userRow.filter((item) =>
+        item.name.toLowerCase().includes(keywords.toLowerCase()),
+      );
+      userRow = [...tempArray];
+    }
+
+    const currentPage = page || 1;
+    const totalItems = userRow.length;
+
+    const {
+      startIndex,
+      endIndex,
+      pages,
+      hasPrev,
+      prevPage,
+      hasNext,
+      nextPage,
+    } = calculatePagination(currentPage, totalItems, keywords);
+
+    const itemsForPage = userRow.slice(startIndex, endIndex);
 
     res.render('user/list', {
       layout: 'main',
-      users: !keywords ? users : filteredUsers,
+      users: itemsForPage,
+      pages,
+      hasPrev,
+      prevPage,
+      hasNext,
+      nextPage,
+      keywords,
     });
   }
 

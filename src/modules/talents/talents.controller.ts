@@ -13,20 +13,50 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { calculatePagination } from 'src/helpers/pagination';
 
 @Controller('talents')
 export class TalentsController {
   constructor(private readonly talentsService: TalentsService) {}
 
   @Get()
-  async getAllTalents(@Res() res: Response, @Query('keywords') keywords) {
+  async getAllTalents(
+    @Res() res: Response,
+    @Query('keywords') keywords,
+    @Query('page') page,
+  ) {
     const allTalents = await this.talentsService.getAllTalents();
-    const filteredTalents = allTalents.filter((Talent) => {
-      return Talent.job_title.toLowerCase().includes(keywords?.toLowerCase());
-    });
+    let allTalentsRow = [...allTalents];
+    if (keywords) {
+      const tempArray = allTalentsRow.filter((item) =>
+        item.job_title.toLowerCase().includes(keywords.toLowerCase()),
+      );
+      allTalentsRow = [...tempArray];
+    }
+
+    const currentPage = page || 1;
+    const totalItems = allTalentsRow.length;
+
+    const {
+      startIndex,
+      endIndex,
+      pages,
+      hasPrev,
+      prevPage,
+      hasNext,
+      nextPage,
+    } = calculatePagination(currentPage, totalItems, keywords);
+
+    const itemsForPage = allTalentsRow.slice(startIndex, endIndex);
     return res.render('talents/list', {
       layout: 'main',
-      row: !keywords ? allTalents : filteredTalents,
+      row: itemsForPage,
+      pages,
+      hasPrev,
+      prevPage,
+      hasNext,
+      nextPage,
+      keywords,
     });
   }
 

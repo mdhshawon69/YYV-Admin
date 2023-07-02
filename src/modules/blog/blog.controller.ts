@@ -15,6 +15,7 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { fileUpload } from 'src/config/multer.config';
+import { calculatePagination } from '../../helpers/pagination';
 
 @Controller('blogs')
 export class BlogController {
@@ -22,27 +23,55 @@ export class BlogController {
 
   //Get all blogs CMS Controller
   @Get()
-  async getAllBlogs(@Res() res: Response, @Query('keywords') keywords) {
+  async getAllBlogs(
+    @Res() res: Response,
+    @Query('keywords') keywords,
+    @Query('page') page,
+  ) {
     const allBlogs = await this.blogService.getAllBlogs();
-    const allBlogsRow = [];
+    let allBlogsRow = [];
     allBlogs.forEach((item) => {
       const tempItem = { ...item };
       tempItem.thumb_image = `${process.env.BASE_URL}/uploads/blog/${item.thumb_image}`;
       allBlogsRow.push(tempItem);
     });
-    const filtedBlogs = allBlogsRow.filter((blog) => {
-      return blog.title.toLowerCase().includes(keywords?.toLowerCase());
-    });
+    if (keywords) {
+      const tempArray = allBlogsRow.filter((item) =>
+        item.title.toLowerCase().includes(keywords.toLowerCase()),
+      );
+      allBlogsRow = [...tempArray];
+    }
+
+    const currentPage = page || 1;
+    const totalItems = allBlogsRow.length;
+
+    const {
+      startIndex,
+      endIndex,
+      pages,
+      hasPrev,
+      prevPage,
+      hasNext,
+      nextPage,
+    } = calculatePagination(currentPage, totalItems, keywords);
+
+    const itemsForPage = allBlogsRow.slice(startIndex, endIndex);
+
     return res.render('blogs/list', {
-      layout: 'main',
-      row: !keywords ? allBlogsRow : filtedBlogs,
+      row: itemsForPage,
+      pages,
+      hasPrev,
+      prevPage,
+      hasNext,
+      nextPage,
+      keywords,
     });
   }
 
   //Get all blogs API Controller
   @Get('api')
   async getAllBlogsApi(@Res() res: Response) {
-    const allBlogs = await this.blogService.getAllBlogs();
+    const allBlogs = await this.blogService.getAllBlogsApi();
     const allBlogsRow = [];
     allBlogs.forEach((item) => {
       const tempItem = { ...item };
@@ -71,6 +100,9 @@ export class BlogController {
       const createdBlog = await this.blogService.createBlog({
         type: body.blog_type,
         title: body.blog_title,
+        sub_title: body.sub_title,
+        name_of_viewer: body.name_of_viewer,
+        designation_of_viewer: body.designation_of_viewer,
         description: body.blog_description,
         thumb_image: file.filename,
       });
@@ -95,6 +127,9 @@ export class BlogController {
       data: {
         type: viewingBlog.type,
         title: viewingBlog.title,
+        sub_title: viewingBlog.sub_title,
+        name_of_viewer: viewingBlog.name_of_viewer,
+        designation_of_viewer: viewingBlog.designation_of_viewer,
         description: viewingBlog.description,
         thumb_image: `${process.env.BASE_URL}/uploads/blog/${viewingBlog.thumb_image}`,
       },
@@ -110,6 +145,9 @@ export class BlogController {
       data: {
         type: viewingBlog.type,
         title: viewingBlog.title,
+        sub_title: viewingBlog.sub_title,
+        name_of_viewer: viewingBlog.name_of_viewer,
+        designation_of_viewer: viewingBlog.designation_of_viewer,
         description: viewingBlog.description,
         thumb_image_source: viewingBlog.thumb_image,
         thumb_image: `${process.env.BASE_URL}/uploads/blog/${viewingBlog.thumb_image}`,
@@ -129,6 +167,9 @@ export class BlogController {
     try {
       const editedBlog = await this.blogService.editBlog(id, {
         title: body.blog_title,
+        sub_title: body.sub_title,
+        name_of_viewer: body.name_of_viewer,
+        designation_of_viewer: body.designation_of_viewer,
         description: body.blog_description,
         type: body.blog_type,
         thumb_image: file?.filename,

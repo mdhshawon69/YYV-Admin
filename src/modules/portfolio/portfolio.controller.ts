@@ -15,28 +15,55 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { fileUpload } from 'src/config/multer.config';
+import { calculatePagination } from 'src/helpers/pagination';
 
 @Controller('portfolio')
 export class PortfolioController {
   constructor(private readonly portfolioService: PortfolioService) {}
 
   @Get()
-  async getAllPortfolios(@Res() res: Response, @Query('keywords') keywords) {
+  async getAllPortfolios(
+    @Res() res: Response,
+    @Query('keywords') keywords,
+    @Query('page') page,
+  ) {
     const allPortfolios = await this.portfolioService.getAllPortfolios();
-    const allPortfoliosRow = [];
+    let allPortfoliosRow = [];
     allPortfolios.forEach((item) => {
       const tempItem = { ...item };
       tempItem.company_logo = `${process.env.BASE_URL}/uploads/portfolio/${item.company_logo}`;
       allPortfoliosRow.push(tempItem);
     });
-    const filteredPortfolios = allPortfoliosRow.filter((portfolio) => {
-      return portfolio?.company_name
-        .toLowerCase()
-        .includes(keywords?.toLowerCase());
-    });
+    if (keywords) {
+      const tempArray = allPortfoliosRow.filter((item) =>
+        item.company_name.toLowerCase().includes(keywords.toLowerCase()),
+      );
+      allPortfoliosRow = [...tempArray];
+    }
+
+    const currentPage = page || 1;
+    const totalItems = allPortfoliosRow.length;
+
+    const {
+      startIndex,
+      endIndex,
+      pages,
+      hasPrev,
+      prevPage,
+      hasNext,
+      nextPage,
+    } = calculatePagination(currentPage, totalItems, keywords);
+
+    const itemsForPage = allPortfoliosRow.slice(startIndex, endIndex);
     return res.render('portfolio/list', {
       layout: 'main',
-      row: !keywords ? allPortfoliosRow : filteredPortfolios,
+      row: itemsForPage,
+      pages,
+      hasPrev,
+      prevPage,
+      hasNext,
+      nextPage,
+      keywords,
     });
   }
 

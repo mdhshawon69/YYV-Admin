@@ -5,7 +5,7 @@ import { resolve, join } from 'path';
 import * as hbs from 'express-handlebars';
 import { UnauthorizedExceptionFilter } from './helpers/unauthorized-exceptions-filter';
 import { config } from 'dotenv';
-import { eq, trim } from './helpers/hbs-helper';
+import { current, eq, incIndex, queryVar, trim } from './helpers/hbs-helper';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -24,6 +24,9 @@ async function bootstrap() {
       helpers: {
         eq: eq,
         trim: trim,
+        incIndex: incIndex,
+        current: current,
+        queryVar: queryVar,
       },
     }),
   );

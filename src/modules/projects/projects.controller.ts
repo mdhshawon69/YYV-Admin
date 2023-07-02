@@ -15,6 +15,7 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { fileUpload } from 'src/config/multer.config';
+import { calculatePagination } from 'src/helpers/pagination';
 
 @Controller('projects')
 export class ProjectsController {
@@ -22,20 +23,48 @@ export class ProjectsController {
 
   //Get all Projects CMS Controller
   @Get()
-  async getAllProjects(@Res() res: Response, @Query('keywords') keywords) {
+  async getAllProjects(
+    @Res() res: Response,
+    @Query('keywords') keywords,
+    @Query('page') page,
+  ) {
     const allProjects = await this.projectService.getAllProjects();
-    const allProjectsRow = [];
+    let allProjectsRow = [];
     allProjects.forEach((item) => {
       const tempItem = { ...item };
       tempItem.thumb_image = `${process.env.BASE_URL}/uploads/projects/${item.thumb_image}`;
       allProjectsRow.push(tempItem);
     });
-    const filtedProjects = allProjectsRow.filter((Project) => {
-      return Project.title.toLowerCase().includes(keywords?.toLowerCase());
-    });
+    if (keywords) {
+      const tempArray = allProjectsRow.filter((item) =>
+        item.title.toLowerCase().includes(keywords.toLowerCase()),
+      );
+      allProjectsRow = [...tempArray];
+    }
+
+    const currentPage = page || 1;
+    const totalItems = allProjectsRow.length;
+
+    const {
+      startIndex,
+      endIndex,
+      pages,
+      hasPrev,
+      prevPage,
+      hasNext,
+      nextPage,
+    } = calculatePagination(currentPage, totalItems, keywords);
+
+    const itemsForPage = allProjectsRow.slice(startIndex, endIndex);
     return res.render('projects/list', {
       layout: 'main',
-      row: !keywords ? allProjectsRow : filtedProjects,
+      row: itemsForPage,
+      pages,
+      hasPrev,
+      prevPage,
+      hasNext,
+      nextPage,
+      keywords,
     });
   }
 

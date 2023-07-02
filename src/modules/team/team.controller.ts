@@ -14,27 +14,55 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { fileUpload } from 'src/config/multer.config';
+import { calculatePagination } from 'src/helpers/pagination';
 
 @Controller('team')
 export class TeamController {
   constructor(private readonly teamService: TeamService) {}
 
   @Get()
-  async getAllMembers(@Res() res: Response, @Query('keywords') keywords) {
+  async getAllMembers(
+    @Res() res: Response,
+    @Query('keywords') keywords,
+    @Query('page') page,
+  ) {
     const allMembers = await this.teamService.getAllMembers();
-    const allMemberRow = [];
+    let allMemberRow = [];
     allMembers.forEach((item) => {
       const tempItem = { ...item };
       tempItem.profile_image = `${process.env.BASE_URL}/uploads/team/${item.profile_image}`;
       allMemberRow.push(tempItem);
     });
-    const filteredMembers = allMembers.filter((member) => {
-      member.profile_image = `${process.env.BASE_URL}/uploads/team/${member.profile_image}`;
-      return member.name.toLowerCase().includes(keywords?.toLowerCase());
-    });
+    if (keywords) {
+      const tempArray = allMemberRow.filter((item) =>
+        item.name.toLowerCase().includes(keywords.toLowerCase()),
+      );
+      allMemberRow = [...tempArray];
+    }
+
+    const currentPage = page || 1;
+    const totalItems = allMemberRow.length;
+
+    const {
+      startIndex,
+      endIndex,
+      pages,
+      hasPrev,
+      prevPage,
+      hasNext,
+      nextPage,
+    } = calculatePagination(currentPage, totalItems, keywords);
+
+    const itemsForPage = allMemberRow.slice(startIndex, endIndex);
     return res.render('team/list', {
       layout: 'main',
-      row: !keywords ? allMemberRow : filteredMembers,
+      row: itemsForPage,
+      pages,
+      hasPrev,
+      prevPage,
+      hasNext,
+      nextPage,
+      keywords,
     });
   }
 

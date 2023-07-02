@@ -63,12 +63,12 @@
                     <div class='flex items-center text-sm'>
                       
                       <div>
-                        <p class='font-semibold md:text-xl text-sm'>{{this.title}}</p>
+                        <p class='font-semibold text-sm'>{{this.title}}</p>
                        
                       </div>
                     </div>
                   </td>
-                  <td class='px-4 py-3 md:text-xl text-sm'><img class="fit-contain md:w-40 w-20 h-auto" src="{{this.thumb_image}}" alt=""></td>
+                  <td class='px-4 py-3 md:text-xl text-sm'><img class="fit-contain w-20 h-auto" src="{{this.thumb_image}}" alt=""></td>
                   <td class='px-4 py-3 text-sm space-x-2'><button
                       id="deleteBtn"
                      @click="function deletePartner() {
@@ -128,10 +128,11 @@
           <!-- Pagination -->
           <span class='flex col-span-4 mt-2 sm:mt-auto sm:justify-end'>
             <nav aria-label='Table navigation'>
-              <ul class='inline-flex items-center'>
-                <li>
-                  <button
-                    class='px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple'
+              <ul class='inline-flex gap-2 items-center'>
+                {{#if hasPrev}}
+                  <li>
+                  <a href="?page={{prevPage}}&keywords={{keywords}}"
+                    class='px-3 py-1 rounded-md rounded-l-lg '
                     aria-label='Previous'
                   >
                     <svg
@@ -145,56 +146,31 @@
                         fill-rule='evenodd'
                       ></path>
                     </svg>
-                  </button>
+                  </a>
                 </li>
+                {{/if}}
+                {{#each pages}}
+                  <li>
+                    {{#if this.isActive}}
+                    <a href="?page={{this.pageNumber}}"
+                      class='px-3 py-1 bg-purple-600 rounded-md focus:outline-none focus:shadow-outline-purple'
+                    >
+                      {{this.pageNumber}}
+                    </a>
+                    {{else}}
+                    <a href="?page={{this.pageNumber}}&keywords={{../keywords}}"
+                      class='px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple'
+                    >
+                      {{this.pageNumber}}
+                    </a>
+                  {{/if}}
+                  </li>
+                {{/each}}
+
+                {{#if hasNext}}
                 <li>
-                  <button
-                    class='px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple'
-                  >
-                    1
-                  </button>
-                </li>
-                <li>
-                  <button
-                    class='px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple'
-                  >
-                    2
-                  </button>
-                </li>
-                <li>
-                  <button
-                    class='px-3 py-1 text-white transition-colors duration-150 bg-purple-600 border border-r-0 border-purple-600 rounded-md focus:outline-none focus:shadow-outline-purple'
-                  >
-                    3
-                  </button>
-                </li>
-                <li>
-                  <button
-                    class='px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple'
-                  >
-                    4
-                  </button>
-                </li>
-                <li>
-                  <span class='px-3 py-1'>...</span>
-                </li>
-                <li>
-                  <button
-                    class='px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple'
-                  >
-                    8
-                  </button>
-                </li>
-                <li>
-                  <button
-                    class='px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple'
-                  >
-                    9
-                  </button>
-                </li>
-                <li>
-                  <button
-                    class='px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple'
+                  <a href="?page={{nextPage}}&keywords={{keywords}}"
+                    class='px-3 py-1 rounded-md rounded-r-lg'
                     aria-label='Next'
                   >
                     <svg
@@ -208,8 +184,9 @@
                         fill-rule='evenodd'
                       ></path>
                     </svg>
-                  </button>
+                  </a>
                 </li>
+                {{/if}}
               </ul>
             </nav>
           </span>

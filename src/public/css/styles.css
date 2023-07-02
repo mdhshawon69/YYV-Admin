@@ -12,3 +12,7 @@ aside img {
 .w-fit {
   width: fit-content;
 }
+
+.active {
+  color: red;
+}
