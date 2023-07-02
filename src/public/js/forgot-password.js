@@ -11,7 +11,6 @@ form.addEventListener('submit', async (e) => {
   console.log(result);
   if (result.status === 'Success') {
     Swal.fire({
-      position: 'top-end',
       icon: 'success',
       title: 'A reset link has been sent to your email',
       showConfirmButton: false,
@@ -19,7 +18,6 @@ form.addEventListener('submit', async (e) => {
     });
   } else {
     Swal.fire({
-      position: 'top-end',
       icon: 'error',
       title: `${result.message}`,
       showConfirmButton: false,

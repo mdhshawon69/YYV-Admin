@@ -25,3 +25,8 @@ export function queryVar(query) {
     return query;
   };
 }
+
+export function eqNav(matcher, value1, value2) {
+  const href = location.href.includes(matcher);
+  return href ? value1 : value2;
+}

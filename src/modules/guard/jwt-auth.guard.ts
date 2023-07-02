@@ -23,7 +23,6 @@ export class JwtAuthGuard implements CanActivate {
       request.path === '/auth/login' ||
       request.path === '/auth/forgot-password' ||
       request.path === '/auth/reset-password' ||
-      request.path === '/programs/create-program' ||
       request.path.includes('/api')
     ) {
       return true;
@@ -41,7 +40,6 @@ export class JwtAuthGuard implements CanActivate {
         throw new UnauthorizedException();
       }
     }
-
     return true;
   }
 }
