@@ -71,10 +71,10 @@ export class TeamController {
   async getAllMembersApi(@Res() res: Response) {
     const allMembers = [];
     const teamMembersArr = await this.teamService.getAllMembers();
-    allMembers.forEach((item) => {
+    teamMembersArr.forEach((item) => {
       const tempItem = { ...item };
       tempItem.profile_image = `${process.env.BASE_URL}/uploads/team/${item.profile_image}`;
-      teamMembersArr.push(tempItem);
+      allMembers.push(tempItem);
     });
     return res.json({ data: allMembers });
   }
