@@ -27,6 +27,7 @@ export class AuthController {
     const rawJwt = req.headers.cookie;
     const jwt = rawJwt?.split('jwt=')[1];
     if (!jwt) {
+      res.clearCookie('jwt', { path: '/' });
       res.render('auth/login', { layout: 'authLayout' });
     } else {
       res.redirect('/');

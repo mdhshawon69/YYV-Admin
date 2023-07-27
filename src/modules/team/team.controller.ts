@@ -69,7 +69,13 @@ export class TeamController {
   //Get all Members API Controller
   @Get('api')
   async getAllMembersApi(@Res() res: Response) {
-    const allMembers = await this.teamService.getAllMembers();
+    const allMembers = [];
+    const teamMembersArr = await this.teamService.getAllMembers();
+    allMembers.forEach((item) => {
+      const tempItem = { ...item };
+      tempItem.profile_image = `${process.env.BASE_URL}/uploads/team/${item.profile_image}`;
+      teamMembersArr.push(tempItem);
+    });
     return res.json({ data: allMembers });
   }
 

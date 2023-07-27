@@ -18,7 +18,7 @@ export class JwtAuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<any | boolean> {
     const request = context.switchToHttp().getRequest();
     const response = context.switchToHttp().getResponse();
-    // console.log(request);
+    console.log(response);
     if (
       request.path === '/auth/login' ||
       request.path === '/auth/forgot-password' ||
@@ -34,7 +34,16 @@ export class JwtAuthGuard implements CanActivate {
         secret: 'secret',
       });
 
-      request['user'] = payload;
+      if (payload.exp) {
+        const expirationTimestamp = payload.exp * 1000;
+        const currentTimestamp = Date.now();
+
+        if (currentTimestamp > expirationTimestamp) {
+          throw new UnauthorizedException();
+        } else {
+          request['user'] = payload;
+        }
+      }
     } catch (error) {
       if (error) {
         throw new UnauthorizedException();

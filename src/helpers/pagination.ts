@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 export const calculatePagination = (currentPage, totalItems, keywords) => {
   const currentPageNumber = Number(currentPage);
-  const itemsPerPage = 2;
+  const itemsPerPage = 10;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
