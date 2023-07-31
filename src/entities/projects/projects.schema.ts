@@ -14,7 +14,7 @@ export class Project extends Document {
   thumb_image: string;
 
   @Prop()
-  project_link: string;
+  link: string;
 
   @Prop({ required: true })
   project_location: string;

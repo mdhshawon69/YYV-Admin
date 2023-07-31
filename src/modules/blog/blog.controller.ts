@@ -97,15 +97,19 @@ export class BlogController {
     @UploadedFile() file,
   ) {
     try {
-      const createdBlog = await this.blogService.createBlog({
+      const data = {
         type: body.blog_type,
-        title: body.blog_title,
+        title: body.title,
         sub_title: body.sub_title,
         name_of_viewer: body.name_of_viewer,
         designation_of_viewer: body.designation_of_viewer,
         description: body.blog_description,
         thumb_image: file.filename,
-      });
+        link: '',
+      };
+      data.link = `${body.title.toLowerCase().split(' ').join('-')}`;
+      const createdBlog = await this.blogService.createBlog(data);
+      console.log(createdBlog);
       return res.json({
         status: 'Success',
         message: 'Successfully created blog!',
@@ -166,7 +170,7 @@ export class BlogController {
   ) {
     try {
       const editedBlog = await this.blogService.editBlog(id, {
-        title: body.blog_title,
+        title: body.title,
         sub_title: body.sub_title,
         name_of_viewer: body.name_of_viewer,
         designation_of_viewer: body.designation_of_viewer,

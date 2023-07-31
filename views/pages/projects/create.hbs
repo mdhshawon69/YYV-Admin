@@ -1,4 +1,5 @@
 <div
+  x-data='{showLink: true}'
   class='shadow-lg min-h-fit rounded-md bg-gray-50 dark:bg-gray-800 md:my-10 mt-24 2xl:mx-20 md:mx-6 mx-3'
 >
 
@@ -35,14 +36,7 @@
                   name='file'
                 />
               </label>
-              <label class='block text-sm'>
-                <span class='text-gray-700 dark:text-gray-400'>Project Link</span>
-                <input
-                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
-                  placeholder='Jane Doe'
-                  name='project_link'
-                />
-              </label>
+
               <label class='block text-sm'>
                 <span class='text-gray-700 dark:text-gray-400'>Project Location</span>
                 <input
@@ -59,6 +53,25 @@
                 <input type='hidden' id='editor-content' name='description' />
               </label>
 
+              <label class='block text-sm' x-show='showLink'>
+                <span class='text-gray-700 dark:text-gray-400'>Project Link</span>
+                <input
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  placeholder='Jane Doe'
+                  name='link'
+                />
+              </label>
+              <label class='text-sm flex justify-start items-center gap-2'>
+                <span class='text-gray-700 dark:text-gray-400 font-bold'>Has
+                  Landing Page</span>
+                <input
+                  class='text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray'
+                  placeholder='Jane Doe'
+                  name='has_landing_page'
+                  type='checkbox'
+                  @click='showLink = ! showLink'
+                />
+              </label>
             </div>
 
             <!-- You should use a button here, as the anchor is only used for the example  -->

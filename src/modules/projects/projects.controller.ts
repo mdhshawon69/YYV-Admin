@@ -97,14 +97,17 @@ export class ProjectsController {
     @UploadedFile() file,
   ) {
     try {
-      const createdProject = await this.projectService.createProject({
+      const link = `${body.title.toLowerCase().split(' ').join('-')}`;
+      const data = {
         title: body.title,
         description: body.description,
         thumb_image: file.filename,
-        project_link: body.project_link,
+        link: body.has_landing_page === 'on' ? link : body.link,
         project_location: body.project_location,
-      });
-      console.log(createdProject);
+      };
+
+      const createdProject = await this.projectService.createProject(data);
+
       return res.json({
         status: 'Success',
         message: 'Successfully created Project!',
@@ -129,7 +132,7 @@ export class ProjectsController {
         thumb_image_source: viewingProject.thumb_image,
         thumb_image: `${process.env.BASE_URL}/uploads/projects/${viewingProject.thumb_image}`,
         project_location: viewingProject.project_location,
-        project_link: viewingProject.project_link,
+        project_link: viewingProject.link,
       },
     });
   }
@@ -172,7 +175,7 @@ export class ProjectsController {
         title: viewingProject.title,
         description: viewingProject.description,
         thumb_image: `${process.env.BASE_URL}/uploads/projects/${viewingProject.thumb_image}`,
-        project_link: viewingProject.project_link,
+        project_link: viewingProject.link,
         project_location: viewingProject.project_location,
       },
     });

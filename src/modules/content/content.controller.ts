@@ -15,6 +15,7 @@ import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { fileUpload } from 'src/config/multer.config';
 import { calculatePagination } from 'src/helpers/pagination';
+import { ObjectId } from 'mongodb';
 
 @Controller('content')
 export class ContentController {
@@ -27,9 +28,7 @@ export class ContentController {
     @Query('page') page,
   ) {
     const allContents = await this.contentService.getAllContents();
-    const filtedContents = allContents.filter((Content) => {
-      return Content.title.toLowerCase().includes(keywords?.toLowerCase());
-    });
+    console.log(allContents);
     let allContentsRow = [];
     allContents.forEach((item) => {
       item.thumb_image = `${process.env.BASE_URL}/uploads/content/${item.thumb_image}`;
@@ -61,6 +60,7 @@ export class ContentController {
     return res.render('content/list', {
       layout: 'main',
       row: itemsForPage,
+
       pages,
       hasPrev,
       prevPage,
@@ -79,8 +79,15 @@ export class ContentController {
 
   @Get('create-content')
   async getCreateContent(@Res() res: Response) {
-    const allSections = await this.contentService.getSections();
-    return res.render('content/create', { layout: 'main', data: allSections });
+    const allPages = await this.contentService.getPages();
+    return res.render('content/create', { layout: 'main', data: allPages });
+  }
+
+  @Get('/sections')
+  async getSections(@Query() query, @Res() res) {
+    const page = await this.contentService.getPagesById(query.page_id);
+    const allSections = page.section;
+    return res.json({ data: allSections });
   }
 
   @Post('create-content')
@@ -100,16 +107,16 @@ export class ContentController {
         banner_image: file.filename,
         image_source: body.image_source,
       };
+
       console.log(data);
-      const sections = await this.contentService.getSections();
-      const foundSection = sections.find(
-        (section) => section._id == body.section,
-      );
+
+      const section = await this.contentService.getSectionById(body.section);
+      console.log(section);
 
       const createdContent = await this.contentService.createContent(data);
       const saved = await this.contentService.saveContentToSection(
-        foundSection._id,
-        createdContent,
+        section._id,
+        createdContent._id,
       );
 
       return res.json({
@@ -126,7 +133,7 @@ export class ContentController {
 
   //Get Content edit form CMS Controller
   @Get('edit-content')
-  async getEditContent(@Query('id') id, @Res() res: Response) {
+  async getEditContent(@Query('id') id: any, @Res() res: Response) {
     const viewingContent = await this.contentService.viewContent(id);
 
     return res.render('content/update', {
@@ -209,7 +216,6 @@ export class ContentController {
     @Res() res: Response,
     @Query('section_id') section_id,
   ) {
-    console.log(section_id);
     try {
       const deletedContent = await this.contentService.deleteContent(
         id,

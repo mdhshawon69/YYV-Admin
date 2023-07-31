@@ -34,9 +34,9 @@ export class SectionService {
   async deleteSection(id, page_id) {
     const deleteItem = await this.sectionModel.findById(id);
 
-    const deleteFromPage = await this.pageModel.updateOne(
+    await this.pageModel.updateOne(
       { _id: page_id },
-      { $pull: { section: deleteItem } },
+      { $pull: { section: deleteItem._id } },
     );
 
     return await this.sectionModel.findByIdAndDelete(id);
@@ -49,7 +49,7 @@ export class SectionService {
   async saveSectionToPage(id, section) {
     const page = await this.pageModel.updateOne(
       { _id: id },
-      { $push: { section: section } },
+      { $push: { section: section._id } },
     );
     return page;
   }

@@ -2,16 +2,17 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
 import { Section } from '../section/section.schema';
+import { Page } from '../page/page.schema';
 
 @Schema()
 export class Content extends Document {
-  @Prop({ unique: true })
+  @Prop()
   title: string;
 
-  @Prop({ unique: true })
+  @Prop()
   sub_title: string;
 
-  @Prop({ unique: true })
+  @Prop()
   extra_title: string;
 
   @Prop()
@@ -43,6 +44,9 @@ export class Content extends Document {
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Section' })
   section: Section;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Page' })
+  page: Page;
 }
 
 export const ContentSchema = SchemaFactory.createForClass(Content);

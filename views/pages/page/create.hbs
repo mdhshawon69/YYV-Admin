@@ -20,15 +20,27 @@
           <form class='w-full' id='form' @submit.prevent=''>
             <div class='space-y-5'>
               <label class='block text-sm'>
-                <span class='text-gray-700 dark:text-gray-400'>Program Name</span>
+                <span class='text-gray-700 dark:text-gray-400'>Page Category</span>
                 <select
+                  id='page_for'
+                  name='category'
                   class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
-                  name='program'
                 >
                   <option selected disabled>Please select an option</option>
-                  {{#each data}}
-                    <option value='{{this._id}}'>{{this.title}}</option>
-                  {{/each}}
+                  <option value='program'>Program</option>
+                  <option value='blog'>Blog</option>
+                  <option value='project'>Project</option>
+                </select>
+              </label>
+              <label class='block text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>Page For</span>
+                <select
+                  id='select_item'
+                  name='page_for'
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                >
+                  <option selected disabled>Please select an option</option>
+
                 </select>
               </label>
               <label class='block text-sm'>
@@ -49,7 +61,7 @@
                 />
               </label> }}
               <label class='block text-sm'>
-                <span class='text-gray-700 dark:text-gray-400'>Title</span>
+                <span class='text-gray-700 dark:text-gray-400'>SEO Title</span>
                 <input
                   class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
                   placeholder='Jane Doe'
@@ -58,14 +70,21 @@
               </label>
 
               <label class='block text-sm'>
-                <span
-                  class='text-gray-700 dark:text-gray-400'
-                >Description</span>
+                <span class='text-gray-700 dark:text-gray-400'>SEO Description</span>
                 <textarea
                   class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
                   placeholder='Jane Doe'
                   name='description'
                 ></textarea>
+              </label>
+              <label class='block text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>SEO Image</span>
+                <input
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  placeholder='Jane Doe'
+                  name='file'
+                  type='file'
+                />
               </label>
             </div>
 
@@ -85,3 +104,12 @@
 <!-- Initialize Quill editor 
 <script src='https://cdn.jsdelivr.net/npm/quill-delta-to-html'></script> -->
 <script src='/js/create-page.js' defer></script>
+<script>
+  document.getElementById('page_for').addEventListener('change', async (e) => {
+  const res = await fetch(`/pages/page-category?category=${e.target.value}`);
+  const select = document.getElementById('select_item'); while
+  (select.options.length > 1) { select.remove(1); } const data = await
+  res.json(); console.log(data); data.data.forEach((item) => { const option =
+  document.createElement('option'); option.value = item._id; option.textContent
+  = item.title; select.appendChild(option); }); });
+</script>

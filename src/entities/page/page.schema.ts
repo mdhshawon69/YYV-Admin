@@ -18,19 +18,20 @@ export class Page extends Document {
   description: string;
 
   @Prop()
-  section: [
+  image: string;
+
+  @Prop([
     {
-      type: mongoose.Schema.Types.ObjectId;
-      ref: 'Section';
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Section',
     },
-  ];
+  ])
+  section: mongoose.Schema.Types.ObjectId[];
 
   @Prop({
     required: true,
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Programs',
   })
-  program: Programs;
+  page_for: string;
 
   @Prop({ default: true })
   is_active: boolean;

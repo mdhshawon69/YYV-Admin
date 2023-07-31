@@ -1,8 +1,7 @@
 <div
+  x-data="{ sections: [], selectedValue: '', }"
   class='shadow-lg min-h-fit rounded-md bg-gray-50 dark:bg-gray-800 md:my-10 mt-24 2xl:mx-20 md:mx-6 mx-3'
-  x-data='{showLink: true}'
 >
-
   <div class='flex items-center w-full mx-auto p-6'>
     <div class='flex-1 self-start md:w-1/2 mx-auto rounded-lg'>
       <div class='md:flex-row'>
@@ -20,17 +19,29 @@
           <form class='w-full' id='form' @submit.prevent=''>
             <div class='space-y-5'>
               <label class='block text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>Page Name</span>
+                <select
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  name='page'
+                  id='pageSelect'
+                >
+                  <option selected disabled>Please select an option</option>
+                  {{#each data}}
+                    <option value='{{this._id}}'>{{this.name}}</option>
+                  {{/each}}
+                </select>
+              </label>
+              <label class='block text-sm'>
                 <span class='text-gray-700 dark:text-gray-400'>Section Name</span>
                 <select
                   class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
                   name='section'
+                  id='selectSection'
                 >
                   <option selected disabled>Please select an option</option>
-                  {{#each data}}
-                    <option value='{{this._id}}'>{{this.title}}</option>
-                  {{/each}}
                 </select>
               </label>
+
               <label class='block text-sm'>
                 <span class='text-gray-700 dark:text-gray-400'>Title</span>
                 <input
@@ -127,3 +138,12 @@
 <!-- Initialize Quill editor 
 <script src='https://cdn.jsdelivr.net/npm/quill-delta-to-html'></script> -->
 <script src='/js/create-content.js' defer></script>
+<script>
+  document.getElementById('pageSelect').addEventListener('change', async (e) =>
+  { const res = await fetch(`/content/sections?page_id=${e.target.value}`);
+  const data = await res.json(); console.log(data); const selectElement =
+  document.getElementById('selectSection'); while (selectElement.options.length
+  > 1) { selectElement.remove(1); }; data.data.forEach((item) => { const option
+  = document.createElement('option'); option.value = item._id;
+  option.textContent = item.name; selectElement.appendChild(option); }); });
+</script>

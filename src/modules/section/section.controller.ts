@@ -28,6 +28,7 @@ export class SectionController {
     @Query('page') page,
   ) {
     const allSections = await this.sectionService.getAllSections();
+
     let allSectionsRow = [...allSections];
     if (keywords) {
       const tempArray = allSectionsRow.filter((item) =>
@@ -72,6 +73,7 @@ export class SectionController {
   @Get('create-section')
   async getCreateSection(@Res() res: Response) {
     const allPages = await this.sectionService.getPages();
+
     return res.render('section/create', { layout: 'main', data: allPages });
   }
 
@@ -92,7 +94,7 @@ export class SectionController {
       const createdSection = await this.sectionService.createSection(data);
       const saved = await this.sectionService.saveSectionToPage(
         foundPage._id,
-        createdSection,
+        createdSection._id,
       );
 
       return res.json({

@@ -37,6 +37,9 @@ export class Blog extends Document {
 
   @Prop({ default: Date.now })
   published_at: Date;
+
+  @Prop()
+  link: string;
 }
 
 export const BlogSchema = SchemaFactory.createForClass(Blog);

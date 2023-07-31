@@ -48,7 +48,9 @@ export class PageController {
       hasNext,
       nextPage,
     } = calculatePagination(currentPage, totalItems, keywords);
-
+    allPagesRow.forEach((item) => {
+      item.image = `${process.env.BASE_URL}/uploads/page/${item.image}`;
+    });
     const itemsForPage = allPagesRow.slice(startIndex, endIndex);
     return res.render('page/list', {
       layout: 'main',
@@ -66,38 +68,48 @@ export class PageController {
   @Get('api')
   async getAllPagesApi(@Res() res: Response) {
     const allPages = await this.pageService.getAllPages();
+    allPages.forEach((item) => {
+      item.image = `${process.env.BASE_URL}/uploads/page/${item.image}`;
+    });
     return res.json({ data: allPages });
   }
 
   @Get('create-page')
   async getCreatePage(@Res() res: Response) {
-    const allPrograms = await this.pageService.getPrograms();
-    return res.render('page/create', { layout: 'main', data: allPrograms });
+    return res.render('page/create', { layout: 'main' });
+  }
+
+  @Get('page-category')
+  async getPageCategory(@Query() query, @Res() res) {
+    const pageCategory = await this.pageService.getPageCategory(query.category);
+    res.json({ data: pageCategory });
   }
 
   @Post('create-page')
-  @UseInterceptors(FileInterceptor('file'))
-  async createPage(@Body() body, @Res() res) {
+  @UseInterceptors(FileInterceptor('file', fileUpload(`page`)))
+  async createPage(@Body() body, @Res() res, @UploadedFile() file) {
     try {
       const data = {
-        program: body.program,
+        page_for: body.page_for,
         name: body.name,
         title: body.title,
         description: body.description,
         slug: '',
+        image: file.filename,
       };
-      console.log(body.program, body.name);
-      const programs = await this.pageService.getPrograms();
-      const foundProgram = programs.find(
-        (program) => program._id == body.program,
+
+      const programs: any = await this.pageService.getPageCategory(
+        body.category,
       );
-      console.log(foundProgram);
-      data.slug = foundProgram.link;
+
+      const foundProgram = programs?.find(
+        (program) => program._id == body.page_for,
+      );
+
+      data.slug = foundProgram.link || '';
+      data.page_for = foundProgram.title;
       const createdPage = await this.pageService.createPage(data);
-      const saved = await this.pageService.savePageToProgram(
-        foundProgram._id,
-        createdPage,
-      );
+      console.log(createdPage);
 
       return res.json({
         status: 'success',
@@ -115,21 +127,22 @@ export class PageController {
   @Get('edit-page')
   async getEditPage(@Query('id') id, @Res() res: Response) {
     const viewingPage = await this.pageService.viewPage(id);
-    console.log(viewingPage);
+
     return res.render('page/update', {
       layout: 'main',
       data: {
-        program_title: viewingPage.program.title,
+        program_title: viewingPage.page_for,
         name: viewingPage.name,
         title: viewingPage.title,
         description: viewingPage.description,
+        image: `${process.env.BASE_URL}/uploads/page/${viewingPage.image}`,
       },
     });
   }
 
   //Edit Page CMS Controller
   @Put('edit-page/:id')
-  @UseInterceptors(FileInterceptor('banner_image', fileUpload(`Pages`)))
+  @UseInterceptors(FileInterceptor('file', fileUpload(`page`)))
   async editPage(
     @Body() body,
     @Param('id') id,
@@ -142,6 +155,7 @@ export class PageController {
         name: body.name,
         title: body.title,
         description: body.description,
+        image: file.filename,
       });
       console.log(editedPage);
       res.json({
@@ -161,11 +175,12 @@ export class PageController {
     return res.render('page/read', {
       layout: 'main',
       data: {
-        program_title: viewingPage.program.title,
+        program_title: viewingPage.page_for,
         name: viewingPage.name,
         title: viewingPage.title,
         description: viewingPage.description,
         section: viewingPage.section,
+        image: `${process.env.BASE_URL}/uploads/page/${viewingPage.image}`,
       },
     });
   }
