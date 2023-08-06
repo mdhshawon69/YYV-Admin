@@ -90,7 +90,9 @@ export class PageController {
   async createPage(@Body() body, @Res() res, @UploadedFile() file) {
     try {
       const data = {
+        category: body.category,
         page_for: body.page_for,
+        pattern: body.pattern,
         name: body.name,
         title: body.title,
         description: body.description,
@@ -131,7 +133,8 @@ export class PageController {
     return res.render('page/update', {
       layout: 'main',
       data: {
-        program_title: viewingPage.page_for,
+        category: viewingPage.category,
+        page_for: viewingPage.page_for,
         name: viewingPage.name,
         title: viewingPage.title,
         description: viewingPage.description,
@@ -175,7 +178,8 @@ export class PageController {
     return res.render('page/read', {
       layout: 'main',
       data: {
-        program_title: viewingPage.page_for,
+        page_for: viewingPage.page_for,
+        category: viewingPage.category,
         name: viewingPage.name,
         title: viewingPage.title,
         description: viewingPage.description,

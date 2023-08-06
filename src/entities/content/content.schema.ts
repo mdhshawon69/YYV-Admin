@@ -6,23 +6,35 @@ import { Page } from '../page/page.schema';
 
 @Schema()
 export class Content extends Document {
-  @Prop()
+  @Prop({ unique: false })
   title: string;
 
   @Prop()
   sub_title: string;
 
   @Prop()
-  extra_title: string;
+  description_one: string;
 
   @Prop()
-  banner_image: string;
+  description_two: string;
 
   @Prop()
-  thumb_image: string;
+  image_one: string;
 
   @Prop()
-  image_source: string;
+  image_two: string;
+
+  @Prop()
+  image_title_one: string;
+
+  @Prop()
+  image_title_two: string;
+
+  @Prop()
+  image_desc_one: string;
+
+  @Prop()
+  image_desc_two: string;
 
   @Prop()
   link_one: string;
@@ -31,10 +43,10 @@ export class Content extends Document {
   link_two: string;
 
   @Prop()
-  description_one: string;
+  image_source: string;
 
   @Prop()
-  description_two: string;
+  closing_date: string;
 
   @Prop({ default: true })
   is_active: boolean;

@@ -41,15 +41,7 @@
                   value="{{data.name}}"
                 />
               </label>
-              {{! <label class='block text-sm'>
-                <span class='text-gray-700 dark:text-gray-400'>Slug</span>
-                <input
-                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
-                  placeholder='Jane Doe'
-                  name='slug'
-                  value=''
-                />
-              </label> }}
+              
               <label class='block text-sm'>
                 <span class='text-gray-700 dark:text-gray-400'>Title</span>
                 <input
@@ -64,11 +56,14 @@
                 <span
                   class='text-gray-700 dark:text-gray-400'
                 >Description</span>
-                <textarea
-                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                <div id="editor"></div>
+                <input
+                  id="description"
                   placeholder='Jane Doe'
                   name='description'
-                >{{data.description}}</textarea>
+                  type="hidden"
+                  value="{{data.description}}"
+                />
               </label>
 
               <label class='text-sm flex justify-start items-center gap-2'>
@@ -99,4 +94,8 @@
 
 <!-- Initialize Quill editor 
 <script src='https://cdn.jsdelivr.net/npm/quill-delta-to-html'></script> -->
+<script>
+  var editor1 = new RichTextEditor("#editor"); content =
+  document.getElementById('description').value; editor1.setHTMLCode(content)
+</script>
 <script src='/js/edit-section.js' defer></script>

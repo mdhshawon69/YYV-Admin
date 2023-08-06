@@ -8,7 +8,7 @@ form.addEventListener('submit', async (e) => {
   document.getElementById('editor-content-two').value = editor2.getHTMLCode();
 
   const formData = new FormData(form);
-  const response = await fetch(`/about/edit-about/${id}`, {
+  const response = await fetch(`/vision/edit-about/${id}`, {
     method: 'PUT',
     body: formData,
   });
@@ -21,7 +21,7 @@ form.addEventListener('submit', async (e) => {
       timer: 1500,
     });
     setTimeout(() => {
-      location.replace('/about'), 1000;
+      location.replace('/vision'), 1000;
     });
   } else {
     Swal.fire({

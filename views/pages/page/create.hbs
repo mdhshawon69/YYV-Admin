@@ -1,6 +1,6 @@
 <div
   class='shadow-lg min-h-fit rounded-md bg-gray-50 dark:bg-gray-800 md:my-10 mt-24 2xl:mx-20 md:mx-6 mx-3'
-  x-data='{showLink: true}'
+  x-data='{showPattern: false}'
 >
 
   <div class='flex items-center w-full mx-auto p-6'>
@@ -32,6 +32,18 @@
                   <option value='project'>Project</option>
                 </select>
               </label>
+              <label class='block text-sm' id='pattern'>
+                <span class='text-gray-700 dark:text-gray-400'>Blog Pattern</span>
+                <select
+                  name='pattern'
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                >
+                  <option selected disabled>Please select an option</option>
+                  <option value='pattern-one'>Pattern One</option>
+                  <option value='pattern-two'>Pattern Two</option>
+                  <option value='pattern-three'>Pattern Three</option>
+                </select>
+              </label>
               <label class='block text-sm'>
                 <span class='text-gray-700 dark:text-gray-400'>Page For</span>
                 <select
@@ -48,18 +60,11 @@
                 <input
                   class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
                   placeholder='Jane Doe'
+                  id='pageName'
                   name='name'
                 />
               </label>
-              {{! <label class='block text-sm'>
-                <span class='text-gray-700 dark:text-gray-400'>Slug</span>
-                <input
-                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
-                  placeholder='Jane Doe'
-                  name='slug'
-                  value=''
-                />
-              </label> }}
+
               <label class='block text-sm'>
                 <span class='text-gray-700 dark:text-gray-400'>SEO Title</span>
                 <input
@@ -105,11 +110,15 @@
 <script src='https://cdn.jsdelivr.net/npm/quill-delta-to-html'></script> -->
 <script src='/js/create-page.js' defer></script>
 <script>
+  document.getElementById('pattern').classList.add('hidden');
   document.getElementById('page_for').addEventListener('change', async (e) => {
-  const res = await fetch(`/pages/page-category?category=${e.target.value}`);
-  const select = document.getElementById('select_item'); while
-  (select.options.length > 1) { select.remove(1); } const data = await
-  res.json(); console.log(data); data.data.forEach((item) => { const option =
-  document.createElement('option'); option.value = item._id; option.textContent
-  = item.title; select.appendChild(option); }); });
+  if(e.target.value === 'blog') {
+  document.getElementById('pattern').classList.remove('hidden') } else {
+  document.getElementById('pattern').classList.add('hidden') }; const res =
+  await fetch(`/pages/page-category?category=${e.target.value}`); const select =
+  document.getElementById('select_item'); while (select.options.length > 1) {
+  select.remove(1); } const data = await res.json(); console.log(data);
+  data.data.forEach((item) => { const option = document.createElement('option');
+  option.value = item._id; option.textContent = item.title;
+  select.appendChild(option); }); });
 </script>

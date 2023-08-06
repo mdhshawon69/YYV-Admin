@@ -1,8 +1,11 @@
 /* eslint-disable prettier/prettier */
-
-const form = document.querySelector('#form'); // form submit handler
+var editor1 = new RichTextEditor('#editor');
+const form = document.querySelector('#form');
+// form submit handler
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
+  document.getElementById('description').value = editor1.getHTMLCode();
+
   const formData = new FormData(form);
   const response = await fetch('/section/create-section', {
     method: 'POST',

@@ -74,6 +74,8 @@ export class SectionController {
   async getCreateSection(@Res() res: Response) {
     const allPages = await this.sectionService.getPages();
 
+    console.log(allPages);
+
     return res.render('section/create', { layout: 'main', data: allPages });
   }
 
@@ -88,6 +90,7 @@ export class SectionController {
         description: body.description,
         is_multiple_content: body.is_multiple_content === 'on' ? true : false,
       };
+      console.log(data);
       const pages = await this.sectionService.getPages();
       const foundPage = pages.find((page) => page._id == body.page);
 
@@ -182,6 +185,7 @@ export class SectionController {
         id,
         page_id,
       );
+
       return res.json({
         status: 'Success',
         message: 'Section deleted successfully!',

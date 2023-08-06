@@ -9,7 +9,7 @@ form.addEventListener('submit', async (e) => {
   document.getElementById('editor-content-two').value = editor2.getHTMLCode();
 
   const formData = new FormData(form);
-  const response = await fetch('/about/create-about', {
+  const response = await fetch('/vision/create-about', {
     method: 'POST',
     body: formData,
   });
@@ -22,7 +22,7 @@ form.addEventListener('submit', async (e) => {
       timer: 1500,
     });
     setTimeout(() => {
-      location.replace('/about'), 1000;
+      location.replace('/vision'), 1000;
     });
   } else {
     Swal.fire({

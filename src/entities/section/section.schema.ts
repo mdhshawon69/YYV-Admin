@@ -20,8 +20,8 @@ export class Section extends Document {
   @Prop({ default: false })
   is_multiple_content: boolean;
 
-  @Prop()
-  content: [{ type: mongoose.Schema.Types.ObjectId; ref: 'Content' }];
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Content' }] })
+  content: mongoose.Schema.Types.ObjectId[];
 }
 
 export const SectionSchema = SchemaFactory.createForClass(Section);

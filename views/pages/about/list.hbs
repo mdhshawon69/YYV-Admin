@@ -11,12 +11,12 @@
         <h2
           class='my-6 text-4xl font-semibold text-gray-700 dark:text-gray-200 lg:w-auto w-full'
         >
-          About
+        Vision
         </h2>
         <div
           class='flex lg:flex-row flex-col justify-center items-center gap-3'
         >
-          <form action='/about' method='GET' class='flex gap-3'>
+          <form action='/vision' method='GET' class='flex gap-3'>
             <input
               type='text'
               class='rounded px-2 dark:bg-gray-700 dark:text-gray-200'
@@ -30,14 +30,14 @@
               <i class='fa-solid fa-magnifying-glass'></i></button>
           </form>
           <a
-            href='/blogs'
+            href='/vision'
             class='text-white py-3 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs lg:w-auto w-full md:text-none text-center'
           >Reset
             <i class='fa-sharp fa-solid fa-arrow-rotate-right'></i></a>
           <a
-            href='/about/create-about'
+            href='/vision/create-about'
             class='text-white py-3 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs lg:w-auto w-full md:text-none text-center'
-          >Create about</a>
+          >Create Vision</a>
         </div>
       </div>
 
@@ -71,7 +71,7 @@
                      @click="function deleteBlog() {
                   Swal.fire({
                   title: 'Are you sure?',
-                  text: 'The about will be deleted permanently',
+                  text: 'The vision will be deleted permanently',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonColor: '#3085d6',
@@ -79,22 +79,22 @@
                   confirmButtonText: 'Delete'
                 }).then((result) => {
                   if (result.isConfirmed) {
-                    fetch(`/about/{{this._id}}`, {
+                    fetch(`/vision/{{this._id}}`, {
                       method: 'POST',
                     }).then((response) => {if(response.ok) {
                       console.log(response)
                       Swal.fire(
                       'Successful!',
-                      'Successfully deleted the about',
+                      'Successfully deleted the vision',
                       'success'
                       )
                       setTimeout(() => {
-                        location.replace('/about')
+                        location.replace('/vision')
                       }, 1500)
                     } else {
                       Swal.fire(
                       'An error has occurred!',
-                      `Cannot delete deleted the about`,
+                      `Cannot deleted the vision`,
                       'error'
                       )
                     }})
@@ -104,7 +104,7 @@
                     >
                       <i class='fa-sharp fa-solid fa-trash text-red-500'></i>
                     </button>
-                    <a href='/about/edit-about?id={{this._id}}' id="editBtn"><i
+                    <a href='/vision/edit-about?id={{this._id}}' id="editBtn"><i
               class='fa-solid fa-pen-to-square text-blue-600'
             ></i></a>
             <a href='/about/view-about?id={{this._id}}' id="viewBtn"><i class="fa-solid fa-eye text-blue-400 "></i></a>

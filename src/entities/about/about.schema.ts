@@ -7,6 +7,7 @@ enum AboutType {
   PROGRAMS = 'programs',
   PORTFOLIO = 'portfolio',
   ADVISORY_SERVICE = 'advisory_service',
+  HOME = 'home',
 }
 
 @Schema()
@@ -14,7 +15,7 @@ export class About extends Document {
   @Prop({ required: true, enum: AboutType })
   type: AboutType;
 
-  @Prop({ required: true })
+  @Prop()
   title: string;
 
   @Prop({ required: true })

@@ -75,10 +75,10 @@ export class BlogController {
     const allBlogsRow = [];
     allBlogs.forEach((item) => {
       const tempItem = { ...item };
-      tempItem.thumb_image = `uploads/blog/${item.thumb_image}`;
+      tempItem.thumb_image = `${process.env.BASE_URL}/uploads/blog/${item.thumb_image}`;
       allBlogsRow.push(tempItem);
     });
-    return res.json({ data: allBlogsRow });
+    return res.json({ data: allBlogsRow.reverse() });
   }
 
   //Get create blog form CMS Controller

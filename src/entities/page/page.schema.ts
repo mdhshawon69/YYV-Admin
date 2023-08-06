@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
-import { Programs } from '../programs/programs.schema';
 
 @Schema()
 export class Page extends Document {
@@ -10,6 +9,9 @@ export class Page extends Document {
 
   @Prop({ required: true, unique: true })
   slug: string;
+
+  @Prop()
+  pattern: string;
 
   @Prop()
   title: string;
@@ -32,6 +34,11 @@ export class Page extends Document {
     required: true,
   })
   page_for: string;
+
+  @Prop({
+    required: true,
+  })
+  category: string;
 
   @Prop({ default: true })
   is_active: boolean;

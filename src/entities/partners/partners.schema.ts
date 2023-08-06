@@ -10,7 +10,7 @@ export class Partners extends Document {
   @Prop({ required: true })
   partner_logo: string;
 
-  @Prop({ required: true })
+  @Prop()
   partner_link: string;
 
   @Prop({ default: true })

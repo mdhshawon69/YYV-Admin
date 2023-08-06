@@ -74,7 +74,7 @@ export class PortfolioController {
     const allPortfoliosRow = [];
     allPortfolios.forEach((item) => {
       const tempItem = { ...item };
-      tempItem.company_logo = `uploads/portfolio/${item.company_logo}`;
+      tempItem.company_logo = `${process.env.BASE_URL}/uploads/portfolio/${item.company_logo}`;
       allPortfoliosRow.push(tempItem);
     });
     return res.json({ data: allPortfoliosRow });

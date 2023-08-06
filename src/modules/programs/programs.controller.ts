@@ -74,7 +74,7 @@ export class ProgramsController {
     const allprogramsRow = [];
     allprograms.forEach((item) => {
       const tempItem = { ...item };
-      tempItem.banner_image = `uploads/programs/${item.banner_image}`;
+      tempItem.banner_image = `${process.env.BASE_URL}/uploads/programs/${item.banner_image}`;
       allprogramsRow.push(tempItem);
     });
     return res.json({ data: allprogramsRow });
@@ -153,13 +153,12 @@ export class ProgramsController {
         location: body.location,
         has_landing_page: body.has_landing_page === 'on' ? true : false,
       });
-      console.log(editedprogram);
+
       res.json({
         status: 'success',
         message: 'Successfully edited the program!',
       });
     } catch (error) {
-      console.log(error);
       res.json({ status: 'failed', message: 'Cannot edit the program' });
     }
   }

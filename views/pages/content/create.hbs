@@ -42,7 +42,7 @@
                 </select>
               </label>
 
-              <label class='block text-sm'>
+              <label class='block text-sm hide' id='title'>
                 <span class='text-gray-700 dark:text-gray-400'>Title</span>
                 <input
                   class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
@@ -50,7 +50,7 @@
                   name='title'
                 />
               </label>
-              <label class='block text-sm'>
+              <label class='block text-sm hide' id='sub_title'>
                 <span class='text-gray-700 dark:text-gray-400'>Sub-Title</span>
                 <input
                   class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
@@ -58,68 +58,129 @@
                   name='sub_title'
                 />
               </label>
-              <label class='block text-sm'>
-                <span
-                  class='text-gray-700 dark:text-gray-400'
-                >Extra-Title</span>
+              <label class='block text-sm hide' id='description_one'>
+                <span class='text-gray-700 dark:text-gray-400'>Description One</span>
+                <div id='editor_one'></div>
                 <input
-                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  type='hidden'
                   placeholder='Jane Doe'
-                  name='extra_title'
+                  name='description_one'
+                  id='desc_input_one'
                 />
               </label>
-              <label class='block text-sm'>
-                <span class='text-gray-700 dark:text-gray-400'>Link One</span>
+
+              <label class='block text-sm hide' id='description_two'>
+                <span class='text-gray-700 dark:text-gray-400'>Description Two</span>
+                <div id='editor_two'></div>
+                <input
+                  type='hidden'
+                  placeholder='Jane Doe'
+                  name='description_two'
+                  id='desc_input_two'
+                />
+              </label>
+              <label class='block text-sm hide' id='image_one'>
+                <span class='text-gray-700 dark:text-gray-400'>Image One</span>
                 <input
                   class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  type='file'
+                  placeholder='Jane Doe'
+                  name='image_one'
+                />
+              </label>
+
+              <label class='block text-sm hide' id='image_two'>
+                <span class='text-gray-700 dark:text-gray-400'>Image Two</span>
+                <input
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  type='file'
+                  placeholder='Jane Doe'
+                  name='image_two'
+                />
+              </label>
+              <label class='block text-sm hide' id='image_title_one'>
+                <span class='text-gray-700 dark:text-gray-400'>Image Title One</span>
+
+                <input
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  type='text'
+                  placeholder='Jane Doe'
+                  name='image_title_one'
+                />
+              </label>
+              <label class='block text-sm hide' id='image_title_two'>
+                <span class='text-gray-700 dark:text-gray-400'>Image Title Two</span>
+
+                <input
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  type='text'
+                  placeholder='Jane Doe'
+                  name='image_title_two'
+                />
+              </label>
+              <label class='block text-sm hide' id='image_desc_one'>
+                <span class='text-gray-700 dark:text-gray-400'>Image Description
+                  One</span>
+
+                <input
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  type='text'
+                  placeholder='Jane Doe'
+                  name='image_desc_one'
+                />
+              </label>
+              <label class='block text-sm hide' id='image_desc_two'>
+                <span class='text-gray-700 dark:text-gray-400'>Image Description
+                  Two</span>
+
+                <input
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  type='text'
+                  placeholder='Jane Doe'
+                  name='image_desc_two'
+                />
+              </label>
+              <label class='block text-sm hide' id='link_one'>
+                <span class='text-gray-700 dark:text-gray-400'>Link One</span>
+
+                <input
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  type='text'
                   placeholder='Jane Doe'
                   name='link_one'
                 />
               </label>
-              <label class='block text-sm'>
+              <label class='block text-sm hide' id='link_two'>
                 <span class='text-gray-700 dark:text-gray-400'>Link Two</span>
+
                 <input
                   class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  type='text'
                   placeholder='Jane Doe'
                   name='link_two'
                 />
               </label>
-
-              <label class='block text-sm'>
-                <span class='text-gray-700 dark:text-gray-400'>Description One</span>
-                <textarea
-                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
-                  placeholder='Jane Doe'
-                  name='description_one'
-                ></textarea>
-              </label>
-              <label class='block text-sm'>
-                <span class='text-gray-700 dark:text-gray-400'>Description Two</span>
-                <textarea
-                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
-                  placeholder='Jane Doe'
-                  name='description_two'
-                ></textarea>
-              </label>
-
-              <label class='block text-sm'>
-                <span class='text-gray-700 dark:text-gray-400'>Thumb Image /
-                  Banner Image</span>
-                <input
-                  type='file'
-                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
-                  placeholder='Jane Doe'
-                  name='file'
-                />
-              </label>
-              <label class='block text-sm'>
+              <label class='block text-sm hide' id='image_source'>
                 <span class='text-gray-700 dark:text-gray-400'>Image Source</span>
+
                 <input
                   class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  type='text'
                   placeholder='Jane Doe'
                   name='image_source'
                 />
               </label>
+              <label class='block text-sm hide' id='closing_date'>
+                <span class='text-gray-700 dark:text-gray-400'>Closing Date</span>
+
+                <input
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  type='text'
+                  placeholder='Jane Doe'
+                  name='closing_date'
+                />
+              </label>
+
             </div>
 
             <!-- You should use a button here, as the anchor is only used for the example  -->
@@ -135,15 +196,5 @@
   </div>
 </div>
 
-<!-- Initialize Quill editor 
-<script src='https://cdn.jsdelivr.net/npm/quill-delta-to-html'></script> -->
 <script src='/js/create-content.js' defer></script>
-<script>
-  document.getElementById('pageSelect').addEventListener('change', async (e) =>
-  { const res = await fetch(`/content/sections?page_id=${e.target.value}`);
-  const data = await res.json(); console.log(data); const selectElement =
-  document.getElementById('selectSection'); while (selectElement.options.length
-  > 1) { selectElement.remove(1); }; data.data.forEach((item) => { const option
-  = document.createElement('option'); option.value = item._id;
-  option.textContent = item.name; selectElement.appendChild(option); }); });
-</script>
+<script src='/js/content-form.js' defer></script>

@@ -22,7 +22,11 @@ export class ContentService {
   }
 
   async viewContent(id) {
-    return await this.contentModel.findById(id).populate('section', 'title');
+    return await this.contentModel
+      .findById(id)
+      .populate('section', 'name')
+      .populate('page', 'name')
+      .lean();
   }
 
   async editContent(id, Content) {
@@ -60,7 +64,7 @@ export class ContentService {
       { _id: id },
       { $push: { content: content } },
     );
-    console.log(section);
+
     return section;
   }
 }

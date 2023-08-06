@@ -15,7 +15,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { calculatePagination } from 'src/helpers/pagination';
 
-@Controller('about')
+@Controller('vision')
 export class AboutController {
   constructor(private readonly aboutService: AboutService) {}
 
@@ -87,7 +87,7 @@ export class AboutController {
       });
       return res.json({
         status: 'Success',
-        message: 'Successfully created About!',
+        message: 'Successfully created Vision!',
       });
     } catch (error) {
       return res.json({
@@ -125,7 +125,7 @@ export class AboutController {
       });
       res.json({
         status: 'success',
-        message: 'Successfully edited the About!',
+        message: 'Successfully edited the Vision!',
       });
     } catch (error) {
       res.json({ status: 'failed', message: 'Cannot edit the About' });

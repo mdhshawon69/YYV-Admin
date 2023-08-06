@@ -20,19 +20,35 @@
           <form class='w-full' id='form' @submit.prevent=''>
             <div class='space-y-5'>
               <label class='block text-sm'>
-                <span class='text-gray-700 dark:text-gray-400'>Section Name</span>
+                <span class='text-gray-700 dark:text-gray-400'>Page Name</span>
                 <select
                   class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
-                  name='section'
-                  disabled
+                  name='page'
                 >
+
                   <option
-                    value='{{data.section_id}}'
-                  >{{data.section_title}}</option>
+                    selected
+                    value='{{data.page._id}}'
+                  >{{data.page.name}}</option>
 
                 </select>
               </label>
               <label class='block text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>Section Name</span>
+                <select
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  name='section'
+                  id='selectSection'
+                >
+                  <option
+                    custom-data='{{data.section.name}}'
+                    value='{{data.section._id}}'
+                    selected
+                  >{{data.section.name}}</option>
+                </select>
+              </label>
+
+              <label class='block text-sm hide' id='title'>
                 <span class='text-gray-700 dark:text-gray-400'>Title</span>
                 <input
                   class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
@@ -41,7 +57,7 @@
                   value='{{data.title}}'
                 />
               </label>
-              <label class='block text-sm'>
+              <label class='block text-sm hide' id='sub_title'>
                 <span class='text-gray-700 dark:text-gray-400'>Sub-Title</span>
                 <input
                   class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
@@ -50,78 +66,139 @@
                   value='{{data.sub_title}}'
                 />
               </label>
-              <label class='block text-sm'>
-                <span
-                  class='text-gray-700 dark:text-gray-400'
-                >Extra-Title</span>
+              <label class='block text-sm hide' id='description_one'>
+                <span class='text-gray-700 dark:text-gray-400'>Description One</span>
+                <div id='editor_one'></div>
                 <input
-                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  type='hidden'
                   placeholder='Jane Doe'
-                  name='extra_title'
-                  value='{{data.extra_title}}'
+                  name='description_one'
+                  id='desc_input_one'
+                  value='{{data.description_one}}'
                 />
               </label>
-              <label class='block text-sm'>
-                <span class='text-gray-700 dark:text-gray-400'>Link One</span>
+
+              <label class='block text-sm hide' id='description_two'>
+                <span class='text-gray-700 dark:text-gray-400'>Description Two</span>
+                <div id='editor_two'></div>
+                <input
+                  type='hidden'
+                  placeholder='Jane Doe'
+                  name='description_two'
+                  id='desc_input_two'
+                  value='{{data.description_two}}'
+                />
+              </label>
+              <label class='block text-sm hide' id='image_one'>
+                <span class='text-gray-700 dark:text-gray-400'>Image One</span>
                 <input
                   class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  type='file'
+                  placeholder='Jane Doe'
+                  name='image_one'
+                />
+              </label>
+
+              <label class='block text-sm hide' id='image_two'>
+                <span class='text-gray-700 dark:text-gray-400'>Image Two</span>
+                <input
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  type='file'
+                  placeholder='Jane Doe'
+                  name='image_two'
+                />
+              </label>
+              <label class='block text-sm hide' id='image_title_one'>
+                <span class='text-gray-700 dark:text-gray-400'>Image Title One</span>
+
+                <input
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  type='text'
+                  placeholder='Jane Doe'
+                  name='image_title_one'
+                  value='{{data.image_title_one}}'
+                />
+              </label>
+              <label class='block text-sm hide' id='image_title_two'>
+                <span class='text-gray-700 dark:text-gray-400'>Image Title Two</span>
+
+                <input
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  type='text'
+                  placeholder='Jane Doe'
+                  name='image_title_two'
+                  value='{{data.image_title_one}}'
+                />
+              </label>
+              <label class='block text-sm hide' id='image_desc_one'>
+                <span class='text-gray-700 dark:text-gray-400'>Image Description
+                  One</span>
+
+                <input
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  type='text'
+                  placeholder='Jane Doe'
+                  name='image_desc_one'
+                  value='{{data.image_desc_one}}'
+                />
+              </label>
+              <label class='block text-sm hide' id='image_desc_two'>
+                <span class='text-gray-700 dark:text-gray-400'>Image Description
+                  Two</span>
+
+                <input
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  type='text'
+                  placeholder='Jane Doe'
+                  name='image_desc_two'
+                  value='{{data.image_desc_two}}'
+                />
+              </label>
+              <label class='block text-sm hide' id='link_one'>
+                <span class='text-gray-700 dark:text-gray-400'>Link One</span>
+
+                <input
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  type='text'
                   placeholder='Jane Doe'
                   name='link_one'
                   value='{{data.link_one}}'
                 />
               </label>
-              <label class='block text-sm'>
+              <label class='block text-sm hide' id='link_two'>
                 <span class='text-gray-700 dark:text-gray-400'>Link Two</span>
+
                 <input
                   class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  type='text'
                   placeholder='Jane Doe'
                   name='link_two'
                   value='{{data.link_two}}'
                 />
               </label>
-
-              <label class='block text-sm'>
-                <span class='text-gray-700 dark:text-gray-400'>Description One</span>
-                <textarea
-                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
-                  placeholder='Jane Doe'
-                  name='description_one'
-                >{{data.description_one}}</textarea>
-              </label>
-              <label class='block text-sm'>
-                <span class='text-gray-700 dark:text-gray-400'>Description Two</span>
-                <textarea
-                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
-                  placeholder='Jane Doe'
-                  name='description_two'
-                >{{data.description_two}}</textarea>
-              </label>
-
-              <label class='block text-sm'>
-                <span class='text-gray-700 dark:text-gray-400'>Banner Image</span>
-                <div class='flex justify-between gap-2'>
-                  <input
-                    type='file'
-                    class='block w-full text-sm h-11 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
-                    placeholder='Jane Doe'
-                    name='file'
-                  />
-                  <img
-                    class='md:w-52 w-20 h-auto fit-contain border dark:border-gray-200 p-3 rounded'
-                    src='{{data.banner_image}}'
-                    alt=''
-                  />
-                </div>
-              </label>
-              <label class='block text-sm'>
+              <label class='block text-sm hide' id='image_source'>
                 <span class='text-gray-700 dark:text-gray-400'>Image Source</span>
+
                 <input
                   class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  type='text'
                   placeholder='Jane Doe'
                   name='image_source'
                   value='{{data.image_source}}'
                 />
               </label>
+              <label class='block text-sm hide' id='closing_date'>
+                <span class='text-gray-700 dark:text-gray-400'>Closing Date</span>
+
+                <input
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  type='text'
+                  placeholder='Jane Doe'
+                  name='closing_date'
+                  value='{{data.closing_date}}'
+                />
+              </label>
+
             </div>
 
             <!-- You should use a button here, as the anchor is only used for the example  -->
@@ -139,4 +216,6 @@
 
 <!-- Initialize Quill editor 
 <script src='https://cdn.jsdelivr.net/npm/quill-delta-to-html'></script> -->
-<script src='/js/create-content.js' defer></script>
+
+<script src='/js/content-form-edit.js' defer></script>
+<script src='/js/edit-content.js' defer></script>

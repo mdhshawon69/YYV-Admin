@@ -16,7 +16,15 @@ export class PageService {
   ) {}
 
   async getAllPages() {
-    return await this.pageModel.find().populate('section').lean();
+    return await this.pageModel
+      .find()
+      .populate({
+        path: 'section',
+        populate: {
+          path: 'content',
+        },
+      })
+      .lean();
   }
 
   async createPage(Page) {
@@ -26,8 +34,9 @@ export class PageService {
   async viewPage(id) {
     return await this.pageModel
       .findById(id)
-      .populate('program', 'title')
-      .populate('section');
+      .populate('title')
+      .populate('section')
+      .populate('content');
   }
 
   async editPage(id, Page) {

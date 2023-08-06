@@ -75,7 +75,7 @@ export class ProjectsController {
     const allProjectsRow = [];
     allProjects.forEach((item) => {
       const tempItem = { ...item };
-      tempItem.thumb_image = `uploads/projects/${item.thumb_image}`;
+      tempItem.thumb_image = `${process.env.BASE_URL}/uploads/projects/${item.thumb_image}`;
       allProjectsRow.push(tempItem);
     });
     return res.json({ data: allProjectsRow });

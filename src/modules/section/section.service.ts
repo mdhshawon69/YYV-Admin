@@ -33,13 +33,14 @@ export class SectionService {
 
   async deleteSection(id, page_id) {
     const deleteItem = await this.sectionModel.findById(id);
+    console.log(deleteItem);
 
     await this.pageModel.updateOne(
       { _id: page_id },
       { $pull: { section: deleteItem._id } },
     );
 
-    return await this.sectionModel.findByIdAndDelete(id);
+    return await this.sectionModel.findByIdAndDelete(deleteItem._id);
   }
 
   async getPages() {

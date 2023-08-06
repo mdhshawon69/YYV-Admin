@@ -33,11 +33,29 @@
               </label>
               <label class='block text-sm'>
                 <span class='text-gray-700 dark:text-gray-400'>Name</span>
-                <input
+                <select
                   class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
                   placeholder='Jane Doe'
                   name='name'
-                />
+                >
+                  <option selected disabled>Please select an option</option>
+                  <option value='news-body'>News Body (Pattern three)</option>
+                  <option value='intro-section-two'>Intro Section (Pattern Two)</option>
+                  <option value='incubatees-section-two'>Incubatees Section
+                    (Pattern Two)</option>
+                  <option value='intro-section-one'>Intro Section (Pattern One)</option>
+                  <option value='participants-section-one'>Participants Section
+                    (Pattern One)</option>
+                  <option value='header-section'>Header Section</option>
+                  <option value='about-section'>About Section</option>
+                  <option value='what-offers-section'>What Offers Section</option>
+                  <option value='join-section'>Join Section</option>
+                  <option value='participants-section'>Participants Section</option>
+                  <option value='benefits-section'>Benefits Section</option>
+                  <option value='looking-for-section'>Looking For Section</option>
+                  <option value='project-body'>Project Body</option>
+
+                </select>
               </label>
               <label class='block text-sm'>
                 <span class='text-gray-700 dark:text-gray-400'>Title</span>
@@ -52,11 +70,8 @@
                 <span
                   class='text-gray-700 dark:text-gray-400'
                 >Description</span>
-                <textarea
-                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
-                  placeholder='Jane Doe'
-                  name='description'
-                ></textarea>
+                <div id='editor'></div>
+                <input type='hidden' id='description' name='description' />
               </label>
 
               <label class='text-sm flex justify-start items-center gap-2'>

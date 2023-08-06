@@ -31,7 +31,7 @@ export class PartnersController {
     let allPartnersRow = [];
     allPartners.forEach((item) => {
       const tempItem = { ...item };
-      tempItem.partner_logo = `uploads/partners/${item.partner_logo}`;
+      tempItem.partner_logo = `${process.env.BASE_URL}/uploads/partners/${item.partner_logo}`;
       allPartnersRow.push(tempItem);
     });
     if (keywords) {
@@ -74,7 +74,7 @@ export class PartnersController {
     const allPartnersRow = [];
     allPartners.forEach((item) => {
       const tempItem = { ...item };
-      tempItem.partner_logo = `uploads/partners/${item.partner_logo}`;
+      tempItem.partner_logo = `${process.env.BASE_URL}/uploads/partners/${item.partner_logo}`;
       allPartnersRow.push(tempItem);
     });
     return res.json({ data: allPartnersRow });
