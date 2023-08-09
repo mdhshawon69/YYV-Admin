@@ -83,6 +83,7 @@ export class TalentsController {
         job_description: body.job_description,
         job_responsibilities: body.job_responsibilities,
         qualifications: body.qualifications,
+        other_info: body.other_info,
         is_active: body.is_active,
       });
       return res.json({
@@ -108,6 +109,7 @@ export class TalentsController {
         job_description: viewingTalent.job_description,
         job_responsibilities: viewingTalent.job_responsibilities,
         qualifications: viewingTalent.qualifications,
+        other_info: viewingTalent.other_info,
         is_active: viewingTalent.is_active,
       },
     });
@@ -123,6 +125,7 @@ export class TalentsController {
         job_description: body.job_description,
         job_responsibilities: body.job_responsibilities,
         qualifications: body.qualifications,
+        other_info: body.other_info,
         is_active: body.is_active,
       });
       res.json({
@@ -145,6 +148,7 @@ export class TalentsController {
         job_description: viewingTalent.job_description,
         job_responsibilities: viewingTalent.job_responsibilities,
         qualifications: viewingTalent.qualifications,
+        other_info: viewingTalent.other_info,
         is_active: viewingTalent.is_active,
       },
     });

@@ -107,7 +107,11 @@ export class BlogController {
         thumb_image: file.filename,
         link: '',
       };
-      data.link = `${body.title.toLowerCase().split(' ').join('-')}`;
+      data.link = `${body.title
+        .replace(/[,:%]/g, '')
+        .toLowerCase()
+        .split(' ')
+        .join('-')}`;
       const createdBlog = await this.blogService.createBlog(data);
       console.log(createdBlog);
       return res.json({

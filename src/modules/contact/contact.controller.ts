@@ -68,8 +68,6 @@ export class ContactController {
         message: body.message,
       });
 
-      console.log(createdMessage);
-
       res.json({ status: 'success', message: 'Message sent successfully!' });
     } catch (error) {
       console.log(error);

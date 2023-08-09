@@ -6,7 +6,7 @@ import { Page } from '../page/page.schema';
 
 @Schema()
 export class Content extends Document {
-  @Prop({ unique: false })
+  @Prop()
   title: string;
 
   @Prop()

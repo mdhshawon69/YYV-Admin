@@ -16,6 +16,9 @@ export class Talents extends Document {
   @Prop({ required: true })
   qualifications: string;
 
+  @Prop({ required: true })
+  other_info: string;
+
   @Prop({ default: true })
   is_active: boolean;
 

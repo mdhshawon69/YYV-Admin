@@ -52,8 +52,8 @@
 
                 <th class='px-4 py-3'>Section Name</th>
                 <th class='px-4 py-3'>Title</th>
-                <th class='px-4 py-3'>Description</th>
-                <th class='px-4 py-3'>Thumb Image</th>
+                
+                <th class='px-4 py-3'>Image One</th>
                 <th class='px-4 py-3'>Actions</th>
               </tr>
             </thead>
@@ -64,8 +64,8 @@
                 <tr class='text-gray-700 dark:text-gray-400'>
                   <td class='px-4 py-3 text-sm capitalize'>{{this.section.name}}</td>
                   <td class='px-4 py-3 text-sm'>{{this.title}}</td>
-                  <td class='px-4 py-3 text-sm'>{{this.description_one}}</td>
-                  <td class='px-4 py-3 text-sm'><img src={{this.thumb_image}} class="w-20 h-auto object-contain" alt=""></td>
+                  
+                  <td class='px-4 py-3 text-sm'><img src={{this.image_one}} class="w-20 h-auto object-contain" alt=""></td>
                   <td class='px-4 py-3 text-sm space-x-2'><button id="deleteBtn"
                       
                      @click="function deleteProject() {

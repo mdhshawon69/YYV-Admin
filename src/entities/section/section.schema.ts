@@ -8,10 +8,10 @@ export class Section extends Document {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Page' })
   page: Page;
 
-  @Prop({ unique: true })
+  @Prop()
   name: string;
 
-  @Prop({ unique: true })
+  @Prop()
   title: string;
 
   @Prop()

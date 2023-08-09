@@ -8,6 +8,7 @@ enum AboutType {
   PORTFOLIO = 'portfolio',
   ADVISORY_SERVICE = 'advisory_service',
   HOME = 'home',
+  MEDIA_KIT = 'media_kit',
 }
 
 @Schema()

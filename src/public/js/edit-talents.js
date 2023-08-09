@@ -11,6 +11,9 @@ form.addEventListener('submit', async (e) => {
   document.getElementById('editor-content-qualifications').value =
     quillJobQualif.getHTMLCode();
 
+  document.getElementById('editor-content-other-info').value =
+    quillOtherInfo.getHTMLCode();
+
   const formData = new FormData(form);
   const response = await fetch(`/talents/edit-talent/${id}`, {
     method: 'PUT',

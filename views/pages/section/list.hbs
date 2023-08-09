@@ -52,7 +52,7 @@
 
                 <th class='px-4 py-3'>Name</th>
                 <th class='px-4 py-3'>Title</th>
-                <th class='px-4 py-3'>Description</th>
+                
                 <th class='px-4 py-3'>Page Name</th>
                 <th class='px-4 py-3'>Actions</th>
               </tr>
@@ -63,8 +63,8 @@
               {{#each row}}
                 <tr class='text-gray-700 dark:text-gray-400'>
                   <td class='px-4 py-3 text-sm'>{{this.name}}</td>
-                  <td class='px-4 py-3 text-sm'>{{this.title}}</td>
-                  <td class='px-4 py-3 text-sm'>{{{trim this.description}}}...</td>
+                  <td class='px-4 py-3 text-sm'>{{trim this.title}}...c</td>
+                  
                   <td class='px-4 py-3 text-sm'>{{this.page.name}}</td>
                   <td class='px-4 py-3 text-sm space-x-2'><button id="deleteBtn"
                       

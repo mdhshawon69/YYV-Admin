@@ -6,6 +6,8 @@ var quillJobResp = new RichTextEditor('#job_responsibilities');
 
 var quillJobQualif = new RichTextEditor('#job_qualifications');
 
+var quillOtherInfo = new RichTextEditor('#other_info');
+
 const form = document.querySelector('#form'); // form submit handler
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -15,6 +17,9 @@ form.addEventListener('submit', async (e) => {
     quillJobResp.getHTMLCode();
   document.getElementById('editor-content-qualifications').value =
     quillJobQualif.getHTMLCode();
+
+  document.getElementById('editor-content-other-info').value =
+    quillOtherInfo.getHTMLCode();
 
   const formData = new FormData(form);
   const response = await fetch('/talents/create-talent', {

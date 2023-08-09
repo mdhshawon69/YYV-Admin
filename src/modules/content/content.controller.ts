@@ -232,6 +232,7 @@ export class ContentController {
   @Get('view-content')
   async viewContent(@Query('id') id, @Res() res: Response) {
     const viewingContent = await this.contentService.viewContent(id);
+    console.log(viewingContent);
 
     return res.render('content/read', {
       layout: 'main',
@@ -242,8 +243,8 @@ export class ContentController {
         sub_title: viewingContent.sub_title,
         description_one: viewingContent.description_one,
         description_two: viewingContent.description_two,
-        image_one: viewingContent.image_one,
-        image_two: viewingContent.image_two,
+        image_one: `${process.env.BASE_URL}/uploads/content/${viewingContent.image_one}`,
+        image_two: `${process.env.BASE_URL}/uploads/content/${viewingContent.image_two}`,
         image_title_one: viewingContent.image_title_one,
         image_title_two: viewingContent.image_title_two,
         image_desc_one: viewingContent.image_desc_one,

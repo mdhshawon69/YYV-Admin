@@ -7,9 +7,9 @@
         <div>
           <div class='flex justify-between items-center lg:pb-16 pb-6 w-full'>
             <h2
-              class='lg:text-4xl text-2xl font-semibold text-gray-700 dark:text-gray-200 lg:w-auto w-fit'
+              class='lg:text-4xl text-2xl uppercase font-semibold text-gray-700 dark:text-gray-200 lg:w-auto w-fit'
             >
-              {{data.title}}
+              {{data.section.name}}
             </h2>
             <a
               class='text-white py-3 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs'
@@ -23,7 +23,7 @@
               <p class='dark:text-gray-200 font-bold lg:w-1/5'>Section Name:</p>
               <h1
                 class='text-gray-800 dark:text-gray-200 capitalize flex-1'
-              >{{data.section_title}}</h1>
+              >{{data.section.name}}</h1>
             </div>
             <div class='flex lg:flex-row flex-col justify-start'>
               <p class='dark:text-gray-200 font-bold lg:w-1/5'>Title:</p>
@@ -59,27 +59,38 @@
               <p class='dark:text-gray-200 font-bold lg:w-1/5'>Description One:</p>
               <h1
                 class='text-gray-800 dark:text-gray-200 capitalize flex-1'
-              >{{data.description_one}}</h1>
+              >{{{data.description_one}}}</h1>
             </div>
             <div class='flex lg:flex-row flex-col justify-start'>
               <p class='dark:text-gray-200 font-bold lg:w-1/5'>Description Two:</p>
               <h1
                 class='text-gray-800 dark:text-gray-200 capitalize flex-1'
-              >{{data.description_two}}</h1>
+              >{{{data.description_two}}}</h1>
             </div>
             <div class='flex lg:flex-row flex-col justify-start'>
-              <p class='dark:text-gray-200 text font-bold lg:w-1/5'>Banner
-                Image:</p>
+              <p class='dark:text-gray-200 text font-bold lg:w-1/5'>
+                Image One:</p>
               <div class='flex-1'>
                 <img
                   class='w-52 h-auto object-contain'
-                  src='{{data.thumb_image}}'
+                  src='{{data.image_one}}'
                   alt=''
                 />
               </div>
             </div>
             <div class='flex lg:flex-row flex-col justify-start'>
-              <p class='dark:text-gray-200 font-bold lg:w-1/5'>Description Two:</p>
+              <p class='dark:text-gray-200 text font-bold lg:w-1/5'>
+                Image Two:</p>
+              <div class='flex-1'>
+                <img
+                  class='w-52 h-auto object-contain'
+                  src='{{data.image_two}}'
+                  alt=''
+                />
+              </div>
+            </div>
+            <div class='flex lg:flex-row flex-col justify-start'>
+              <p class='dark:text-gray-200 font-bold lg:w-1/5'>Image Source:</p>
               <h1
                 class='text-gray-800 dark:text-gray-200 capitalize flex-1'
               >{{data.image_source}}</h1>
