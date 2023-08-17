@@ -32,7 +32,7 @@ export class BlogController {
     let allBlogsRow = [];
     allBlogs.forEach((item) => {
       const tempItem = { ...item };
-      tempItem.thumb_image = `${process.env.BASE_URL}/uploads/blog/${item.thumb_image}`;
+      tempItem.thumb_image = item.thumb_image;
       allBlogsRow.push(tempItem);
     });
     if (keywords) {
@@ -75,7 +75,7 @@ export class BlogController {
     const allBlogsRow = [];
     allBlogs.forEach((item) => {
       const tempItem = { ...item };
-      tempItem.thumb_image = `${process.env.BASE_URL}/uploads/blog/${item.thumb_image}`;
+      tempItem.thumb_image = item.thumb_image;
       allBlogsRow.push(tempItem);
     });
     return res.json({ data: allBlogsRow.reverse() });
@@ -104,7 +104,7 @@ export class BlogController {
         name_of_viewer: body.name_of_viewer,
         designation_of_viewer: body.designation_of_viewer,
         description: body.blog_description,
-        thumb_image: file.filename,
+        thumb_image: body.thumb_image,
         link: '',
       };
       data.link = `${body.title
@@ -139,7 +139,7 @@ export class BlogController {
         name_of_viewer: viewingBlog.name_of_viewer,
         designation_of_viewer: viewingBlog.designation_of_viewer,
         description: viewingBlog.description,
-        thumb_image: `${process.env.BASE_URL}/uploads/blog/${viewingBlog.thumb_image}`,
+        thumb_image: viewingBlog.thumb_image,
       },
     });
   }
@@ -158,7 +158,7 @@ export class BlogController {
         designation_of_viewer: viewingBlog.designation_of_viewer,
         description: viewingBlog.description,
         thumb_image_source: viewingBlog.thumb_image,
-        thumb_image: `${process.env.BASE_URL}/uploads/blog/${viewingBlog.thumb_image}`,
+        thumb_image: viewingBlog.thumb_image,
       },
     });
   }
@@ -180,7 +180,7 @@ export class BlogController {
         designation_of_viewer: body.designation_of_viewer,
         description: body.blog_description,
         type: body.blog_type,
-        thumb_image: file?.filename,
+        thumb_image: body.thumb_image,
       });
       res.json({ status: 'success', message: 'Successfully edited the blog!' });
     } catch (error) {

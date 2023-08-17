@@ -35,8 +35,12 @@ export class PageService {
     return await this.pageModel
       .findById(id)
       .populate('title')
-      .populate('section')
-      .populate('content');
+      .populate({
+        path: 'section',
+        populate: {
+          path: 'content',
+        },
+      });
   }
 
   async editPage(id, Page) {

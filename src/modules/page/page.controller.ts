@@ -49,7 +49,7 @@ export class PageController {
       nextPage,
     } = calculatePagination(currentPage, totalItems, keywords);
     allPagesRow.forEach((item) => {
-      item.image = `${process.env.BASE_URL}/uploads/page/${item.image}`;
+      item.image = item.image;
     });
     const itemsForPage = allPagesRow.slice(startIndex, endIndex);
     return res.render('page/list', {
@@ -69,7 +69,7 @@ export class PageController {
   async getAllPagesApi(@Res() res: Response) {
     const allPages = await this.pageService.getAllPages();
     allPages.forEach((item) => {
-      item.image = `${process.env.BASE_URL}/uploads/page/${item.image}`;
+      item.image = item.image;
     });
     return res.json({ data: allPages });
   }
@@ -97,7 +97,7 @@ export class PageController {
         title: body.title,
         description: body.description,
         slug: '',
-        image: file.filename,
+        image: body.image,
       };
 
       const programs: any = await this.pageService.getPageCategory(
@@ -138,7 +138,7 @@ export class PageController {
         name: viewingPage.name,
         title: viewingPage.title,
         description: viewingPage.description,
-        image: `${process.env.BASE_URL}/uploads/page/${viewingPage.image}`,
+        image: viewingPage.image,
       },
     });
   }
@@ -158,7 +158,7 @@ export class PageController {
         name: body.name,
         title: body.title,
         description: body.description,
-        image: file.filename,
+        image: body.image,
       });
       console.log(editedPage);
       res.json({
@@ -184,7 +184,7 @@ export class PageController {
         title: viewingPage.title,
         description: viewingPage.description,
         section: viewingPage.section,
-        image: `${process.env.BASE_URL}/uploads/page/${viewingPage.image}`,
+        image: viewingPage.image,
       },
     });
   }

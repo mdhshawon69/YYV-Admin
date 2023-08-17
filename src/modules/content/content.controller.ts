@@ -15,7 +15,6 @@ import { Response } from 'express';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { fileUpload } from 'src/config/multer.config';
 import { calculatePagination } from 'src/helpers/pagination';
-import { ObjectId } from 'mongodb';
 
 @Controller('content')
 export class ContentController {
@@ -31,8 +30,8 @@ export class ContentController {
     console.log(allContents);
     let allContentsRow = [];
     allContents.forEach((item) => {
-      item.image_one = `${process.env.BASE_URL}/uploads/content/${item.image_one}`;
-      item.image_two = `${process.env.BASE_URL}/uploads/content/${item.image_two}`;
+      item.image_one = item.image_one;
+      item.image_two = item.image_two;
       return allContentsRow.push(item);
     });
 
@@ -78,8 +77,8 @@ export class ContentController {
     console.log(allContents);
     const allContentsRow = [];
     allContents.forEach((item) => {
-      item.image_one = `${process.env.BASE_URL}/uploads/content/${item.image_one}`;
-      item.image_two = `${process.env.BASE_URL}/uploads/content/${item.image_two}`;
+      item.image_one = item.image_one;
+      item.image_two = item.image_two;
       allContentsRow.push(item);
     });
 
@@ -119,8 +118,8 @@ export class ContentController {
         sub_title: body.sub_title,
         description_one: body.description_one,
         description_two: body.description_two,
-        image_one: files.image_one?.[0].filename,
-        image_two: files.image_two?.[0].filename,
+        image_one: body.image_one,
+        image_two: body.image_two,
         image_title_one: body.image_title_one,
         image_title_two: body.image_title_two,
         image_desc_one: body.image_desc_one,
@@ -131,10 +130,7 @@ export class ContentController {
         closing_date: body.closing_date,
       };
 
-      console.log(data);
-
       const section = await this.contentService.getSectionById(body.section);
-      console.log(section);
 
       const createdContent = await this.contentService.createContent(data);
       const saved = await this.contentService.saveContentToSection(
@@ -207,8 +203,8 @@ export class ContentController {
         sub_title: body.sub_title,
         description_one: body.description_one,
         description_two: body.description_two,
-        image_one: files.image_one?.[0].filename,
-        image_two: files.image_two?.[0].filename,
+        image_one: body.image_one,
+        image_two: body.image_two,
         image_title_one: body.image_title_one,
         image_title_two: body.image_title_two,
         image_desc_one: body.image_desc_one,
@@ -243,8 +239,8 @@ export class ContentController {
         sub_title: viewingContent.sub_title,
         description_one: viewingContent.description_one,
         description_two: viewingContent.description_two,
-        image_one: `${process.env.BASE_URL}/uploads/content/${viewingContent.image_one}`,
-        image_two: `${process.env.BASE_URL}/uploads/content/${viewingContent.image_two}`,
+        image_one: viewingContent.image_one,
+        image_two: viewingContent.image_two,
         image_title_one: viewingContent.image_title_one,
         image_title_two: viewingContent.image_title_two,
         image_desc_one: viewingContent.image_desc_one,
