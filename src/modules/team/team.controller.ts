@@ -95,6 +95,7 @@ export class TeamController {
         designation: body.designation,
         linkedin_link: body.linkedin_link,
         profile_image: file.filename,
+        image_bg: body.image_bg,
       });
       return res.json({
         status: 'success',
@@ -119,6 +120,7 @@ export class TeamController {
         designation: viewingMember.designation,
         linkedin_link: viewingMember.linkedin_link,
         profile_image: `${process.env.BASE_URL}/uploads/team/${viewingMember.profile_image}`,
+        image_bg: viewingMember.image_bg,
       },
     });
   }
@@ -133,6 +135,7 @@ export class TeamController {
         designation: body.designation,
         linkedin_link: body.linkedin_link,
         profile_image: body.profile_image,
+        image_bg: body.image_bg,
         is_active: body.is_active,
       });
       res.json({
@@ -155,6 +158,7 @@ export class TeamController {
         designation: viewingMember.designation,
         linkedin_link: viewingMember.linkedin_link,
         profile_image: viewingMember.profile_image,
+        image_bg: viewingMember.image_bg,
         is_active: viewingMember.is_active,
       },
     });

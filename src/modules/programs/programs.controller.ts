@@ -31,7 +31,7 @@ export class ProgramsController {
     let allProgramsRow = [];
     allPrograms.forEach((item) => {
       const tempItem = { ...item };
-      tempItem.banner_image = `${process.env.BASE_URL}/uploads/programs/${item.banner_image}`;
+      tempItem.banner_image = `${item.banner_image}`;
       allProgramsRow.push(tempItem);
     });
     if (keywords) {

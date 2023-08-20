@@ -16,6 +16,9 @@ export class Team extends Document {
   @Prop({ required: true })
   profile_image: string;
 
+  @Prop({ required: true })
+  image_bg: string;
+
   @Prop({ default: true })
   is_active: boolean;
 

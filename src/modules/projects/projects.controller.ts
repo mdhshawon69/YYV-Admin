@@ -32,7 +32,7 @@ export class ProjectsController {
     let allProjectsRow = [];
     allProjects.forEach((item) => {
       const tempItem = { ...item };
-      tempItem.thumb_image = `${process.env.BASE_URL}/uploads/projects/${item.thumb_image}`;
+      tempItem.thumb_image = `${item.thumb_image}`;
       allProjectsRow.push(tempItem);
     });
     if (keywords) {
