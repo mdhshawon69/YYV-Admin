@@ -75,7 +75,7 @@ export class ProjectsController {
     const allProjectsRow = [];
     allProjects.forEach((item) => {
       const tempItem = { ...item };
-      tempItem.thumb_image = `${process.env.BASE_URL}/uploads/projects/${item.thumb_image}`;
+      tempItem.thumb_image = `${item.thumb_image}`;
       allProjectsRow.push(tempItem);
     });
     return res.json({ data: allProjectsRow });
@@ -101,7 +101,7 @@ export class ProjectsController {
       const data = {
         title: body.title,
         description: body.description,
-        thumb_image: file.filename,
+        thumb_image: body.thumb_image,
         link: body.has_landing_page === 'on' ? link : body.link,
         project_location: body.project_location,
       };
@@ -130,7 +130,7 @@ export class ProjectsController {
         title: viewingProject.title,
         description: viewingProject.description,
         thumb_image_source: viewingProject.thumb_image,
-        thumb_image: `${process.env.BASE_URL}/uploads/projects/${viewingProject.thumb_image}`,
+        thumb_image: `${viewingProject.thumb_image}`,
         project_location: viewingProject.project_location,
         project_link: viewingProject.link,
       },
@@ -151,7 +151,7 @@ export class ProjectsController {
         title: body.project_title,
         description: body.description,
         type: body.project_type,
-        thumb_image: file?.filename,
+        thumb_image: body.thumb_image,
         project_link: body.project_link,
         project_location: body.project_location,
       });
@@ -174,7 +174,7 @@ export class ProjectsController {
       data: {
         title: viewingProject.title,
         description: viewingProject.description,
-        thumb_image: `${process.env.BASE_URL}/uploads/projects/${viewingProject.thumb_image}`,
+        thumb_image: `${viewingProject.thumb_image}`,
         project_link: viewingProject.link,
         project_location: viewingProject.project_location,
       },

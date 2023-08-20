@@ -74,7 +74,7 @@ export class ProgramsController {
     const allprogramsRow = [];
     allprograms.forEach((item) => {
       const tempItem = { ...item };
-      tempItem.banner_image = `${process.env.BASE_URL}/uploads/programs/${item.banner_image}`;
+      tempItem.banner_image = `${item.banner_image}`;
       allprogramsRow.push(tempItem);
     });
     return res.json({ data: allprogramsRow });
@@ -94,7 +94,7 @@ export class ProgramsController {
         type: body.type,
         title: body.title,
         sub_title: body.sub_title,
-        banner_image: file.filename,
+        banner_image: body.banner_image,
         link: body.has_landing_page === 'on' ? link : body.link,
         status: body.status,
         location: body.location,
@@ -122,7 +122,7 @@ export class ProgramsController {
         type: viewingprogram.type,
         title: viewingprogram.title,
         sub_title: viewingprogram.sub_title,
-        banner_image: `${process.env.BASE_URL}/uploads/programs/${viewingprogram.banner_image}`,
+        banner_image: `${viewingprogram.banner_image}`,
         link: viewingprogram.link,
         status: viewingprogram.status,
         location: viewingprogram.location,
@@ -147,7 +147,7 @@ export class ProgramsController {
         type: body.type,
         title: body.title,
         sub_title: body.sub_title,
-        banner_image: file?.banner_image,
+        banner_image: body.banner_image,
         link: body.has_landing_program === 'on' ? link : body.link,
         status: body.status,
         location: body.location,
@@ -173,7 +173,7 @@ export class ProgramsController {
         type: viewingprogram.type,
         title: viewingprogram.title,
         sub_title: viewingprogram.sub_title,
-        banner_image: `${process.env.BASE_URL}/uploads/programs/${viewingprogram.banner_image}`,
+        banner_image: `${viewingprogram.banner_image}`,
         link: viewingprogram.link,
         status: viewingprogram.status,
         location: viewingprogram.location,
