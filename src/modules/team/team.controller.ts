@@ -30,7 +30,7 @@ export class TeamController {
     let allMemberRow = [];
     allMembers.forEach((item) => {
       const tempItem = { ...item };
-      tempItem.profile_image = `${process.env.BASE_URL}/uploads/team/${item.profile_image}`;
+      tempItem.profile_image = `${item.profile_image}`;
       allMemberRow.push(tempItem);
     });
     if (keywords) {
@@ -73,7 +73,7 @@ export class TeamController {
     const teamMembersArr = await this.teamService.getAllMembers();
     teamMembersArr.forEach((item) => {
       const tempItem = { ...item };
-      tempItem.profile_image = `${process.env.BASE_URL}/uploads/team/${item.profile_image}`;
+      tempItem.profile_image = `${item.profile_image}`;
       allMembers.push(tempItem);
     });
     return res.json({ data: allMembers });
@@ -94,7 +94,7 @@ export class TeamController {
         name: body.name,
         designation: body.designation,
         linkedin_link: body.linkedin_link,
-        profile_image: file.filename,
+        profile_image: body.profile_image,
         image_bg: body.image_bg,
       });
       return res.json({
@@ -119,7 +119,7 @@ export class TeamController {
         name: viewingMember.name,
         designation: viewingMember.designation,
         linkedin_link: viewingMember.linkedin_link,
-        profile_image: `${process.env.BASE_URL}/uploads/team/${viewingMember.profile_image}`,
+        profile_image: `${viewingMember.profile_image}`,
         image_bg: viewingMember.image_bg,
       },
     });

@@ -74,7 +74,7 @@ export class PartnersController {
     const allPartnersRow = [];
     allPartners.forEach((item) => {
       const tempItem = { ...item };
-      tempItem.partner_logo = `${process.env.BASE_URL}/uploads/partners/${item.partner_logo}`;
+      tempItem.partner_logo = `${item.partner_logo}`;
       allPartnersRow.push(tempItem);
     });
     return res.json({ data: allPartnersRow });
@@ -97,7 +97,7 @@ export class PartnersController {
     const createdPartner = await this.partnersService.createPartner({
       name: body.partner_name,
       partner_link: body.partner_link,
-      partner_logo: file.filename,
+      partner_logo: body.partner_logo,
     });
     try {
       return res.json({
@@ -116,7 +116,7 @@ export class PartnersController {
   @Get('edit-partner')
   async getEditPartner(@Res() res: Response, @Query('id') id) {
     const partner = await this.partnersService.getOnePartner(id);
-    console.log(partner);
+
     res.render('partners/update', {
       layout: 'main',
       data: {
@@ -141,7 +141,7 @@ export class PartnersController {
         id,
         body.partner_name,
         body.partner_link,
-        file?.filename,
+        body.partner_logo,
       );
 
       return res.json({

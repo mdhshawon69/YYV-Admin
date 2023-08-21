@@ -31,7 +31,7 @@ export class PortfolioController {
     let allPortfoliosRow = [];
     allPortfolios.forEach((item) => {
       const tempItem = { ...item };
-      tempItem.company_logo = `${process.env.BASE_URL}/uploads/portfolio/${item.company_logo}`;
+      tempItem.company_logo = `${item.company_logo}`;
       allPortfoliosRow.push(tempItem);
     });
     if (keywords) {
@@ -74,7 +74,7 @@ export class PortfolioController {
     const allPortfoliosRow = [];
     allPortfolios.forEach((item) => {
       const tempItem = { ...item };
-      tempItem.company_logo = `${process.env.BASE_URL}/uploads/portfolio/${item.company_logo}`;
+      tempItem.company_logo = `${item.company_logo}`;
       allPortfoliosRow.push(tempItem);
     });
     return res.json({ data: allPortfoliosRow });
@@ -99,7 +99,7 @@ export class PortfolioController {
       const createdPortfolio = await this.portfolioService.createPortfolio({
         type: body.portfolio_type,
         company_name: body.company_name,
-        company_logo: file.filename,
+        company_logo: body.company_logo,
         company_link: body.company_link,
       });
       console.log(createdPortfolio);
@@ -126,7 +126,7 @@ export class PortfolioController {
         company_name: viewingPortfolio.company_name,
         company_link: viewingPortfolio.company_link,
         company_logo_source: viewingPortfolio.company_logo,
-        company_logo: `${process.env.BASE_URL}/uploads/Portfolio/${viewingPortfolio.company_logo}`,
+        company_logo: `${viewingPortfolio.company_logo}`,
       },
     });
   }
@@ -146,7 +146,7 @@ export class PortfolioController {
         type: body.type,
         company_name: body.company_name,
         company_link: body.company_link,
-        company_logo: file?.filename,
+        company_logo: body.company_logo,
       });
       res.json({
         status: 'success',
