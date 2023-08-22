@@ -10,8 +10,8 @@ editor2.setHTMLCode(description_two);
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
-  document.getElementById('description_one').value = editor1.getHTMLCode();
-  document.getElementById('description_two').value = editor2.getHTMLCode();
+  document.getElementById('desc_input_one').value = editor1.getHTMLCode();
+  document.getElementById('desc_input_two').value = editor2.getHTMLCode();
 
   const formData = new FormData(form);
   const response = await fetch(`/content/edit-content/${id}`, {

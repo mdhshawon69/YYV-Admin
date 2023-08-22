@@ -23,6 +23,7 @@
                 <select
                   name='blog_type'
                   class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  id="select"
                 >
                   <option>Please select an option</option>
                   <option value='news' {{#if (eq data.type "news")}}selected{{else}}none{{/if}}>News</option>
@@ -36,7 +37,7 @@
                 <input
                   class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
                   placeholder='Jane Doe'
-                  name='blog_title'
+                  name='title'
                   value="{{data.title}}"
                 />
               </label>
@@ -93,6 +94,24 @@
                 </div>
 
               </label>
+              <label
+                class='{{eq data.type 'newsletter' 'block' 'hidden'}} text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>Newsletter File
+                  </span>
+                <input
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  placeholder='Jane Doe'
+                  name='newsletter_file'
+                  value="{{data.newsletter_file}}"
+                />
+                {{! <input
+                  type='file'
+                  class='block w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  placeholder='Jane Doe'
+                  name='file'
+                  id='image_file'
+                /> }}
+              </label>
               <label class='block text-sm'>
                 <span
                   class='text-gray-700 dark:text-gray-400'
@@ -125,5 +144,7 @@
 <script>
   var editor1 = new RichTextEditor("#inp_editor1"); content =
   document.getElementById('editor-content').value; editor1.setHTMLCode(content)
+  const select = document.getElementById('select').value;
+  console.log(select)
 </script>
 <script src='/js/edit-blog.js' defer></script>

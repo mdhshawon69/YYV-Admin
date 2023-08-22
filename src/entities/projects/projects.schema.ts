@@ -19,6 +19,9 @@ export class Project extends Document {
   @Prop({ required: true })
   project_location: string;
 
+  @Prop({ required: true })
+  status: string;
+
   @Prop({ default: true })
   is_active: boolean;
 

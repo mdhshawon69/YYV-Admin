@@ -49,6 +49,7 @@
               >
                 <th class='px-4 py-3'>Name</th>
                 <th class='px-4 py-3'>Profile Image</th>
+                <th class='px-4 py-3'>Profile BG</th>
                 <th class='px-4 py-3'>Designation</th>
                 <th class='px-4 py-3'>LinkedIn</th>
                 <th class='px-4 py-3'>Status</th>
@@ -68,6 +69,11 @@
                   <td class='px-4 py-3'>
                     <div class='flex items-center text-sm'>
                         <img src="{{this.profile_image}}" class="w-14 h-auto object-contain" alt="">
+                    </div>
+                  </td>
+                  <td class='px-4 py-3'>
+                    <div class='flex items-center text-sm'>
+                        <span class="w-10 h-10 mx-auto" style="background-color: {{this.image_bg}};" alt=""></span>
                     </div>
                   </td>
                   <td class='px-4 py-3'>

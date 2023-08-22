@@ -104,6 +104,7 @@ export class ProjectsController {
         thumb_image: body.thumb_image,
         link: body.has_landing_page === 'on' ? link : body.link,
         project_location: body.project_location,
+        status: body.status,
       };
 
       const createdProject = await this.projectService.createProject(data);
@@ -133,6 +134,7 @@ export class ProjectsController {
         thumb_image: `${viewingProject.thumb_image}`,
         project_location: viewingProject.project_location,
         project_link: viewingProject.link,
+        status: viewingProject.status,
       },
     });
   }
@@ -154,6 +156,7 @@ export class ProjectsController {
         thumb_image: body.thumb_image,
         project_link: body.project_link,
         project_location: body.project_location,
+        status: body.status,
       });
       console.log(editedProject);
       res.json({
@@ -177,6 +180,7 @@ export class ProjectsController {
         thumb_image: `${viewingProject.thumb_image}`,
         project_link: viewingProject.link,
         project_location: viewingProject.project_location,
+        status: viewingProject.status,
       },
     });
   }

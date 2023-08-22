@@ -32,6 +32,9 @@ export class Blog extends Document {
   @Prop()
   thumb_image: string;
 
+  @Prop()
+  newsletter_file: string;
+
   @Prop({ default: true })
   is_active: boolean;
 
