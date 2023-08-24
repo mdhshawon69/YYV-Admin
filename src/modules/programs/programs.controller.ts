@@ -92,6 +92,7 @@ export class ProgramsController {
     try {
       const createdProgram = await this.programsService.createProgram({
         type: body.type,
+        category: body.category,
         title: body.title,
         sub_title: body.sub_title,
         banner_image: body.banner_image,
@@ -120,6 +121,7 @@ export class ProgramsController {
       layout: 'main',
       data: {
         type: viewingprogram.type,
+        category: viewingprogram.category,
         title: viewingprogram.title,
         sub_title: viewingprogram.sub_title,
         banner_image: `${viewingprogram.banner_image}`,
@@ -145,6 +147,7 @@ export class ProgramsController {
     try {
       const editedprogram = await this.programsService.editProgram(id, {
         type: body.type,
+        category: body.category,
         title: body.title,
         sub_title: body.sub_title,
         banner_image: body.banner_image,
@@ -171,6 +174,7 @@ export class ProgramsController {
       layout: 'main',
       data: {
         type: viewingprogram.type,
+        category: viewingprogram.category,
         title: viewingprogram.title,
         sub_title: viewingprogram.sub_title,
         banner_image: `${viewingprogram.banner_image}`,

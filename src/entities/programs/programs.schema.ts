@@ -31,6 +31,9 @@ export class Programs extends Document {
   @Prop({ required: true })
   location: string;
 
+  @Prop({ required: true })
+  category: string;
+
   @Prop()
   has_landing_page: boolean;
 
