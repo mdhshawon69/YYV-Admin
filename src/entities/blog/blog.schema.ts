@@ -30,6 +30,9 @@ export class Blog extends Document {
   description: string;
 
   @Prop()
+  seo_description: string;
+
+  @Prop()
   thumb_image: string;
 
   @Prop()
