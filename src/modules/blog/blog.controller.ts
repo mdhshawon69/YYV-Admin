@@ -108,6 +108,7 @@ export class BlogController {
         newsletter_file: body.newsletter_file,
         link: '',
         seo_description: body.seo_description,
+        related: body.related,
       };
       data.link = `${body.title
         .replace(/[,:%]/g, '')
@@ -144,6 +145,7 @@ export class BlogController {
         thumb_image: viewingBlog.thumb_image,
         newsletter_file: viewingBlog.newsletter_file,
         seo_description: viewingBlog.seo_description,
+        related: viewingBlog.related,
       },
     });
   }
@@ -165,6 +167,7 @@ export class BlogController {
         thumb_image: viewingBlog.thumb_image,
         newsletter_file: viewingBlog.newsletter_file,
         seo_description: viewingBlog.seo_description,
+        related: viewingBlog.related,
       },
     });
   }
@@ -189,6 +192,7 @@ export class BlogController {
         thumb_image: body.thumb_image,
         newsletter_file: body.newsletter_file,
         seo_description: body.seo_description,
+        related: body.related,
       });
       res.json({ status: 'success', message: 'Successfully edited the blog!' });
     } catch (error) {

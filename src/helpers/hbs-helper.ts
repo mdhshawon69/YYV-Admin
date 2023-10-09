@@ -30,3 +30,8 @@ export function eqNav(matcher, value1, value2) {
   const href = location.href.includes(matcher);
   return href ? value1 : value2;
 }
+
+export function eqRelated(arr, matcher) {
+  const condition = arr.includes(matcher);
+  return condition ? true : false;
+}

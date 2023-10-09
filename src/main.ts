@@ -9,6 +9,7 @@ import {
   current,
   eq,
   eqNav,
+  eqRelated,
   incIndex,
   queryVar,
   trim,
@@ -35,6 +36,7 @@ async function bootstrap() {
         current: current,
         queryVar: queryVar,
         eqNav: eqNav,
+        eqRelated: eqRelated,
       },
     }),
   );

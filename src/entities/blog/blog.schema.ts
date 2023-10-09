@@ -46,6 +46,9 @@ export class Blog extends Document {
 
   @Prop()
   link: string;
+
+  @Prop()
+  related: string[];
 }
 
 export const BlogSchema = SchemaFactory.createForClass(Blog);
