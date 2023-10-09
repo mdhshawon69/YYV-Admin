@@ -150,7 +150,7 @@ export class ProjectsController {
   ) {
     try {
       const editedProject = await this.projectService.editProject(id, {
-        title: body.project_title,
+        title: body.title,
         description: body.description,
         type: body.project_type,
         thumb_image: body.thumb_image,
