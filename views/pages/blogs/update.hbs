@@ -25,11 +25,11 @@
                   class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
                   id="select"
                 >
-                  <option>Please select an option</option>
-                  <option value='news' {{#if (eq data.type "news")}}selected{{else}}none{{/if}}>News</option>
+                  <option selected disabled>Please select an option</option>
+                  <option value='news' {{#if (eq data.type "news")}}selected{{else}}none{{/if}}>News- {{data.type}}</option>
                   <option value='views' {{#if (eq data.type "views")}}selected{{else}}none{{/if}}>Views</option>
-                  <option value='stories' {{#if (eq data.type "stories")}}"selected"{{else}}"none"{{/if}}>Stories</option>
-                  <option value='newsletter' {{#if (eq data.type "newsletter")}}"selected"{{else}}"none"{{/if}}>Newsletter</option>
+                  <option value='stories' {{#if (eq data.type "stories")}}selected{{else}}none{{/if}}>Stories</option>
+                  <option value='newsletter' {{#if (eq data.type "newsletter")}}selected{{else}}none{{/if}}>Newsletter</option>
                 </select>
               </label>
               <label class='block text-sm'>
