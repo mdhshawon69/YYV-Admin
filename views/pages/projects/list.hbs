@@ -53,6 +53,7 @@
                 <th class='px-4 py-3'>Location</th>
                 <th class='px-4 py-3'>Thumb Image</th>
                 <th class='px-4 py-3'>Project Link</th>
+                <th class='px-4 py-3'>Project Year</th>
                 <th class='px-4 py-3'>Actions</th>
               </tr>
             </thead>
@@ -72,6 +73,7 @@
                   <td class='px-4 py-3 text-sm'>{{this.project_location}}</td>
                   <td class='px-4 py-3 text-sm'><img src={{this.thumb_image}} class="w-20 h-auto object-contain" alt=""></td>
                   <td class='px-4 py-3 text-sm text-blue-500'><a href="{{this.link}}" target="_blank">{{trim this.link}}...</a></td>
+                  <td class='px-4 py-3 text-sm'>{{this.year}}</td>
                   <td class='px-4 py-3 text-sm space-x-2'><button id="deleteBtn"
                       
                      @click="function deleteProject() {

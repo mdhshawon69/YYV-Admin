@@ -27,6 +27,9 @@ export class Project extends Document {
 
   @Prop({ default: Date.now })
   published_at: Date;
+
+  @Prop()
+  year: number;
 }
 
 export const ProjectSchema = SchemaFactory.createForClass(Project);

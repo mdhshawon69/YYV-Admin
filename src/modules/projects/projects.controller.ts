@@ -105,6 +105,7 @@ export class ProjectsController {
         link: body.has_landing_page === 'on' ? link : body.link,
         project_location: body.project_location,
         status: body.status,
+        year: body.year,
       };
 
       const createdProject = await this.projectService.createProject(data);
@@ -135,6 +136,7 @@ export class ProjectsController {
         project_location: viewingProject.project_location,
         project_link: viewingProject.link,
         status: viewingProject.status,
+        year: viewingProject.year,
       },
     });
   }
@@ -157,6 +159,7 @@ export class ProjectsController {
         project_link: body.project_link,
         project_location: body.project_location,
         status: body.status,
+        year: body.year,
       });
       console.log(editedProject);
       res.json({
@@ -181,6 +184,7 @@ export class ProjectsController {
         project_link: viewingProject.link,
         project_location: viewingProject.project_location,
         status: viewingProject.status,
+        year: viewingProject.year,
       },
     });
   }
