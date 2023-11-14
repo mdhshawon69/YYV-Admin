@@ -15,10 +15,14 @@ import { Response } from 'express';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { fileUpload } from 'src/config/multer.config';
 import { calculatePagination } from 'src/helpers/pagination';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 @Controller('content')
 export class ContentController {
-  constructor(private readonly contentService: ContentService) {}
+  constructor(
+    private readonly contentService: ContentService,
+    private cloudinaryService: CloudinaryService,
+  ) {}
 
   @Get()
   async getAllContents(
@@ -27,7 +31,7 @@ export class ContentController {
     @Query('page') page,
   ) {
     const allContents = await this.contentService.getAllContents();
-    console.log(allContents);
+
     let allContentsRow = [];
     allContents.forEach((item) => {
       item.image_one = item.image_one;
@@ -74,7 +78,7 @@ export class ContentController {
   @Get('api')
   async getAllContentsApi(@Res() res: Response) {
     const allContents = await this.contentService.getAllContents();
-    console.log(allContents);
+
     const allContentsRow = [];
     allContents.forEach((item) => {
       item.image_one = item.image_one;
@@ -100,17 +104,19 @@ export class ContentController {
 
   @Post('create-content')
   @UseInterceptors(
-    FileFieldsInterceptor(
-      [
-        { name: 'image_one', maxCount: 1 },
-        { name: 'image_two', maxCount: 1 },
-      ],
-      fileUpload(`content`),
-    ),
+    FileFieldsInterceptor([
+      { name: 'image_one', maxCount: 1 },
+      { name: 'image_two', maxCount: 1 },
+    ]),
   )
   async createContent(@Body() body, @Res() res, @UploadedFiles() files) {
-    console.log(files);
     try {
+      const imageOne = await this.cloudinaryService.uploadImage(
+        files.image_one[0],
+      );
+      const imageTwo = await this.cloudinaryService.uploadImage(
+        files.image_two[0],
+      );
       const data = {
         page: body.page,
         section: body.section,
@@ -118,8 +124,8 @@ export class ContentController {
         sub_title: body.sub_title,
         description_one: body.description_one,
         description_two: body.description_two,
-        image_one: body.image_one,
-        image_two: body.image_two,
+        image_one: imageOne.url,
+        image_two: imageTwo.url,
         image_title_one: body.image_title_one,
         image_title_two: body.image_title_two,
         image_desc_one: body.image_desc_one,
@@ -130,13 +136,14 @@ export class ContentController {
         closing_date: body.closing_date,
       };
 
-      const section = await this.contentService.getSectionById(body.section);
-
-      const createdContent = await this.contentService.createContent(data);
-      const saved = await this.contentService.saveContentToSection(
-        section._id,
-        createdContent._id,
-      );
+      if (imageOne || imageTwo) {
+        const section = await this.contentService.getSectionById(body.section);
+        const createdContent = await this.contentService.createContent(data);
+        const saved = await this.contentService.saveContentToSection(
+          section._id,
+          createdContent._id,
+        );
+      }
 
       return res.json({
         status: 'success',
@@ -196,30 +203,37 @@ export class ContentController {
     @UploadedFiles() files,
   ) {
     try {
-      const editedContent = await this.contentService.editContent(id, {
-        page: body.page,
-        section: body.section,
-        title: body.title,
-        sub_title: body.sub_title,
-        description_one: body.description_one,
-        description_two: body.description_two,
-        image_one: body.image_one,
-        image_two: body.image_two,
-        image_title_one: body.image_title_one,
-        image_title_two: body.image_title_two,
-        image_desc_one: body.image_desc_one,
-        image_desc_two: body.image_desc_two,
-        link_one: body.link_one,
-        link_two: body.link_two,
-        image_source: body.image_source,
-        closing_date: body.closing_date,
-      });
+      const imageOne = await this.cloudinaryService.uploadImage(
+        files.image_one[0],
+      );
+      const imageTwo = await this.cloudinaryService.uploadImage(
+        files.image_two[0],
+      );
+      if (imageOne || imageTwo) {
+        const editedContent = await this.contentService.editContent(id, {
+          page: body.page,
+          section: body.section,
+          title: body.title,
+          sub_title: body.sub_title,
+          description_one: body.description_one,
+          description_two: body.description_two,
+          image_one: imageOne.url,
+          image_two: imageTwo.url,
+          image_title_one: body.image_title_one,
+          image_title_two: body.image_title_two,
+          image_desc_one: body.image_desc_one,
+          image_desc_two: body.image_desc_two,
+          link_one: body.link_one,
+          link_two: body.link_two,
+          image_source: body.image_source,
+          closing_date: body.closing_date,
+        });
+      }
       res.json({
         status: 'success',
         message: 'Successfully edited the Content!',
       });
     } catch (error) {
-      console.log(error);
       res.json({ status: 'failed', message: 'Cannot edit the Content' });
     }
   }
@@ -228,7 +242,6 @@ export class ContentController {
   @Get('view-content')
   async viewContent(@Query('id') id, @Res() res: Response) {
     const viewingContent = await this.contentService.viewContent(id);
-    console.log(viewingContent);
 
     return res.render('content/read', {
       layout: 'main',

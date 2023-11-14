@@ -15,10 +15,14 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { fileUpload } from 'src/config/multer.config';
 import { calculatePagination } from 'src/helpers/pagination';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 @Controller('team')
 export class TeamController {
-  constructor(private readonly teamService: TeamService) {}
+  constructor(
+    private readonly teamService: TeamService,
+    private readonly cloudinaryService: CloudinaryService,
+  ) {}
 
   @Get()
   async getAllMembers(
@@ -87,20 +91,23 @@ export class TeamController {
 
   //Post create Member CMS Controller
   @Post('create-member')
-  @UseInterceptors(FileInterceptor('file', fileUpload(`team`)))
+  @UseInterceptors(FileInterceptor('file'))
   async createMember(@Body() body, @Res() res: Response, @UploadedFile() file) {
     try {
-      const createdMember = await this.teamService.createMember({
-        name: body.name,
-        designation: body.designation,
-        linkedin_link: body.linkedin_link,
-        profile_image: body.profile_image,
-        image_bg: body.image_bg,
-      });
-      return res.json({
-        status: 'success',
-        message: 'Successfully created Member!',
-      });
+      const profileImage = await this.cloudinaryService.uploadImage(file);
+      if (profileImage) {
+        const createdMember = await this.teamService.createMember({
+          name: body.name,
+          designation: body.designation,
+          linkedin_link: body.linkedin_link,
+          profile_image: profileImage.url,
+          image_bg: body.image_bg,
+        });
+        return res.json({
+          status: 'success',
+          message: 'Successfully created Member!',
+        });
+      }
     } catch (error) {
       return res.json({
         status: 'Failed',
@@ -127,21 +134,30 @@ export class TeamController {
 
   //Edit Member CMS Controller
   @Put('edit-member/:id')
-  @UseInterceptors(FileInterceptor('file', fileUpload(`team`)))
-  async editMember(@Body() body, @Param('id') id, @Res() res: Response) {
+  @UseInterceptors(FileInterceptor('file'))
+  async editMember(
+    @Body() body,
+    @Param('id') id,
+    @Res() res: Response,
+    @UploadedFile() file,
+  ) {
+    console.log(file);
     try {
-      const editedMember = await this.teamService.editMember(id, {
-        name: body.name,
-        designation: body.designation,
-        linkedin_link: body.linkedin_link,
-        profile_image: body.profile_image,
-        image_bg: body.image_bg,
-        is_active: body.is_active,
-      });
-      res.json({
-        status: 'success',
-        message: 'Successfully edited the Member!',
-      });
+      const profileImage = await this.cloudinaryService.uploadImage(file);
+      if (profileImage) {
+        const editedMember = await this.teamService.editMember(id, {
+          name: body.name,
+          designation: body.designation,
+          linkedin_link: body.linkedin_link,
+          profile_image: profileImage.url,
+          image_bg: body.image_bg,
+          is_active: body.is_active,
+        });
+        res.json({
+          status: 'success',
+          message: 'Successfully edited the Member!',
+        });
+      }
     } catch (error) {
       res.json({ status: 'failed', message: 'Cannot edit the Member' });
     }

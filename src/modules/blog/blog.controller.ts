@@ -16,10 +16,14 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { fileUpload } from 'src/config/multer.config';
 import { calculatePagination } from '../../helpers/pagination';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 @Controller('blogs')
 export class BlogController {
-  constructor(private readonly blogService: BlogService) {}
+  constructor(
+    private readonly blogService: BlogService,
+    private cloudinaryService: CloudinaryService,
+  ) {}
 
   //Get all blogs CMS Controller
   @Get()
@@ -89,7 +93,7 @@ export class BlogController {
 
   //Post create blog CMS Controller
   @Post('create-blog')
-  @UseInterceptors(FileInterceptor('file', fileUpload(`blog`)))
+  @UseInterceptors(FileInterceptor('file'))
   async createBlog(
     @Body() body,
     @Res() res: Response,
@@ -97,6 +101,7 @@ export class BlogController {
     @UploadedFile() file,
   ) {
     try {
+      const thumbImage = await this.cloudinaryService.uploadImage(file);
       const data = {
         type: body.blog_type,
         title: body.title,
@@ -104,7 +109,7 @@ export class BlogController {
         name_of_viewer: body.name_of_viewer,
         designation_of_viewer: body.designation_of_viewer,
         description: body.blog_description,
-        thumb_image: body.thumb_image,
+        thumb_image: thumbImage.url,
         newsletter_file: body.newsletter_file,
         link: '',
         seo_description: body.seo_description,
@@ -115,8 +120,9 @@ export class BlogController {
         .toLowerCase()
         .split(' ')
         .join('-')}`;
-      const createdBlog = await this.blogService.createBlog(data);
-      console.log(createdBlog);
+      if (thumbImage) {
+        const createdBlog = await this.blogService.createBlog(data);
+      }
       return res.json({
         status: 'Success',
         message: 'Successfully created blog!',
@@ -182,18 +188,23 @@ export class BlogController {
     @UploadedFile() file,
   ) {
     try {
-      const editedBlog = await this.blogService.editBlog(id, {
-        title: body.title,
-        sub_title: body.sub_title,
-        name_of_viewer: body.name_of_viewer,
-        designation_of_viewer: body.designation_of_viewer,
-        description: body.blog_description,
-        type: body.blog_type,
-        thumb_image: body.thumb_image,
-        newsletter_file: body.newsletter_file,
-        seo_description: body.seo_description,
-        related: body.related,
-      });
+      const thumbImage = await this.cloudinaryService.uploadImage(file);
+
+      if (thumbImage) {
+        const editedBlog = await this.blogService.editBlog(id, {
+          title: body.title,
+          sub_title: body.sub_title,
+          name_of_viewer: body.name_of_viewer,
+          designation_of_viewer: body.designation_of_viewer,
+          description: body.blog_description,
+          type: body.blog_type,
+          thumb_image: thumbImage.url,
+          newsletter_file: body.newsletter_file,
+          seo_description: body.seo_description,
+          related: body.related,
+        });
+      }
+
       res.json({ status: 'success', message: 'Successfully edited the blog!' });
     } catch (error) {
       res.json({ status: 'failed', message: 'Cannot edit the blog' });

@@ -15,10 +15,14 @@ import { PartnersService } from './partners.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { fileUpload } from 'src/config/multer.config';
 import { calculatePagination } from 'src/helpers/pagination';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 @Controller('partners')
 export class PartnersController {
-  constructor(private readonly partnersService: PartnersService) {}
+  constructor(
+    private readonly partnersService: PartnersService,
+    private cloudinaryService: CloudinaryService,
+  ) {}
 
   //Get all partners CMS Controller
   @Get()
@@ -31,7 +35,7 @@ export class PartnersController {
     let allPartnersRow = [];
     allPartners.forEach((item) => {
       const tempItem = { ...item };
-      tempItem.partner_logo = `${process.env.BASE_URL}/uploads/partners/${item.partner_logo}`;
+      tempItem.partner_logo = `${item.partner_logo}`;
       allPartnersRow.push(tempItem);
     });
     if (keywords) {
@@ -88,18 +92,22 @@ export class PartnersController {
 
   //Post partners CMS Controller
   @Post('create-partner')
-  @UseInterceptors(FileInterceptor('file', fileUpload(`partners`)))
+  @UseInterceptors(FileInterceptor('file'))
   async createPartner(
     @UploadedFile() file,
     @Body() body,
     @Res() res: Response,
   ) {
-    const createdPartner = await this.partnersService.createPartner({
-      name: body.partner_name,
-      partner_link: body.partner_link,
-      partner_logo: body.partner_logo,
-    });
     try {
+      const partnerLogo = await this.cloudinaryService.uploadImage(file);
+      console.log(partnerLogo);
+      if (partnerLogo) {
+        const createdPartner = await this.partnersService.createPartner({
+          name: body.partner_name,
+          partner_link: body.partner_link,
+          partner_logo: partnerLogo.url,
+        });
+      }
       return res.json({
         status: 'success',
         message: 'Successfully created partner!',
@@ -116,6 +124,7 @@ export class PartnersController {
   @Get('edit-partner')
   async getEditPartner(@Res() res: Response, @Query('id') id) {
     const partner = await this.partnersService.getOnePartner(id);
+    console.log(partner);
 
     res.render('partners/update', {
       layout: 'main',
@@ -129,7 +138,7 @@ export class PartnersController {
 
   //Post partner editing CMS Controller
   @Put('edit-partner/:id')
-  @UseInterceptors(FileInterceptor('file', fileUpload(`partners`)))
+  @UseInterceptors(FileInterceptor('file'))
   async editPartner(
     @Body() body,
     @Param('id') id,
@@ -137,12 +146,15 @@ export class PartnersController {
     @Res() res: Response,
   ) {
     try {
-      const editedPartner = await this.partnersService.editPartner(
-        id,
-        body.partner_name,
-        body.partner_link,
-        body.partner_logo,
-      );
+      const partnerLogo = await this.cloudinaryService.uploadImage(file);
+      if (partnerLogo) {
+        const editedPartner = await this.partnersService.editPartner(
+          id,
+          body.partner_name,
+          body.partner_link,
+          partnerLogo.url,
+        );
+      }
 
       return res.json({
         status: 'Success',

@@ -15,10 +15,14 @@ import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { fileUpload } from 'src/config/multer.config';
 import { calculatePagination } from 'src/helpers/pagination';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 @Controller('programs')
 export class ProgramsController {
-  constructor(private readonly programsService: ProgramsService) {}
+  constructor(
+    private readonly programsService: ProgramsService,
+    private cloudinaryService: CloudinaryService,
+  ) {}
 
   //CMS Controller
   @Get()
@@ -86,21 +90,25 @@ export class ProgramsController {
   }
 
   @Post('create-program')
-  @UseInterceptors(FileInterceptor('banner_image', fileUpload(`programs`)))
+  @UseInterceptors(FileInterceptor('file'))
   async createProgram(@Body() body, @Res() res, @UploadedFile() file) {
     const link = `${body.title.toLowerCase().split(' ').join('-')}`;
     try {
-      const createdProgram = await this.programsService.createProgram({
-        type: body.type,
-        category: body.category,
-        title: body.title,
-        sub_title: body.sub_title,
-        banner_image: body.banner_image,
-        link: body.has_landing_page === 'on' ? link : body.link,
-        status: body.status,
-        location: body.location,
-        has_landing_page: body.has_landing_page === 'on' ? true : false,
-      });
+      const bannerImage = await this.cloudinaryService.uploadImage(file);
+      if (bannerImage) {
+        const createdProgram = await this.programsService.createProgram({
+          type: body.type,
+          category: body.category,
+          title: body.title,
+          sub_title: body.sub_title,
+          banner_image: bannerImage.url,
+          link: body.has_landing_page === 'on' ? link : body.link,
+          status: body.status,
+          location: body.location,
+          has_landing_page: body.has_landing_page === 'on' ? true : false,
+        });
+      }
+
       return res.json({
         status: 'success',
         message: 'Successfully created the program',
@@ -136,7 +144,7 @@ export class ProgramsController {
 
   //Edit program CMS Controller
   @Put('edit-program/:id')
-  @UseInterceptors(FileInterceptor('banner_image', fileUpload(`programs`)))
+  @UseInterceptors(FileInterceptor('file'))
   async editProgram(
     @Body() body,
     @Param('id') id,
@@ -145,17 +153,20 @@ export class ProgramsController {
   ) {
     const link = `${body.title.split(' ').join('-')}`;
     try {
-      const editedprogram = await this.programsService.editProgram(id, {
-        type: body.type,
-        category: body.category,
-        title: body.title,
-        sub_title: body.sub_title,
-        banner_image: body.banner_image,
-        link: body.has_landing_program === 'on' ? link : body.link,
-        status: body.status,
-        location: body.location,
-        has_landing_page: body.has_landing_page === 'on' ? true : false,
-      });
+      const bannerImage = await this.cloudinaryService.uploadImage(file);
+      if (bannerImage) {
+        const editedprogram = await this.programsService.editProgram(id, {
+          type: body.type,
+          category: body.category,
+          title: body.title,
+          sub_title: body.sub_title,
+          banner_image: body.banner_image,
+          link: body.has_landing_program === 'on' ? link : body.link,
+          status: body.status,
+          location: body.location,
+          has_landing_page: body.has_landing_page === 'on' ? true : false,
+        });
+      }
 
       res.json({
         status: 'success',

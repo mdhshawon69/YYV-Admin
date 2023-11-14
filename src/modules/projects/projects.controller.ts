@@ -16,10 +16,14 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { fileUpload } from 'src/config/multer.config';
 import { calculatePagination } from 'src/helpers/pagination';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 @Controller('projects')
 export class ProjectsController {
-  constructor(private readonly projectService: ProjectsService) {}
+  constructor(
+    private readonly projectService: ProjectsService,
+    private cloudinaryService: CloudinaryService,
+  ) {}
 
   //Get all Projects CMS Controller
   @Get()
@@ -89,7 +93,7 @@ export class ProjectsController {
 
   //Post create Project CMS Controller
   @Post('create-Project')
-  @UseInterceptors(FileInterceptor('file', fileUpload(`projects`)))
+  @UseInterceptors(FileInterceptor('file'))
   async createProject(
     @Body() body,
     @Res() res: Response,
@@ -97,18 +101,21 @@ export class ProjectsController {
     @UploadedFile() file,
   ) {
     try {
+      const thumbImage = await this.cloudinaryService.uploadImage(file);
       const link = `${body.title.toLowerCase().split(' ').join('-')}`;
       const data = {
         title: body.title,
         description: body.description,
-        thumb_image: body.thumb_image,
+        thumb_image: thumbImage.url,
         link: body.has_landing_page === 'on' ? link : body.link,
         project_location: body.project_location,
         status: body.status,
         year: body.year,
       };
 
-      const createdProject = await this.projectService.createProject(data);
+      if (thumbImage) {
+        const createdProject = await this.projectService.createProject(data);
+      }
 
       return res.json({
         status: 'Success',
@@ -143,7 +150,7 @@ export class ProjectsController {
 
   //Edit Project CMS Controller
   @Put('edit-project/:id')
-  @UseInterceptors(FileInterceptor('file', fileUpload(`projects`)))
+  @UseInterceptors(FileInterceptor('file'))
   async editProject(
     @Body() body,
     @Param('id') id,
@@ -151,17 +158,20 @@ export class ProjectsController {
     @UploadedFile() file,
   ) {
     try {
-      const editedProject = await this.projectService.editProject(id, {
-        title: body.title,
-        description: body.description,
-        type: body.project_type,
-        thumb_image: body.thumb_image,
-        project_link: body.project_link,
-        project_location: body.project_location,
-        status: body.status,
-        year: body.year,
-      });
-      console.log(editedProject);
+      const thumbImage = await this.cloudinaryService.uploadImage(file);
+      if (thumbImage) {
+        const editedProject = await this.projectService.editProject(id, {
+          title: body.title,
+          description: body.description,
+          type: body.project_type,
+          thumb_image: thumbImage.url,
+          project_link: body.project_link,
+          project_location: body.project_location,
+          status: body.status,
+          year: body.year,
+        });
+      }
+
       res.json({
         status: 'success',
         message: 'Successfully edited the project!',

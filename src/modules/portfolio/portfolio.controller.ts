@@ -14,12 +14,15 @@ import {
   Put,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { fileUpload } from 'src/config/multer.config';
 import { calculatePagination } from 'src/helpers/pagination';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 @Controller('portfolio')
 export class PortfolioController {
-  constructor(private readonly portfolioService: PortfolioService) {}
+  constructor(
+    private readonly portfolioService: PortfolioService,
+    private cloudinaryService: CloudinaryService,
+  ) {}
 
   @Get()
   async getAllPortfolios(
@@ -88,7 +91,7 @@ export class PortfolioController {
 
   //Post create Portfolio CMS Controller
   @Post('create-portfolio')
-  @UseInterceptors(FileInterceptor('file', fileUpload(`portfolio`)))
+  @UseInterceptors(FileInterceptor('file'))
   async createPortfolio(
     @Body() body,
     @Res() res: Response,
@@ -96,13 +99,16 @@ export class PortfolioController {
     @UploadedFile() file,
   ) {
     try {
-      const createdPortfolio = await this.portfolioService.createPortfolio({
-        type: body.portfolio_type,
-        company_name: body.company_name,
-        company_logo: body.company_logo,
-        company_link: body.company_link,
-      });
-      console.log(createdPortfolio);
+      const companyLogo = await this.cloudinaryService.uploadImage(file);
+      if (companyLogo) {
+        const createdPortfolio = await this.portfolioService.createPortfolio({
+          type: body.portfolio_type,
+          company_name: body.company_name,
+          company_logo: companyLogo.url,
+          company_link: body.company_link,
+        });
+      }
+
       return res.json({
         status: 'success',
         message: 'Successfully created Portfolio!',
@@ -133,21 +139,23 @@ export class PortfolioController {
 
   //Edit Portfolio CMS Controller
   @Put('edit-portfolio/:id')
-  @UseInterceptors(FileInterceptor('file', fileUpload(`portfolio`)))
+  @UseInterceptors(FileInterceptor('file'))
   async editPortfolio(
     @Body() body,
     @Param('id') id,
     @Res() res: Response,
     @UploadedFile() file,
   ) {
-    console.log(file);
     try {
-      const editedPortfolio = await this.portfolioService.editPortfolio(id, {
-        type: body.type,
-        company_name: body.company_name,
-        company_link: body.company_link,
-        company_logo: body.company_logo,
-      });
+      const companyLogo = await this.cloudinaryService.uploadImage(file);
+      if (companyLogo) {
+        const editedPortfolio = await this.portfolioService.editPortfolio(id, {
+          type: body.type,
+          company_name: body.company_name,
+          company_link: body.company_link,
+          company_logo: companyLogo.url,
+        });
+      }
       res.json({
         status: 'success',
         message: 'Successfully edited the Portfolio!',

@@ -4,9 +4,9 @@ import { PageController } from './page.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PageSchema } from 'src/entities/page/page.schema';
 import { ProgramsSchema } from 'src/entities/programs/programs.schema';
-import { SectionSchema } from 'src/entities/section/section.schema';
 import { BlogSchema } from 'src/entities/blog/blog.schema';
 import { ProjectSchema } from 'src/entities/projects/projects.schema';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 @Module({
   imports: [
@@ -17,7 +17,7 @@ import { ProjectSchema } from 'src/entities/projects/projects.schema';
       { name: 'Project', schema: ProjectSchema },
     ]),
   ],
-  providers: [PageService],
+  providers: [PageService, CloudinaryService],
   controllers: [PageController],
 })
 export class PageModule {}

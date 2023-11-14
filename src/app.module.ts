@@ -23,6 +23,7 @@ import { ProgramsModule } from './modules/programs/programs.module';
 import { PageModule } from './modules/page/page.module';
 import { ContentModule } from './modules/content/content.module';
 import { SectionModule } from './modules/section/section.module';
+import { CloudinaryModule } from './modules/cloudinary/cloudinary.module';
 
 @Module({
   imports: [
@@ -52,6 +53,7 @@ import { SectionModule } from './modules/section/section.module';
     PageModule,
     ContentModule,
     SectionModule,
+    CloudinaryModule,
   ],
   controllers: [AppController],
   providers: [

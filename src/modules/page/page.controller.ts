@@ -15,10 +15,14 @@ import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { fileUpload } from 'src/config/multer.config';
 import { calculatePagination } from 'src/helpers/pagination';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 @Controller('pages')
 export class PageController {
-  constructor(private readonly pageService: PageService) {}
+  constructor(
+    private readonly pageService: PageService,
+    private cloudinaryService: CloudinaryService,
+  ) {}
 
   //CMS Controller
   @Get()
@@ -86,9 +90,10 @@ export class PageController {
   }
 
   @Post('create-page')
-  @UseInterceptors(FileInterceptor('file', fileUpload(`page`)))
+  @UseInterceptors(FileInterceptor('file'))
   async createPage(@Body() body, @Res() res, @UploadedFile() file) {
     try {
+      const image = await this.cloudinaryService.uploadImage(file);
       const data = {
         category: body.category,
         page_for: body.page_for,
@@ -97,7 +102,7 @@ export class PageController {
         title: body.title,
         description: body.description,
         slug: '',
-        image: body.image,
+        image: image.url,
       };
 
       const programs: any = await this.pageService.getPageCategory(
@@ -110,8 +115,9 @@ export class PageController {
 
       data.slug = foundProgram.link || '';
       data.page_for = foundProgram.title;
-      const createdPage = await this.pageService.createPage(data);
-      console.log(createdPage);
+      if (image) {
+        const createdPage = await this.pageService.createPage(data);
+      }
 
       return res.json({
         status: 'success',
@@ -145,7 +151,7 @@ export class PageController {
 
   //Edit Page CMS Controller
   @Put('edit-page/:id')
-  @UseInterceptors(FileInterceptor('file', fileUpload(`page`)))
+  @UseInterceptors(FileInterceptor('file'))
   async editPage(
     @Body() body,
     @Param('id') id,
@@ -153,14 +159,18 @@ export class PageController {
     @UploadedFile() file,
   ) {
     try {
-      const editedPage = await this.pageService.editPage(id, {
-        program: body.program,
-        name: body.name,
-        title: body.title,
-        description: body.description,
-        image: body.image,
-      });
-      console.log(editedPage);
+      const image = await this.cloudinaryService.uploadImage(file);
+
+      if (image) {
+        const editedPage = await this.pageService.editPage(id, {
+          program: body.program,
+          name: body.name,
+          title: body.title,
+          description: body.description,
+          image: image.url,
+        });
+      }
+
       res.json({
         status: 'success',
         message: 'Successfully edited the Page!',

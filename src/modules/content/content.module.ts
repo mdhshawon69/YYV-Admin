@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ContentSchema } from 'src/entities/content/content.schema';
 import { SectionSchema } from 'src/entities/section/section.schema';
 import { PageSchema } from 'src/entities/page/page.schema';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { PageSchema } from 'src/entities/page/page.schema';
       { name: 'Page', schema: PageSchema },
     ]),
   ],
-  providers: [ContentService],
+  providers: [ContentService, CloudinaryService],
   controllers: [ContentController],
 })
 export class ContentModule {}
