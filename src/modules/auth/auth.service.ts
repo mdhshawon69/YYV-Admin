@@ -10,9 +10,7 @@ export class AuthService {
     @InjectModel(User.name) private readonly userModel: Model<User>,
     private jwtService: JwtService,
     private mailerService: MailerService,
-  ) {
-    console.log(User.name);
-  }
+  ) {}
 
   async signup(user: any): Promise<User> {
     const newUser = new this.userModel(user);
@@ -44,7 +42,6 @@ export class AuthService {
     console.log(id);
 
     const user = await this.userModel.findById(id);
-    console.log(user);
 
     if (
       !user ||

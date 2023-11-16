@@ -6,10 +6,8 @@ import {
   CanActivate,
   ExecutionContext,
   Injectable,
-  Redirect,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
@@ -38,7 +36,7 @@ export class JwtAuthGuard implements CanActivate {
         const expirationTimestamp = payload.exp * 1000;
         const currentTimestamp = Date.now();
 
-        if (currentTimestamp > expirationTimestamp) {
+        if (expirationTimestamp < currentTimestamp) {
           throw new UnauthorizedException();
         } else {
           request['user'] = payload;
