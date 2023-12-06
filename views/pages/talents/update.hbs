@@ -69,6 +69,17 @@
                 />
               </label>
 
+              <label class='block text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>Other Info</span>
+                <div name='job_other_info' id='other_info'></div>
+                <input
+                  type='hidden'
+                  id='editor-content-other-info'
+                  name='other_info'
+                  value="{{data.other_info}}"
+                />
+              </label>
+
             </div>
 
             <!-- You should use a button here, as the anchor is only used for the example  -->
@@ -85,8 +96,10 @@
 </div>
 
 <!-- Initialize Quill editor -->
+
 <script>
-  let quillJobDesc = new RichTextEditor('#job_description'); const contentDesc =
+  let quillJobDesc = new RichTextEditor('#job_description');
+  const contentDesc =
   document.getElementById('editor-content-description').value;
   quillJobDesc.setHTMLCode(contentDesc);
 </script>
@@ -103,8 +116,8 @@
   quillJobQualif.setHTMLCode(contentQualif);
 </script>
 <script>
-  var quillOtherInfo = new RichTextEditor('#other_info'); const contentQualif =
-  document.getElementById('editor-content-other-info').value;
-  quillJobQualif.setHTMLCode(contentQualif);
+  let quillOtherInfo = new RichTextEditor('#other_info');
+  const contentOtherInfo = document.getElementById('editor-content-other-info').value;
+  quillOtherInfo.setHTMLCode(contentOtherInfo);
 </script>
 <script src='/js/edit-talents.js' defer></script>
