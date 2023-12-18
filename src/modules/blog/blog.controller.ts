@@ -180,7 +180,7 @@ export class BlogController {
 
   //Edit Blog CMS Controller
   @Put('edit-blog/:id')
-  @UseInterceptors(FileInterceptor('file', fileUpload(`blog`)))
+  @UseInterceptors(FileInterceptor('file'))
   async editBlog(
     @Body() body,
     @Param('id') id,
@@ -207,6 +207,7 @@ export class BlogController {
 
       res.json({ status: 'success', message: 'Successfully edited the blog!' });
     } catch (error) {
+      console.log(error);
       res.json({ status: 'failed', message: 'Cannot edit the blog' });
     }
   }
