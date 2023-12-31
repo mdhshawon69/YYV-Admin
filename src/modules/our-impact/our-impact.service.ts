@@ -15,7 +15,6 @@ export class OurImpactService {
   }
 
   async addImpactNumber(impactItem): Promise<ImpactNumber> {
-    console.log(impactItem);
     return await this.impactNumberModel.create(impactItem);
   }
 

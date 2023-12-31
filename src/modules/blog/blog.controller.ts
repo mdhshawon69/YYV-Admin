@@ -189,7 +189,6 @@ export class BlogController {
   ) {
     try {
       const thumbImage = await this.cloudinaryService.uploadImage(file);
-
       if (thumbImage) {
         const editedBlog = await this.blogService.editBlog(id, {
           title: body.title,

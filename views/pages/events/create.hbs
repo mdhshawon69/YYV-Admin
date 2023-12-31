@@ -1,0 +1,109 @@
+<div
+  class='shadow-lg min-h-fit rounded-md bg-gray-50 dark:bg-gray-800 md:my-10 mt-24 2xl:mx-20 md:mx-6 mx-3'
+>
+
+  <div class='flex items-center w-full mx-auto p-6'>
+    <div class='flex-1 self-start md:w-1/2 mx-auto rounded-lg'>
+      <div class='md:flex-row'>
+        <div class='flex justify-between items-center'>
+          <h1
+            class='text-gray-800 dark:text-gray-200 text-xl md:text-4xl px-6 font-bold'
+          >Create Event</h1>
+          <a
+            class='text-white py-3 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs'
+            href='/events'
+          >Back to list <i class='fa-solid fa-list'></i></a>
+        </div>
+        <div class='p-6 w-full'>
+
+          <form class='w-full' id='form' @submit.prevent=''>
+            <div class='space-y-5' x-data="{value: ''}">
+              <label class='block text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>Event Type</span>
+                <select
+                  x-model='value'
+                  id='select'
+                  name='blog_type'
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  required
+                >
+                  <option selected>Please select an option</option>
+                  <option value='panel discussion'>Panel Discussion</option>
+                  <option value='Test'>Stories</option>
+                  <option value='Test Two'>Newsletter</option>
+                </select>
+              </label>
+              <label class='block text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>Title</span>
+                <input
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  placeholder='Jane Doe'
+                  name='title'
+                />
+              </label>
+              <label class='block text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>Event Date</span>
+                <input
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  placeholder='Jane Doe'
+                  name='event_date'
+                />
+              </label>
+
+              <label class='block text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>Event Start Time</span>
+                <input
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  placeholder='Jane Doe'
+                  name='event_start_time'
+                />
+              </label>
+              <label class='block text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>Event End Time</span>
+                <input
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  placeholder='Jane Doe'
+                  name='event_end_time'
+                />
+              </label>
+
+              <label class='block text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>Event Banner</span>
+
+                <input
+                  type='file'
+                  class='block w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  placeholder='Jane Doe'
+                  name='file'
+                  id='file'
+                />
+              </label>
+
+              <label class='block text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>Event Location</span>
+                <input
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  placeholder='Jane Doe'
+                  name='event_location'
+                />
+              </label>
+
+            </div>
+
+            <!-- You should use a button here, as the anchor is only used for the example  -->
+            <button
+              class='block px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple'
+            >
+              Create
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src='/js/create-event.js' defer></script>
+
+
+

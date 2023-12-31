@@ -24,6 +24,7 @@ import { PageModule } from './modules/page/page.module';
 import { ContentModule } from './modules/content/content.module';
 import { SectionModule } from './modules/section/section.module';
 import { CloudinaryModule } from './modules/cloudinary/cloudinary.module';
+import { EventsModule } from './modules/events/events.module';
 
 @Module({
   imports: [
@@ -54,6 +55,7 @@ import { CloudinaryModule } from './modules/cloudinary/cloudinary.module';
     ContentModule,
     SectionModule,
     CloudinaryModule,
+    EventsModule,
   ],
   controllers: [AppController],
   providers: [
