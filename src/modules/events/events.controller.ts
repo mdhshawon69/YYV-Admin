@@ -114,43 +114,58 @@ export class EventsController {
     }
   }
 
-  //Get impact number editing form CMS Controller
-  // @Get('edit-impact-number')
-  // async getEditeEvent(@Query() query, @Res() res: Response) {
-  //   const event = await this.eventsService.getOneEvent(query.id);
-  //
-  //   return res.render('our-impact/update', {
-  //     layout: 'main',
-  //     data: {
-  //       title: event.title,
-  //       impact_number: event.impact_number,
-  //       is_active: event.is_active,
-  //     },
-  //   });
-  // }
+  // Get impact number editing form CMS Controller
+  @Get('edit-event')
+  async getEditeEvent(@Query() query, @Res() res: Response) {
+    const event = await this.eventsService.getOneEvent(query.id);
+
+    return res.render('events/update', {
+      layout: 'main',
+      data: {
+        title: event.title,
+        banner_img: event.banner_img,
+        event_type: event.event_type,
+        event_date: event.event_date,
+        event_start_time: event.event_start_time,
+        event_end_time: event.event_start_time,
+        event_location: event.event_location,
+      },
+    });
+  }
 
   //Editing impact number CMS Controller
-  @Put('edit-impact-number/:id')
+  @Put('edit-event/:id')
   @UseInterceptors(FileInterceptor('file'))
   async editEvent(
     @Param() param,
-    @Body('title') title,
-    @Body('impact_number') Event,
+    @Body() body,
     @Res() res: Response,
+    @UploadedFile() file,
   ) {
     const id = param.id;
-    try {
-      const editedItem = await this.eventsService.editEvent(id, title, Event);
+    const banner = await this.cloudinaryService.uploadImage(file);
+    if (banner) {
+      try {
+        const editedItem = await this.eventsService.editEvent(id, {
+          title: body.title,
+          banner_img: banner.url,
+          event_type: body.event_type,
+          event_date: body.event_date,
+          event_start_time: body.event_start_time,
+          event_end_time: body.event_start_time,
+          event_location: body.event_location,
+        });
 
-      return res.json({
-        status: 'Success',
-        message: 'Successfully edited impact item',
-      });
-    } catch (error) {
-      return res.json({
-        status: 'Failed',
-        message: error.message,
-      });
+        return res.json({
+          status: 'Success',
+          message: 'Successfully edited event',
+        });
+      } catch (error) {
+        return res.json({
+          status: 'Failed',
+          message: error.message,
+        });
+      }
     }
   }
 

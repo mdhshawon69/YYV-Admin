@@ -188,13 +188,10 @@ export class ContentController {
   //Edit Content CMS Controller
   @Put('edit-content/:id')
   @UseInterceptors(
-    FileFieldsInterceptor(
-      [
-        { name: 'image_one', maxCount: 1 },
-        { name: 'image_two', maxCount: 1 },
-      ],
-      fileUpload(`content`),
-    ),
+    FileFieldsInterceptor([
+      { name: 'image_one', maxCount: 1 },
+      { name: 'image_two', maxCount: 1 },
+    ]),
   )
   async editContent(
     @Body() body,
@@ -202,33 +199,33 @@ export class ContentController {
     @Res() res: Response,
     @UploadedFiles() files,
   ) {
+    const imageOne = await this.cloudinaryService.uploadImage(
+      files?.image_one[0],
+    );
+    const imageTwo = files?.image_two?.[0]
+      ? await this.cloudinaryService.uploadImage(files.image_two[0])
+      : { url: '' };
+
     try {
-      const imageOne = await this.cloudinaryService.uploadImage(
-        files.image_one[0],
-      );
-      const imageTwo = await this.cloudinaryService.uploadImage(
-        files.image_two[0],
-      );
-      if (imageOne || imageTwo) {
-        const editedContent = await this.contentService.editContent(id, {
-          page: body.page,
-          section: body.section,
-          title: body.title,
-          sub_title: body.sub_title,
-          description_one: body.description_one,
-          description_two: body.description_two,
-          image_one: imageOne.url,
-          image_two: imageTwo.url,
-          image_title_one: body.image_title_one,
-          image_title_two: body.image_title_two,
-          image_desc_one: body.image_desc_one,
-          image_desc_two: body.image_desc_two,
-          link_one: body.link_one,
-          link_two: body.link_two,
-          image_source: body.image_source,
-          closing_date: body.closing_date,
-        });
-      }
+      const editedContent = await this.contentService.editContent(id, {
+        page: body.page,
+        section: body.section,
+        title: body.title,
+        sub_title: body.sub_title,
+        description_one: body.description_one,
+        description_two: body.description_two,
+        image_one: imageOne.url,
+        image_two: imageTwo.url,
+        image_title_one: body.image_title_one,
+        image_title_two: body.image_title_two,
+        image_desc_one: body.image_desc_one,
+        image_desc_two: body.image_desc_two,
+        link_one: body.link_one,
+        link_two: body.link_two,
+        image_source: body.image_source,
+        closing_date: body.closing_date,
+      });
+
       res.json({
         status: 'success',
         message: 'Successfully edited the Content!',

@@ -21,11 +21,8 @@ export class EventsService {
     return await this.eventsModel.findByIdAndDelete(id);
   }
 
-  async editEvent(id, title, number) {
-    return await this.eventsModel.findByIdAndUpdate(id, {
-      title: title,
-      impact_number: number,
-    });
+  async editEvent(id, event) {
+    return await this.eventsModel.findByIdAndUpdate(id, event);
   }
 
   async getOneEvent(id) {
