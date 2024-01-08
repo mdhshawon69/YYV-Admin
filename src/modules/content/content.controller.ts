@@ -111,12 +111,13 @@ export class ContentController {
   )
   async createContent(@Body() body, @Res() res, @UploadedFiles() files) {
     try {
-      const imageOne = await this.cloudinaryService.uploadImage(
-        files.image_one[0],
-      );
-      const imageTwo = await this.cloudinaryService.uploadImage(
-        files.image_two[0],
-      );
+      const imageOne = files?.image_two?.[0]
+        ? await this.cloudinaryService.uploadImage(files.image_two[0])
+        : { url: '' };
+      const imageTwo = files?.image_two?.[0]
+        ? await this.cloudinaryService.uploadImage(files.image_two[0])
+        : { url: '' };
+
       const data = {
         page: body.page,
         section: body.section,
@@ -134,6 +135,9 @@ export class ContentController {
         link_two: body.link_two,
         image_source: body.image_source,
         closing_date: body.closing_date,
+        contact_person_name: body.contact_person_name,
+        contact_person_designation: body.contact_person_designation,
+        contact_person_email: body.contact_person_email,
       };
 
       if (imageOne || imageTwo) {
@@ -181,6 +185,9 @@ export class ContentController {
         link_two: viewingContent.link_two,
         image_source: viewingContent.image_source,
         closing_date: viewingContent.closing_date,
+        contact_person_name: viewingContent.contact_person_name,
+        contact_person_designation: viewingContent.contact_person_designation,
+        contact_person_email: viewingContent.contact_person_email,
       },
     });
   }
@@ -224,6 +231,9 @@ export class ContentController {
         link_two: body.link_two,
         image_source: body.image_source,
         closing_date: body.closing_date,
+        contact_person_name: body.contact_person_name,
+        contact_person_designation: body.contact_person_designation,
+        contact_person_email: body.contact_person_email,
       });
 
       res.json({
@@ -259,6 +269,9 @@ export class ContentController {
         link_two: viewingContent.link_two,
         image_source: viewingContent.image_source,
         closing_date: viewingContent.closing_date,
+        contact_person_name: viewingContent.contact_person_name,
+        contact_person_designation: viewingContent.contact_person_designation,
+        contact_person_email: viewingContent.contact_person_email,
       },
     });
   }

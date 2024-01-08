@@ -48,6 +48,15 @@ export class Content extends Document {
   @Prop()
   closing_date: string;
 
+  @Prop()
+  contact_person_name: string;
+
+  @Prop()
+  contact_person_designation: string;
+
+  @Prop()
+  contact_person_email: string;
+
   @Prop({ default: true })
   is_active: boolean;
 

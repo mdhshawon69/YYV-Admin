@@ -27,7 +27,7 @@ export class MailerService {
 
   async sendPasswordResetEmail(to: string, resetToken: string) {
     const resetUrl =
-      `http://localhost:3000/auth/reset-password?token=${resetToken}`.toString();
+      `https://yyv-admin.onrender.com/auth/reset-password?token=${resetToken}`.toString();
     const templateContent = fs.readFileSync(
       resolve('./views/email_template.hbs'),
       'utf-8',

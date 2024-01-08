@@ -34,6 +34,7 @@ mySelect.addEventListener('change', () => {
       document.getElementById('description_one').classList.remove('hidden');
       document.getElementById('description_two').classList.remove('hidden');
       document.getElementById('image_one').classList.remove('hidden');
+
       break;
 
     case 'intro-section-two':
@@ -116,6 +117,22 @@ mySelect.addEventListener('change', () => {
       document.getElementById('description_one').classList.remove('hidden');
       document.getElementById('description_two').classList.remove('hidden');
       document.getElementById('image_one').classList.remove('hidden');
+      break;
+
+    case 'upper-footer':
+      document.getElementById('description_one').classList.remove('hidden');
+      document.getElementById('description_two').classList.remove('hidden');
+      document.getElementById('image_one').classList.remove('hidden');
+      document.getElementById('image_two').classList.remove('hidden');
+      document.getElementById('link_one').classList.remove('hidden');
+      document.getElementById('link_two').classList.remove('hidden');
+      document.getElementById('contact_person_name').classList.remove('hidden');
+      document
+        .getElementById('contact_person_designation')
+        .classList.remove('hidden');
+      document
+        .getElementById('contact_person_email')
+        .classList.remove('hidden');
       break;
 
     default:

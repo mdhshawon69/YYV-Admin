@@ -81,8 +81,33 @@
             </li>
             <li
               class='px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200'
+              x-data="{ showEventsSubmenu: false }"
             >
-              <a class='w-full' href='/events'>Events</a>
+              <button
+
+                class='inline-flex items-center justify-between w-full text-sm transition-colors duration-150 border-none outline hover:text-gray-800 dark:hover:text-gray-200'
+                @click='showEventsSubmenu = !showEventsSubmenu'
+                aria-haspopup='true'
+              >
+                <span class='inline-flex items-center'>
+                  <a class='w-full' href='#'>Events</a>
+                </span>
+                <i class='fa-solid fa-chevron-down'></i>
+              </button>
+
+              <ul x-show="showEventsSubmenu"
+                  class="mt-2 ml-3 space-y-1"
+                  x-transition:enter='transition-all ease-in-out duration-300'
+                  x-transition:enter-start='opacity-25 max-h-0'
+                  x-transition:enter-end='opacity-100 max-h-xl'
+                  x-transition:leave='transition-all ease-in-out duration-300'
+                  x-transition:leave-start='opacity-100 max-h-xl'
+                  x-transition:leave-end='opacity-0 max-h-0'>
+                <li><a class="text-xs" href="/events">Event</a></li>
+                <li><a class="text-xs" href="/person">Person</a></li>
+                <li><a class="text-xs" href="/rsvp">RSVP</a></li>
+              </ul>
+
             </li>
             <li
               class='px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200'
@@ -255,8 +280,33 @@
             </li>
             <li
               class='px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200'
+              x-data="{ showEventsSubmenu: false }"
             >
-              <a class='w-full' href='/events'>Events</a>
+              <button
+
+                class='inline-flex items-center justify-between w-full text-sm transition-colors duration-150 border-none outline hover:text-gray-800 dark:hover:text-gray-200'
+                @click='showEventsSubmenu = !showEventsSubmenu'
+                aria-haspopup='true'
+              >
+                <span class='inline-flex items-center'>
+                  <a class='w-full' href='#'>Events</a>
+                </span>
+                <i class='fa-solid fa-chevron-down'></i>
+              </button>
+
+              <ul x-show="showEventsSubmenu"
+                  class="mt-2 ml-3 space-y-1"
+                  x-transition:enter='transition-all ease-in-out duration-300'
+                  x-transition:enter-start='opacity-25 max-h-0'
+                  x-transition:enter-end='opacity-100 max-h-xl'
+                  x-transition:leave='transition-all ease-in-out duration-300'
+                  x-transition:leave-start='opacity-100 max-h-xl'
+                  x-transition:leave-end='opacity-0 max-h-0'>
+                <li><a class="text-xs" href="/events">Event</a></li>
+                <li><a class="text-xs" href="/person">Person</a></li>
+                <li><a class="text-xs" href="/rsvp">RSVP</a></li>
+              </ul>
+
             </li>
             <li
               class='px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200'
