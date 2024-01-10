@@ -206,9 +206,9 @@ export class ContentController {
     @Res() res: Response,
     @UploadedFiles() files,
   ) {
-    const imageOne = await this.cloudinaryService.uploadImage(
-      files?.image_one[0],
-    );
+    const imageOne = files?.image_one?.[0]
+      ? await this.cloudinaryService.uploadImage(files.image_one[0])
+      : { url: '' };
     const imageTwo = files?.image_two?.[0]
       ? await this.cloudinaryService.uploadImage(files.image_two[0])
       : { url: '' };

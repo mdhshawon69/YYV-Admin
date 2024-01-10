@@ -23,15 +23,29 @@
                 <select
                   x-model='value'
                   id='select'
-                  name='blog_type'
+                  name='event_type'
                   class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
                   required
                 >
                   <option selected disabled>Please select an option</option>
-                  <option value='panel discussion' {{#if (eq data.type "panel discusstion")}}selected{{else}}none{{/if}}>Panel Discussion</option>
-                  <option value='test' {{#if (eq data.type "test")}}selected{{else}}none{{/if}}>Views</option>
-                  <option value='test two' {{#if (eq data.type "test two")}}selected{{else}}none{{/if}}>Stories</option>
+                  <option value='panel discussion' {{#if (eq data.event_type "panel discusstion")}}selected{{else}}none{{/if}}>Panel Discussion</option>
+                  <option value='test' {{#if (eq data.event_type "test")}}selected{{else}}none{{/if}}>Views</option>
+                  <option value='test two' {{#if (eq data.event_type "test two")}}selected{{else}}none{{/if}}>Stories</option>
 
+                </select>
+              </label>
+              <label class='block text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>Event Status</span>
+                <select
+
+                  id='select'
+                  name='event_status'
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  required
+                >
+                  <option selected disabled>Please select an option</option>
+                  <option value='panel discussion' {{#if (eq data.event_status "ongoing")}}selected{{else}}none{{/if}}>Ongoing</option>
+                  <option value='test' {{#if (eq data.event_status "closed")}}selected{{else}}none{{/if}}>Closed</option>
                 </select>
               </label>
               <label class='block text-sm'>
@@ -97,6 +111,24 @@
                   name='event_location'
                   value="{{data.event_location}}"
                 />
+              </label>
+              <label class='block text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>Event Background</span>
+                <textarea
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  placeholder='Jane Doe'
+                  name='event_background'
+                  rows="5"
+                >{{data.event_background}}</textarea>
+              </label>
+              <label class='block text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>Event Description</span>
+                <textarea
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  placeholder='Jane Doe'
+                  name='event_description'
+                  rows="5"
+                >{{data.event_description}}</textarea>
               </label>
 
             </div>

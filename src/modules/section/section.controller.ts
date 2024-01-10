@@ -90,7 +90,7 @@ export class SectionController {
         description: body.description,
         is_multiple_content: body.is_multiple_content === 'on' ? true : false,
       };
-      console.log(data);
+
       const pages = await this.sectionService.getPages();
       const foundPage = pages.find((page) => page._id == body.page);
 

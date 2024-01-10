@@ -21,12 +21,27 @@
               <label class='block text-sm'>
                 <span class='text-gray-700 dark:text-gray-400'>Person Type</span>
                 <select
+                  required
                   name='person_type'
                   class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
                 >
                   <option selected disabled>Please select an option</option>
                   <option value='speaker'>Speaker</option>
                   <option value='moderator'>Moderator</option>
+                </select>
+              </label>
+              <label class='block text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>Event</span>
+                <select
+                  required
+                  name='event_name'
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                >
+                  <option selected disabled>Please select an option</option>
+                  {{#each row}}
+                    <option value={{this._id}}>{{this.title}}</option>
+                  {{/each}}
+
                 </select>
               </label>
               <label class='block text-sm'>

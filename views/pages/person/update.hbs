@@ -30,11 +30,21 @@
                 </select>
               </label>
               <label class='block text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>Event</span>
+                <select
+                  name='event_name'
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                >
+                  <option value="{{data.event_name}}" selected>{{data.event.title}}</option>
+
+                </select>
+              </label>
+              <label class='block text-sm'>
                 <span class='text-gray-700 dark:text-gray-400'>Name</span>
                 <input
                   class='block w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
                   placeholder='Jane Doe'
-                  name='company_name'
+                  name='name'
                   value="{{data.name}}"
                 />
               </label>

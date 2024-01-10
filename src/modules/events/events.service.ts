@@ -10,7 +10,11 @@ export class EventsService {
   ) {}
 
   async getEvents(): Promise<Events[]> {
-    return await this.eventsModel.find().lean();
+    return await this.eventsModel
+      .find()
+      .populate('persons')
+      .populate('rsvp')
+      .lean();
   }
 
   async addEvent(eventItem): Promise<Events> {
@@ -26,7 +30,7 @@ export class EventsService {
   }
 
   async getOneEvent(id) {
-    const event = await this.eventsModel.findById(id);
+    const event = await this.eventsModel.findById(id).populate('rsvp').lean();
     return event;
   }
 }

@@ -86,7 +86,8 @@ export class PersonController {
   //Get create Person form CMS Controller
   @Get('create-person')
   async getCreatePerson(@Res() res: Response) {
-    return res.render('person/create', { layout: 'main' });
+    const events = await this.personService.getAllEvents();
+    return res.render('person/create', { layout: 'main', row: events });
   }
 
   //Post create Person CMS Controller
@@ -103,10 +104,16 @@ export class PersonController {
       if (image) {
         const createdPerson = await this.personService.createPerson({
           person_type: body.person_type,
+          event_name: body.event_name,
           name: body.name,
           designation: body.designation,
           image: image.url,
         });
+
+        await this.personService.savePersonToEvent(
+          body.event_name,
+          createdPerson,
+        );
       }
 
       return res.json({
@@ -125,13 +132,16 @@ export class PersonController {
   @Get('edit-person')
   async getEditPerson(@Query('id') id, @Res() res: Response) {
     const viewingPerson = await this.personService.viewPerson(id);
+
     return res.render('person/update', {
       layout: 'main',
       data: {
+        event_name: viewingPerson.event_name,
         person_type: viewingPerson.person_type,
         name: viewingPerson.name,
         designation: viewingPerson.designation,
         image: viewingPerson.image,
+        event: viewingPerson.event,
       },
     });
   }
@@ -150,6 +160,7 @@ export class PersonController {
       if (image) {
         const editedPerson = await this.personService.editPerson(id, {
           person_type: body.person_type,
+          event_name: body.event_name,
           name: body.name,
           designation: body.designation,
           image: image.url,
@@ -169,6 +180,7 @@ export class PersonController {
   async deletePerson(@Param('id') id, @Res() res: Response) {
     try {
       const deletedPerson = await this.personService.deletePerson(id);
+
       return res.json({
         status: 'Success',
         message: 'Person deleted successfully!',

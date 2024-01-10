@@ -1,6 +1,5 @@
 import { Prop, SchemaFactory, Schema } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
-import { ObjectId } from 'mongodb';
 
 @Schema()
 export class Events extends Document {
@@ -36,6 +35,9 @@ export class Events extends Document {
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Person' }] })
   persons: mongoose.Schema.Types.ObjectId[];
+
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'RSVP' }] })
+  rsvp: mongoose.Schema.Types.ObjectId[];
 }
 
 export const EventsSchema = SchemaFactory.createForClass(Events);

@@ -65,6 +65,7 @@ export class EventsController {
         keywords,
       });
     } catch (error) {
+      console.log(error);
       throw new Error('An error occured');
     }
   }
@@ -74,6 +75,7 @@ export class EventsController {
   async getEventsApi(@Res() res: Response) {
     try {
       const events = await this.eventsService.getEvents();
+      console.log(events);
       return res.json({ data: events });
     } catch (error) {
       throw new Error('An error occured');
@@ -102,6 +104,9 @@ export class EventsController {
           event_start_time: body.event_start_time,
           event_end_time: body.event_start_time,
           event_location: body.event_location,
+          event_status: body.event_status,
+          event_background: body.event_background,
+          event_description: body.event_description,
         });
       }
 
@@ -129,6 +134,9 @@ export class EventsController {
         event_start_time: event.event_start_time,
         event_end_time: event.event_start_time,
         event_location: event.event_location,
+        event_status: event.event_status,
+        event_background: event.event_background,
+        event_description: event.event_description,
       },
     });
   }
@@ -154,6 +162,9 @@ export class EventsController {
           event_start_time: body.event_start_time,
           event_end_time: body.event_start_time,
           event_location: body.event_location,
+          event_status: body.event_status,
+          event_background: body.event_background,
+          event_description: body.event_description,
         });
 
         return res.json({
@@ -167,6 +178,19 @@ export class EventsController {
         });
       }
     }
+  }
+
+  @Get('view-event-rsvp')
+  async getRSVP(@Query() query, @Res() res: Response) {
+    const event = await this.eventsService.getOneEvent(query.id);
+
+    return res.render('events/rsvp', {
+      layout: 'main',
+      data: {
+        title: event.title,
+        rsvp: event.rsvp,
+      },
+    });
   }
 
   // Delete impact number CMS Controller

@@ -23,14 +23,27 @@
                 <select
                   x-model='value'
                   id='select'
-                  name='blog_type'
+                  name='event_type'
                   class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
                   required
                 >
-                  <option selected>Please select an option</option>
+                  <option selected disabled>Please select an option</option>
                   <option value='panel discussion'>Panel Discussion</option>
                   <option value='Test'>Stories</option>
                   <option value='Test Two'>Newsletter</option>
+                </select>
+              </label>
+              <label class='block text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>Event Status</span>
+                <select
+                  id='select'
+                  name='event_status'
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  required
+                >
+                  <option selected disabled>Please select an option</option>
+                  <option value='Ongoing'>Ongoing</option>
+                  <option value='Closed'>Closed</option>
                 </select>
               </label>
               <label class='block text-sm'>
@@ -87,7 +100,24 @@
                   name='event_location'
                 />
               </label>
-
+              <label class='block text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>Event Background</span>
+                <textarea
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  placeholder='Jane Doe'
+                  name='event_background'
+                  rows="5"
+                ></textarea>
+              </label>
+              <label class='block text-sm'>
+                <span class='text-gray-700 dark:text-gray-400'>Event Description</span>
+                <textarea
+                  class='w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input'
+                  placeholder='Jane Doe'
+                  name='event_description'
+                  rows="5"
+                ></textarea>
+              </label>
             </div>
 
             <!-- You should use a button here, as the anchor is only used for the example  -->
