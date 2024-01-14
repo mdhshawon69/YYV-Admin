@@ -25,6 +25,7 @@ import { ContentModule } from './modules/content/content.module';
 import { SectionModule } from './modules/section/section.module';
 import { CloudinaryModule } from './modules/cloudinary/cloudinary.module';
 import { EventsModule } from './modules/events/events.module';
+import { ExcelService } from './modules/excel/excel.service';
 
 @Module({
   imports: [
@@ -64,6 +65,7 @@ import { EventsModule } from './modules/events/events.module';
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
     },
+    ExcelService,
   ],
 })
 export class AppModule {}

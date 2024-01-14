@@ -6,6 +6,7 @@ import { EventsSchema } from '../../entities/events/events.schema';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { PersonModule } from './person/person.module';
 import { RsvpModule } from './rsvp/rsvp.module';
+import { ExcelService } from '../excel/excel.service';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { RsvpModule } from './rsvp/rsvp.module';
     PersonModule,
     RsvpModule,
   ],
-  providers: [EventsService, CloudinaryService],
+  providers: [EventsService, CloudinaryService, ExcelService],
   controllers: [EventsController],
 })
 export class EventsModule {}

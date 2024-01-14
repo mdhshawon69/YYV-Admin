@@ -12,8 +12,14 @@ export class RSVP extends Document {
   @Prop()
   organization: string;
 
+  @Prop()
+  phone: string;
+
   @Prop({ default: 'Please select' })
   status: string;
+
+  @Prop()
+  registered: boolean;
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Events' }] })
   event: mongoose.Schema.Types.ObjectId[];

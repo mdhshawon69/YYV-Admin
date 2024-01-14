@@ -14,24 +14,20 @@
         <div
           class='flex lg:flex-row flex-col justify-center items-center gap-3'
         >
-          <form action='/events' method='GET' class='flex gap-3'>
-            <input
-              type='text'
-              class='rounded px-2 dark:bg-gray-700 dark:text-gray-200'
-              placeholder='Keywords'
-              name='keywords'
-            />
-            <button
+
+
+            <a href="/events"
               class='text-white py-3 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs'
               type='submit'
-            >Filter
-              <i class='fa-solid fa-magnifying-glass'></i></button>
-          </form>
+            >Back to list
+              <i class="fa-solid fa-list"></i></a>
+
           <a
-            href='/events'
+            target="_blank"
+            href='/events/export-excel?id={{data.id}}'
             class='text-white py-3 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 text-xs lg:w-auto w-full md:text-none text-center'
-          >Reset
-            <i class='fa-sharp fa-solid fa-arrow-rotate-right'></i></a>
+          >Export
+            <i class="fa-solid fa-file-excel"></i></a>
 
         </div>
       </div>
@@ -45,6 +41,7 @@
             >
               <th class='px-4 py-3'>Name</th>
               <th class='px-4 py-3'>Email</th>
+              <th class='px-4 py-3'>Phone</th>
               <th class='px-4 py-3'>Organization</th>
               <th class='px-4 py-3'>RSVP</th>
 
@@ -57,8 +54,9 @@
               <tr class='text-gray-700 dark:text-gray-400'>
                 <td class='px-4 py-3 text-sm'>{{this.name}}</td>
                 <td class='px-4 py-3 text-sm'>{{this.email}}</td>
+                <td class='px-4 py-3 text-sm'>{{this.phone}}</td>
                 <td class='px-4 py-3 text-sm'>{{this.organization}}</td>
-                <td class='px-4 py-3 text-sm' id="{{this.status}}"><span class="py-1 w-1/3 block text-center rounded-full mr-auto font-semibold" id="{{this.status}}-span">{{this.status}}</span></td>
+                <td class='px-4 py-3 text-sm status' data-status="{{this.status}}"><span class="text-center rounded-full mr-auto font-semibold">{{this.status}}</span></td>
               </tr>
             {{/each}}
             </tbody>
@@ -141,23 +139,33 @@
     </div>
 
     <script>
-        if(document.getElementById("Going")) {
-          document.getElementById("Going").classList.add("text-white")
-        }
-        if(document.getElementById("Not Going")) {
-          document.getElementById("Not Going").classList.add("text-white")
-        }
-        if(document.getElementById("Maybe")) {
-          document.getElementById("Maybe").classList.add("text-white")
+
+      const status = document.getElementsByClassName("status");
+      const newStatus = [...status];
+
+
+      newStatus.forEach((item) => {
+        if(item.getAttribute('data-status') === 'Going') {
+          item.classList.add("text-green-500")
         }
 
-        if(document.getElementById("Going-span")) {
-          document.getElementById("Going-span").classList.add("bg-green-500")
+        if(item.getAttribute('data-status') === 'Not Going') {
+          item.classList.add("text-red-500")
         }
-        if(document.getElementById("Not Going-span")) {
-          document.getElementById("Not Going-span").classList.add("bg-red-500")
+
+        if(item.getAttribute('data-status') === 'Maybe') {
+          item.classList.add("text-yellow-400")
         }
-        if(document.getElementById("Maybe-span")) {
-          document.getElementById("Maybe-span").classList.add("bg-amber-500")
-        }
+      })
+
+
+        // if(document.getElementById("Going-span")) {
+        //   document.getElementById("Going-span").classList.add("bg-green-500")
+        // }
+        // if(document.getElementById("Not Going-span")) {
+        //   document.getElementById("Not Going-span").classList.add("bg-red-500")
+        // }
+        // if(document.getElementById("Maybe-span")) {
+        //   document.getElementById("Maybe-span").classList.add("bg-amber-500")
+        // }
     </script>

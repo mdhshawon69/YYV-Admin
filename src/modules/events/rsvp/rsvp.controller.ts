@@ -24,6 +24,8 @@ export class RsvpController {
         organization: body.organization,
         status: body.status,
         event: body.event,
+        phone: body.phone,
+        registered: true,
       });
 
       res.json({

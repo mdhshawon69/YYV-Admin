@@ -15,12 +15,14 @@ import { Response } from 'express';
 import { calculatePagination } from '../../helpers/pagination';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
+import { ExcelService } from '../excel/excel.service';
 
 @Controller('events')
 export class EventsController {
   constructor(
     private readonly eventsService: EventsService,
     private readonly cloudinaryService: CloudinaryService,
+    private readonly excelService: ExcelService,
   ) {}
   @Get()
   async getEvents(
@@ -187,6 +189,7 @@ export class EventsController {
     return res.render('events/rsvp', {
       layout: 'main',
       data: {
+        id: event._id,
         title: event.title,
         rsvp: event.rsvp,
       },
@@ -205,6 +208,24 @@ export class EventsController {
       });
     } catch (error) {
       return res.json({ status: 'Failed', message: error.message });
+    }
+  }
+
+  @Get('export-excel')
+  async exportToExcel(@Query() query, @Res() res: Response) {
+    try {
+      const event = await this.eventsService.getOneEvent(query.id);
+      const data = event.rsvp;
+      const filePath = `src/public/uploads/temp/excel/${event.title}.xlsx`;
+      await this.excelService.exportToExcel(data, filePath, event.title);
+
+      res.download(filePath, `${event.title}.xlsx`, (err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+    } catch (err) {
+      console.log(err);
     }
   }
 }
