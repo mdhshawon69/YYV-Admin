@@ -25,6 +25,9 @@ export class Events extends Document {
   event_location: string;
 
   @Prop()
+  event_location_link: string;
+
+  @Prop()
   event_status: string;
 
   @Prop()
