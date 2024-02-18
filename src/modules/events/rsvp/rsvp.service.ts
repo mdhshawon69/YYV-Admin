@@ -22,7 +22,7 @@ export class RsvpService {
         { $push: { rsvp: savedRsvp._id } },
       );
     }
-    return;
+    return savedRsvp;
   }
 
   async updateRSVP(rsvpId, status) {

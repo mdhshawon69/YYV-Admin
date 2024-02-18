@@ -19,12 +19,7 @@ export class RsvpController {
   async createRSVP(@Body() body, @Res() res: Response) {
     try {
       const createdRSVP = await this.rsvpService.addRSVP({
-        name: body.name,
-        email: body.email,
-        organization: body.organization,
-        status: body.status,
-        event: body.event,
-        phone: body.phone,
+        ...body,
         registered: true,
       });
 
